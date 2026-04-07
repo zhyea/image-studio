@@ -1,0 +1,286 @@
+{
+  "seo": {
+    "siteName": "Image Studio",
+    "titles": {
+      "home": "Kostenlose Online-Bildtools — lokal im Browser",
+      "compress": "JPG/PNG online komprimieren (lokal)",
+      "upscale": "Bild hochskalieren & KI-Superauflösung",
+      "removeBg": "Hintergrund online entfernen",
+      "resize": "Bildgröße online ändern",
+      "crop": "Bilder online zuschneiden",
+      "convertJpg": "PNG/WebP online in JPG konvertieren",
+      "rotate": "Bilder online drehen",
+      "watermark": "Text-Wasserzeichen online hinzufügen",
+      "meme": "Meme- & Untertitel-Generator online",
+      "htmlToImage": "HTML zu PNG-Screenshot",
+      "blur": "Bildbereich weichzeichnen (Datenschutz)",
+      "webSkeleton": "Webseiten-Skelett / Wireframe-Generator"
+    },
+    "descriptions": {
+      "home": "Image Studio: kostenlose Bildtools im Browser — JPG/PNG komprimieren, zuschneiden, skalieren, drehen, zu JPEG konvertieren, Wasserzeichen, einfarbiger Hintergrund entfernen, Hochskalierung (Interpolation oder lokale KI), HTML zu PNG, Weichzeichnen und Web-Skelett. Lokal verarbeitet; keine Uploads; keine Installation.",
+      "compress": "JPEG und PNG im Browser verkleinern: Qualität und lange Seite — ohne Upload.",
+      "upscale": "Hochskalieren mit bilinearer Skalierung oder lokaler KI (TensorFlow.js). 2× oder verkettetes 4×; alles im Browser.",
+      "removeBg": "Flache Hintergrundfarbe sampeln und mit Toleranz freistellen. Transparentes PNG auf dem Gerät.",
+      "resize": "Nach Prozent oder Zielpixel skalieren, Seitenverhältnis optional sperren. JPEG oder PNG; lokal.",
+      "crop": "Mit Anfassern zuschneiden und PNG laden — Screenshots, Avatare, Social ohne Desktop-Software.",
+      "convertJpg": "PNG, WebP, GIF usw. zu JPEG mit Weiß hinter Transparenz.",
+      "rotate": "Drehen mit 90°/180°/270° oder freiem Winkel. PNG oder JPEG mit lokaler Vorschau.",
+      "watermark": "Text mit Position, Farbe, Größe und Deckkraft. PNG für Proofs oder Urheberrechtshinweise.",
+      "meme": "Klassische weiße Beschriftung mit schwarzem Rand oben/unten; mehrzeilig; lokales PNG.",
+      "htmlToImage": "HTML rendern und PNG erfassen. Externe Assets brauchen CORS; nur vertrauenswürdige Snippets.",
+      "blur": "Rechteck nach Prozent weichzeichnen für sensible Daten. PNG oder JPEG; lokal.",
+      "webSkeleton": "HTML in Sandbox rendern und Wireframe-Skelett erzeugen — HTML oder PNG exportieren; Algorithmus wie die Erweiterung; lokal."
+    }
+  },
+  "nav": {
+    "home": "Start",
+    "tools": "Werkzeuge",
+    "menuTitle": "Navigation",
+    "openMenu": "Menü öffnen",
+    "switchLanguage": "Sprache wählen"
+  },
+  "footer": {
+    "line": "Bilder werden lokal im Browser verarbeitet und nicht hochgeladen."
+  },
+  "home": {
+    "title": "Image Studio — Kostenlose Online-Bildwerkzeuge",
+    "lead": "Bearbeiten Sie Bilder im Browser: komprimieren, zuschneiden, skalieren, drehen, Formate wechseln, Wasserzeichen, einfarbige Hintergründe entfernen, mit Interpolation oder lokaler KI hochskalieren, HTML zu PNG exportieren, Bereiche unkenntlich machen und Wireframe-Skelette erzeugen. Alles auf Ihrem Gerät — keine Uploads, keine Installation."
+  },
+  "tools": {
+    "compress": {
+      "title": "Komprimieren",
+      "desc": "JPEG-Qualität oder lange Seite begrenzen"
+    },
+    "upscale": {
+      "title": "Hochskalieren",
+      "desc": "Interpolation oder lokale KI (2×/4×), kein Upload"
+    },
+    "remove-bg": {
+      "title": "Hintergrund entfernen",
+      "desc": "Farbschlüssel mit Toleranz; transparentes PNG"
+    },
+    "resize": {
+      "title": "Größe ändern",
+      "desc": "Nach Prozent oder Pixeln; Seitenverhältnis optional"
+    },
+    "crop": {
+      "title": "Zuschneiden",
+      "desc": "Bereich wählen und PNG herunterladen"
+    },
+    "convert-jpg": {
+      "title": "Nach JPG",
+      "desc": "Transparenz zu Weiß, als JPEG speichern"
+    },
+    "rotate": {
+      "title": "Drehen",
+      "desc": "90°-Voreinstellungen oder freier Winkel"
+    },
+    "watermark": {
+      "title": "Wasserzeichen",
+      "desc": "Text — Position, Farbe, Deckkraft"
+    },
+    "meme": {
+      "title": "Meme",
+      "desc": "Oben/unten Text mit klassischem Rand"
+    },
+    "html-to-image": {
+      "title": "HTML zu Bild",
+      "desc": "Im DOM rendern, dann erfassen"
+    },
+    "blur": {
+      "title": "Bereich weichzeichnen",
+      "desc": "Rechteck zum Verbergen privater Inhalte"
+    },
+    "web-skeleton": {
+      "title": "Web-Skelett",
+      "desc": "Wireframe aus HTML; HTML oder PNG exportieren"
+    }
+  },
+  "picker": {
+    "dragText": "Bild hier ablegen oder ",
+    "clickPick": "klicken zum Auswählen",
+    "clear": "Löschen",
+    "previewAlt": "Vorschau"
+  },
+  "msg": {
+    "processing": "Wird verarbeitet…",
+    "selectImageFirst": "Bitte zuerst ein Bild auswählen",
+    "selectImageCrop": "Bild auswählen und auf das Laden warten",
+    "selectImageRemoveBg": "Bild auswählen, dann Hintergrund in der Vorschau anklicken",
+    "enterWatermark": "Wasserzeichentext eingeben",
+    "scaleGt100": "Maßstab muss über 100 % liegen",
+    "tooManyPixels": "Ausgabe zu groß — Maßstab verringern",
+    "downloaded": "Heruntergeladen",
+    "downloadedPng": "PNG heruntergeladen",
+    "downloadedJpg": "Als JPG gespeichert",
+    "exportFail": "Export fehlgeschlagen",
+    "processFail": "Verarbeitung fehlgeschlagen",
+    "processFailRetry": "Fehlgeschlagen — anderes Bild versuchen",
+    "cropFail": "Zuschneiden fehlgeschlagen",
+    "rotateFail": "Drehen fehlgeschlagen",
+    "convertFail": "Konvertierung fehlgeschlagen",
+    "genFail": "Generierung fehlgeschlagen",
+    "readImageFail": "Bild konnte nicht gelesen werden",
+    "captureFail": "Erfassung fehlgeschlagen — externe Bilder können durch CORS blockiert sein",
+    "copiedHtml": "HTML kopiert",
+    "copyFail": "Kopieren fehlgeschlagen",
+    "skeletonGenFail": "Skelett konnte nicht erzeugt werden",
+    "skeletonNeedHtml": "Zuerst HTML einfügen",
+    "sampledRgb": "RGB ({r}, {g}, {b}) gesampelt",
+    "aiUpscaleFail": "KI-Hochskalierung fehlgeschlagen — kleineres Bild, Schnellmodus oder neu laden"
+  },
+  "pages": {
+    "compress": {
+      "h1": "Bilder komprimieren",
+      "lead": "Größe mit JPEG-Qualität und/oder langer Seitenbegrenzung verringern; PNG bleibt verlustfrei und schrumpft vor allem über die Abmessungen.",
+      "outputFormat": "Ausgabeformat",
+      "jpegQuality": "JPEG-Qualität",
+      "limitLongEdge": "Lange Seite begrenzen",
+      "edgeHint": "px (wird verkleinert, wenn größer)",
+      "action": "Komprimieren & herunterladen"
+    },
+    "resize": {
+      "h1": "Größe ändern",
+      "lead": "Proportional skalieren oder Breite setzen (Seitenverhältnis optional sperren).",
+      "mode": "Modus",
+      "percent": "Prozent",
+      "pixel": "Pixel",
+      "scalePercent": "Skalierung",
+      "width": "Breite",
+      "keepRatio": "Seitenverhältnis sperren",
+      "height": "Höhe",
+      "outputFormat": "Ausgabeformat",
+      "fmtOriginal": "Wie Quelle",
+      "action": "Skalieren & herunterladen"
+    },
+    "crop": {
+      "h1": "Zuschneiden",
+      "lead": "Zuschneiderahmen und Anfasser ziehen, dann PNG exportieren.",
+      "dialogTitle": "Bild zuschneiden",
+      "reopenCrop": "Zuschneiden-Editor öffnen",
+      "cropAlt": "Zuschnitt",
+      "action": "Zuschneiden & herunterladen"
+    },
+    "convertJpg": {
+      "h1": "In JPG konvertieren",
+      "lead": "PNG, WebP, GIF usw. zu JPEG; Transparenz wird weiß.",
+      "jpegQuality": "JPEG-Qualität",
+      "action": "Konvertieren & herunterladen"
+    },
+    "rotate": {
+      "h1": "Drehen",
+      "lead": "Nach dem Hochladen im Dialog den Regler nutzen; Kurzwahl 90°/180°/270°.",
+      "dialogTitle": "Bild drehen",
+      "reopenRotate": "Dreh-Dialog öffnen",
+      "knobHint": "Am Kreisregler ziehen — das Bild dreht sich mit.",
+      "knobAria": "Drehwinkel",
+      "presetQuick": "Kurzwahl",
+      "customAngleLabel": "Benutzerdefiniert (0–360°)",
+      "resetAngle": "Zurücksetzen",
+      "previewAlt": "Dreh-Vorschau",
+      "action": "Herunterladen"
+    },
+    "watermark": {
+      "h1": "Wasserzeichen",
+      "lead": "Blaue Umrandung = Auswahl (innen transparent). Rand oder Abstand ziehen zum Verschieben; Ecken ändern die Schriftgröße. Leer: blinkender Cursor — klicken zum Tippen. Mit Text: Doppelklick zum Bearbeiten.",
+      "fontFamily": "Schrift",
+      "fontNotoSc": "Noto Sans SC",
+      "fontNotoSans": "Noto Sans",
+      "fontInter": "Inter",
+      "fontSourceSans3": "Source Sans 3",
+      "fontIbmPlexSans": "IBM Plex Sans",
+      "fontRoboto": "Roboto",
+      "fontLicenseNote": "Open-Font-Lizenzen (SIL OFL 1.1 oder Apache-2.0), geladen über Google Fonts.",
+      "fontSize": "Schriftgröße",
+      "opacity": "Deckkraft",
+      "color": "Farbe",
+      "dragHint": "Rand oder Abstand ziehen zum Verschieben. Ecken = Größe. Leer: Klick auf Cursor. Mit Text: Doppelklick.",
+      "dragHandle": "Im Rahmen ziehen zum Verschieben",
+      "resizeHandle": "Ziehen, um Textfeld zu skalieren",
+      "previewSize": "Vorschaugröße",
+      "preview": "Vorschau",
+      "previewTitle": "Wasserzeichen-Vorschau",
+      "action": "Anwenden & herunterladen"
+    },
+    "meme": {
+      "h1": "Meme / Untertitel",
+      "lead": "Großer Text oben und unten, weiße Füllung, schwarzer Rand (Zeilenumbruch für mehrere Zeilen).",
+      "defaultTop": "TEXT OBEN",
+      "defaultBottom": "TEXT UNTEN",
+      "top": "Text oben",
+      "bottom": "Text unten",
+      "fontSize": "Schriftgröße",
+      "action": "Erzeugen & herunterladen"
+    },
+    "upscale": {
+      "h1": "Hochskalieren",
+      "lead": "Zwei Modi: schnelle bilineare Skalierung oder lokale neuronale Superauflösung (UpscalerJS + TensorFlow.js).",
+      "leadFast": "Nutzt lokal pica (Lanczos-3, WASM + Worker). Bei Fehler: schrittweises Canvas-Resampling.",
+      "leadAi": "RDN-Modell ~2× pro Durchlauf; 4× = zwei 2×-Schritte. Erstes Mal Gewichte laden; Inferenz lokal.",
+      "mode": "Modus",
+      "modeFast": "Schnelle Interpolation",
+      "modeAi": "KI-Superauflösung",
+      "scale": "Skalierung (%)",
+      "aiFactor": "Hochskalierungsfaktor",
+      "ai2x": "2× (empfohlen)",
+      "ai4x": "4× (zwei 2×)",
+      "aiEdgeNote": "Zum Begrenzen des GPU-Speichers: lange Seite über {n}px wird vor der KI verkleinert.",
+      "aiShrunk": "Lange Seite vor KI auf {n}px begrenzt.",
+      "refsIntro": "Ähnliche Tools (oft Cloud / eigene Modelle):",
+      "linkRecompressor": "Recompressor",
+      "linkWaifu2x": "waifu2x",
+      "linkBigjpg": "Bigjpg",
+      "linkUpscalerJs": "UpscalerJS (used here)",
+      "outputFormat": "Ausgabeformat",
+      "action": "Hochskalieren & herunterladen",
+      "actionAi": "KI-Hochskalierung & herunterladen"
+    },
+    "removeBg": {
+      "h1": "Hintergrund entfernen",
+      "lead": "Am besten für flache Hintergründe. Klicken Sie in der Vorschau auf die Farbe, dann Toleranz und Weichzeichnen anpassen.",
+      "hintPick": "Klicken Sie in der Vorschau auf den Hintergrund:",
+      "tolerance": "Farbtoleranz",
+      "feather": "Kanten weichzeichnen",
+      "picked": "Schlüsselfarbe:",
+      "action": "Entfernen & herunterladen",
+      "previewAlt": "Vorschau zum Sampeln"
+    },
+    "htmlToImage": {
+      "h1": "HTML zu Bild",
+      "lead": "Den untenstehenden Ausschnitt rendern und erfassen. Inline-Styles sind am zuverlässigsten; Remote-Bilder brauchen CORS.",
+      "warnTitle": "Kein HTML aus unsicheren Quellen einfügen (wie zufällige Webseite).",
+      "placeholder": "HTML hier einfügen…",
+      "action": "Rendern & PNG exportieren",
+      "previewHeader": "Vorschau (Erfassungsbereich)",
+      "sampleHtml": "<div style=\"padding:24px;font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;width:360px\">\n  <h2 style=\"margin:0 0 8px\">Sample title</h2>\n  <p style=\"margin:0;opacity:.9\">Edit HTML on the left, then render and export.</p>\n</div>"
+    },
+    "blur": {
+      "h1": "Bereich weichzeichnen",
+      "lead": "Gestrichelten Kasten ziehen; Ecken zum Skalieren. Stärke = Radius unten.",
+      "regionHint": "Im Kasten ziehen zum Verschieben; Ecke zum Skalieren.",
+      "blurArea": "Weichzeichbereich",
+      "previewSize": "Vorschaugröße",
+      "preview": "Vorschau",
+      "previewTitle": "Weichzeichnungs-Vorschau",
+      "radius": "Weichzeichnungsradius",
+      "action": "Weichzeichnen & herunterladen"
+    },
+    "webSkeleton": {
+      "h1": "Web-Skelett",
+      "lead": "HTML in versteckter Sandbox; graue Platzhalter wie die Skeleton-Generator-Erweiterung. Farbe ändern und erneut generieren. Keine Skripte in der Sandbox.",
+      "warnTitle": "Kein HTML aus unsicheren Quellen. Skripte blockiert, aber Remote-Ressourcen möglich.",
+      "placeholder": "HTML hier einfügen…",
+      "backgroundColor": "Blockfarbe",
+      "granularity": "Körnung",
+      "granularityHint": "Niedriger = gröbere, größere Blöcke; höher = feinere Textstreifen. Nach Generieren Schieberegler für Live-Update.",
+      "actionGenerate": "Skelett erzeugen",
+      "actionCopyHtml": "HTML kopieren",
+      "actionDownloadPng": "PNG exportieren",
+      "previewHeader": "Skelett-Vorschau",
+      "previewEmpty": "Hier erscheint die Skelett-Vorschau nach dem Erzeugen.",
+      "previewAria": "Skelett-Vorschau",
+      "previewUpdating": "Aktualisierung…",
+      "sampleHtml": "<header style=\"padding:12px 16px;background:#1a1a2e;color:#eee;font-family:system-ui;display:flex;justify-content:space-between;align-items:center\">\n  <span style=\"font-weight:700\">Demo site</span>\n  <nav><a style=\"color:#aaa;margin-left:12px\">Home</a><a style=\"color:#aaa;margin-left:12px\">Product</a></nav>\n</header>\n<main style=\"padding:24px;max-width:520px;font-family:system-ui\">\n  <h1 style=\"margin:0 0 8px;font-size:22px\">Article title</h1>\n  <p style=\"margin:0 0 12px;color:#555;line-height:1.5\">Sample body text to show how skeleton blocks follow line breaks.</p>\n  <div style=\"height:120px;background:#e8e8e8;border-radius:8px\"></div>\n</main>"
+    }
+  }
+}

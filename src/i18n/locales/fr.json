@@ -1,0 +1,286 @@
+{
+  "seo": {
+    "siteName": "Image Studio",
+    "titles": {
+      "home": "Boîte à outils image en ligne gratuite — navigateur local",
+      "compress": "Compresser JPG/PNG en ligne (local)",
+      "upscale": "Agrandissement & super-résolution IA",
+      "removeBg": "Supprimer le fond en ligne",
+      "resize": "Redimensionner des images en ligne",
+      "crop": "Recadrer des images en ligne",
+      "convertJpg": "Convertir PNG/WebP en JPG en ligne",
+      "rotate": "Pivoter des images en ligne",
+      "watermark": "Ajouter un filigrane texte en ligne",
+      "meme": "Générateur de mèmes et légendes en ligne",
+      "htmlToImage": "HTML vers capture PNG",
+      "blur": "Flouter une zone (confidentialité)",
+      "webSkeleton": "Squelette / fil de page web"
+    },
+    "descriptions": {
+      "home": "Image Studio : outils image dans le navigateur — compression JPG/PNG, recadrage, redimensionnement, rotation, JPEG, filigrane, fond uni, agrandissement (interpolation ou IA locale), HTML vers PNG, flou, squelette. Traitement local ; pas d’envoi ; sans installation.",
+      "compress": "Réduisez JPEG et PNG dans le navigateur : qualité et limite du grand côté — sans envoi.",
+      "upscale": "Agrandissement bilinéaire ou super-résolution IA locale (TensorFlow.js). 2× ou 4× chaîné ; tout dans le navigateur.",
+      "removeBg": "Échantillonnez une couleur de fond plate ; tolérance pour détourer. PNG transparent sur l’appareil.",
+      "resize": "Échelle en % ou pixels avec ratio optionnel. JPEG ou PNG ; édition locale.",
+      "crop": "Recadrez avec poignées et téléchargez PNG — captures, avatars, réseaux.",
+      "convertJpg": "PNG, WebP, GIF… en JPEG avec blanc derrière la transparence.",
+      "rotate": "90°/180°/270° ou angle libre. PNG ou JPEG avec aperçu local.",
+      "watermark": "Texte positionnable : couleur, taille, opacité. PNG pour échantillons ou mentions.",
+      "meme": "Légendes classiques haut/bas ; plusieurs lignes ; PNG local.",
+      "htmlToImage": "Rendu HTML et capture PNG. Actifs externes = CORS ; fragments de confiance.",
+      "blur": "Rectangle pour masquer données sensibles. PNG ou JPEG ; local.",
+      "webSkeleton": "HTML en bac à sable → squelette gris ; export HTML ou PNG ; algorithme type extension ; local."
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "tools": "Outils",
+    "menuTitle": "Navigation",
+    "openMenu": "Ouvrir le menu",
+    "switchLanguage": "Changer de langue"
+  },
+  "footer": {
+    "line": "Les images sont traitées localement dans votre navigateur et ne sont pas envoyées."
+  },
+  "home": {
+    "title": "Image Studio — Boîte à outils image en ligne gratuite",
+    "lead": "Modifiez vos images dans le navigateur : compression, recadrage, redimensionnement, rotation, conversion, filigrane, fond uni, agrandissement rapide ou IA locale, HTML vers PNG, floutage et squelette de page. Tout sur votre appareil — pas d’envoi ni d’installation."
+  },
+  "tools": {
+    "compress": {
+      "title": "Compresser",
+      "desc": "Qualité JPEG ou limite du grand côté"
+    },
+    "upscale": {
+      "title": "Agrandir",
+      "desc": "Interpolation ou IA locale (2×/4×), sans envoi"
+    },
+    "remove-bg": {
+      "title": "Supprimer le fond",
+      "desc": "Tolérance de couleur ; PNG transparent"
+    },
+    "resize": {
+      "title": "Redimensionner",
+      "desc": "Pourcentage ou pixels ; ratio optionnel"
+    },
+    "crop": {
+      "title": "Recadrer",
+      "desc": "Zone puis télécharger PNG"
+    },
+    "convert-jpg": {
+      "title": "Vers JPG",
+      "desc": "Transparence blanche puis JPEG"
+    },
+    "rotate": {
+      "title": "Pivoter",
+      "desc": "Préréglages 90° ou angle libre"
+    },
+    "watermark": {
+      "title": "Filigrane",
+      "desc": "Texte : position, couleur, opacité"
+    },
+    "meme": {
+      "title": "Mème",
+      "desc": "Légendes haut/bas style classique"
+    },
+    "html-to-image": {
+      "title": "HTML vers image",
+      "desc": "Rendu DOM puis capture"
+    },
+    "blur": {
+      "title": "Flouter une zone",
+      "desc": "Rectangle pour masquer le contenu privé"
+    },
+    "web-skeleton": {
+      "title": "Squelette web",
+      "desc": "Fil depuis HTML ; export HTML ou PNG"
+    }
+  },
+  "picker": {
+    "dragText": "Déposez une image ici, ou ",
+    "clickPick": "cliquez pour choisir",
+    "clear": "Effacer",
+    "previewAlt": "Aperçu"
+  },
+  "msg": {
+    "processing": "Traitement…",
+    "selectImageFirst": "Sélectionnez d’abord une image",
+    "selectImageCrop": "Sélectionnez une image et attendez le chargement",
+    "selectImageRemoveBg": "Sélectionnez une image puis cliquez sur le fond dans l’aperçu",
+    "enterWatermark": "Saisissez le texte du filigrane",
+    "scaleGt100": "L’échelle doit être supérieure à 100 %",
+    "tooManyPixels": "Sortie trop grande — réduisez l’échelle",
+    "downloaded": "Téléchargé",
+    "downloadedPng": "PNG téléchargé",
+    "downloadedJpg": "Enregistré en JPG",
+    "exportFail": "Échec de l’export",
+    "processFail": "Échec du traitement",
+    "processFailRetry": "Échec — essayez une autre image",
+    "cropFail": "Échec du recadrage",
+    "rotateFail": "Échec de la rotation",
+    "convertFail": "Échec de la conversion",
+    "genFail": "Échec de la génération",
+    "readImageFail": "Impossible de lire l’image",
+    "captureFail": "Échec de capture — CORS peut bloquer les images externes",
+    "copiedHtml": "HTML copié",
+    "copyFail": "Échec de la copie",
+    "skeletonGenFail": "Échec du squelette",
+    "skeletonNeedHtml": "Collez d’abord du HTML",
+    "sampledRgb": "Échantillon RGB({r}, {g}, {b})",
+    "aiUpscaleFail": "IA échouée — image plus petite, mode rapide ou recharger"
+  },
+  "pages": {
+    "compress": {
+      "h1": "Compresser des images",
+      "lead": "Réduire via qualité JPEG et/ou limite du grand côté ; PNG sans perte surtout par dimensions.",
+      "outputFormat": "Format de sortie",
+      "jpegQuality": "Qualité JPEG",
+      "limitLongEdge": "Limiter le grand côté",
+      "edgeHint": "px (réduit si plus grand)",
+      "action": "Compresser et télécharger"
+    },
+    "resize": {
+      "h1": "Redimensionner",
+      "lead": "Échelle proportionnelle ou largeur (verrouillage du ratio optionnel).",
+      "mode": "Mode",
+      "percent": "Pourcentage",
+      "pixel": "Pixels",
+      "scalePercent": "Échelle",
+      "width": "Largeur",
+      "keepRatio": "Verrouiller le ratio",
+      "height": "Hauteur",
+      "outputFormat": "Format de sortie",
+      "fmtOriginal": "Comme la source",
+      "action": "Redimensionner et télécharger"
+    },
+    "crop": {
+      "h1": "Recadrer",
+      "lead": "Faites glisser le cadre et les poignées, puis exportez en PNG.",
+      "dialogTitle": "Recadrer l’image",
+      "reopenCrop": "Ouvrir l’éditeur de recadrage",
+      "cropAlt": "Recadrage",
+      "action": "Recadrer et télécharger"
+    },
+    "convertJpg": {
+      "h1": "Convertir en JPG",
+      "lead": "PNG, WebP, GIF, etc. en JPEG ; transparence en blanc.",
+      "jpegQuality": "Qualité JPEG",
+      "action": "Convertir et télécharger"
+    },
+    "rotate": {
+      "h1": "Pivoter",
+      "lead": "Après import, utilisez le cadran ; raccourcis 90°/180°/270°.",
+      "dialogTitle": "Pivoter l’image",
+      "reopenRotate": "Ouvrir la boîte de rotation",
+      "knobHint": "Appuyez et faites glisser sur le cadran — l’image suit.",
+      "knobAria": "Angle de rotation",
+      "presetQuick": "Raccourcis",
+      "customAngleLabel": "Personnalisé (0–360°)",
+      "resetAngle": "Réinitialiser",
+      "previewAlt": "Aperçu de rotation",
+      "action": "Télécharger"
+    },
+    "watermark": {
+      "h1": "Filigrane",
+      "lead": "Contour bleu = sélection (intérieur transparent). Glissez le bord ou la marge pour déplacer ; les coins changent la taille du texte. Vide : clignotant — clic pour taper. Avec texte : double-clic pour éditer.",
+      "fontFamily": "Police",
+      "fontNotoSc": "Noto Sans SC",
+      "fontNotoSans": "Noto Sans",
+      "fontInter": "Inter",
+      "fontSourceSans3": "Source Sans 3",
+      "fontIbmPlexSans": "IBM Plex Sans",
+      "fontRoboto": "Roboto",
+      "fontLicenseNote": "Polices sous licences ouvertes (SIL OFL 1.1 ou Apache-2.0) via Google Fonts.",
+      "fontSize": "Taille de police",
+      "opacity": "Opacité",
+      "color": "Couleur",
+      "dragHint": "Glissez bord ou marge pour déplacer. Coins = taille. Vide : clic sur le curseur. Avec texte : double-clic.",
+      "dragHandle": "Glisser dans le cadre pour déplacer",
+      "resizeHandle": "Glisser pour redimensionner la zone de texte",
+      "previewSize": "Taille d’aperçu",
+      "preview": "Aperçu",
+      "previewTitle": "Aperçu du filigrane",
+      "action": "Appliquer et télécharger"
+    },
+    "meme": {
+      "h1": "Mème / légende",
+      "lead": "Grand texte haut et bas, blanc et contour noir (lignes multiples).",
+      "defaultTop": "TEXTE HAUT",
+      "defaultBottom": "TEXTE BAS",
+      "top": "Texte du haut",
+      "bottom": "Texte du bas",
+      "fontSize": "Taille de police",
+      "action": "Générer et télécharger"
+    },
+    "upscale": {
+      "h1": "Agrandir",
+      "lead": "Deux modes : interpolation bilinéaire rapide ou super-résolution locale (UpscalerJS + TensorFlow.js).",
+      "leadFast": "pica en local (noyau Lanczos-3, WASM + workers). Sinon rééchantillonnage canvas.",
+      "leadAi": "Modèle RDN ~2× par passe ; 4× = deux passes 2×. Premier lancement télécharge les poids ; inférence locale.",
+      "mode": "Mode",
+      "modeFast": "Interpolation rapide",
+      "modeAi": "Super-résolution IA",
+      "scale": "Échelle (%)",
+      "aiFactor": "Facteur d’agrandissement",
+      "ai2x": "2× (recommandé)",
+      "ai4x": "4× (deux 2×)",
+      "aiEdgeNote": "Pour limiter la VRAM, si le grand côté dépasse {n}px, réduction avant IA.",
+      "aiShrunk": "Grand côté limité à {n}px avant IA.",
+      "refsIntro": "Outils similaires (souvent cloud) :",
+      "linkRecompressor": "Recompressor",
+      "linkWaifu2x": "waifu2x",
+      "linkBigjpg": "Bigjpg",
+      "linkUpscalerJs": "UpscalerJS (used here)",
+      "outputFormat": "Format de sortie",
+      "action": "Agrandir et télécharger",
+      "actionAi": "IA agrandir et télécharger"
+    },
+    "removeBg": {
+      "h1": "Supprimer le fond",
+      "lead": "Idéal pour fonds plats. Cliquez sur l’aperçu pour échantillonner la couleur ; tolérance et adoucissement.",
+      "hintPick": "Cliquez sur le fond dans l’aperçu pour échantillonner :",
+      "tolerance": "Tolérance de couleur",
+      "feather": "Adoucir le bord",
+      "picked": "Couleur clé :",
+      "action": "Supprimer et télécharger",
+      "previewAlt": "Aperçu pour échantillonnage"
+    },
+    "htmlToImage": {
+      "h1": "HTML vers image",
+      "lead": "Rendez le fragment ci-dessous et capturez. Styles inline plus fiables ; images distantes = CORS.",
+      "warnTitle": "Ne collez pas de HTML non fiable (mêmes risques qu’un site inconnu).",
+      "placeholder": "Collez le HTML ici…",
+      "action": "Rendre et exporter PNG",
+      "previewHeader": "Aperçu (zone capturée)",
+      "sampleHtml": "<div style=\"padding:24px;font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;width:360px\">\n  <h2 style=\"margin:0 0 8px\">Sample title</h2>\n  <p style=\"margin:0;opacity:.9\">Edit HTML on the left, then render and export.</p>\n</div>"
+    },
+    "blur": {
+      "h1": "Flouter une zone",
+      "lead": "Glissez le cadre en pointillés ; coins pour redimensionner. Intensité = rayon ci-dessous.",
+      "regionHint": "Glisser dans le cadre pour déplacer ; poignée de coin pour redimensionner.",
+      "blurArea": "Zone à flouter",
+      "previewSize": "Taille d’aperçu",
+      "preview": "Aperçu",
+      "previewTitle": "Aperçu du flou",
+      "radius": "Rayon de flou",
+      "action": "Flouter et télécharger"
+    },
+    "webSkeleton": {
+      "h1": "Squelette web",
+      "lead": "HTML dans un bac à sable caché ; blocs gris comme l’extension Skeleton Generator. Changez la couleur et régénérez. Pas de scripts.",
+      "warnTitle": "HTML non fiable : pas de scripts, mais ressources distantes possibles.",
+      "placeholder": "Collez le HTML ici…",
+      "backgroundColor": "Couleur des blocs",
+      "granularity": "Granularité",
+      "granularityHint": "Plus bas = blocs plus gros ; plus haut = bandes de texte plus fines. Curseur en direct après génération.",
+      "actionGenerate": "Générer le squelette",
+      "actionCopyHtml": "Copier le HTML",
+      "actionDownloadPng": "Exporter PNG",
+      "previewHeader": "Aperçu du squelette",
+      "previewEmpty": "Le squelette apparaîtra ici après génération.",
+      "previewAria": "Aperçu du squelette",
+      "previewUpdating": "Mise à jour…",
+      "sampleHtml": "<header style=\"padding:12px 16px;background:#1a1a2e;color:#eee;font-family:system-ui;display:flex;justify-content:space-between;align-items:center\">\n  <span style=\"font-weight:700\">Demo site</span>\n  <nav><a style=\"color:#aaa;margin-left:12px\">Home</a><a style=\"color:#aaa;margin-left:12px\">Product</a></nav>\n</header>\n<main style=\"padding:24px;max-width:520px;font-family:system-ui\">\n  <h1 style=\"margin:0 0 8px;font-size:22px\">Article title</h1>\n  <p style=\"margin:0 0 12px;color:#555;line-height:1.5\">Sample body text to show how skeleton blocks follow line breaks.</p>\n  <div style=\"height:120px;background:#e8e8e8;border-radius:8px\"></div>\n</main>"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+:root {
+  --studio-bg: #f5f7fa;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+body {
+  font-family:
+    'Helvetica Neue',
+    Helvetica,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tool-page h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--el-text-color-primary);
+}
+
+.tool-page .lead {
+  margin: 0 0 24px;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.tool-card {
+  margin-bottom: 20px;
+}

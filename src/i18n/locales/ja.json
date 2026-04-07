@@ -1,0 +1,286 @@
+{
+  "seo": {
+    "siteName": "Image Studio",
+    "titles": {
+      "home": "無料オンライン画像ツール — ブラウザ内ローカル処理",
+      "compress": "JPG/PNG をオンラインで圧縮（ローカル）",
+      "upscale": "画像拡大と AI 超解像",
+      "removeBg": "背景をオンラインで削除",
+      "resize": "画像サイズをオンラインで変更",
+      "crop": "画像をオンラインでトリミング",
+      "convertJpg": "PNG/WebP を JPG にオンライン変換",
+      "rotate": "画像をオンラインで回転",
+      "watermark": "テキスト透かしをオンラインで追加",
+      "meme": "ミーム・字幕ジェネレーター（オンライン）",
+      "htmlToImage": "HTML を PNG スクリーンショットへ",
+      "blur": "画像の一部をぼかし（プライバシー）",
+      "webSkeleton": "Web ページ骨組み／ワイヤーフレーム生成"
+    },
+    "descriptions": {
+      "home": "Image Studio：ブラウザで無料の画像ツール — JPG/PNG 圧縮、切り抜き、リサイズ、回転、JPEG 変換、透かし、単色背景除去、拡大（補間または端末内 AI）、HTML→PNG、ぼかし、ページ骨組み。処理はローカル、アップロードなし、インストール不要。",
+      "compress": "ブラウザで JPEG/PNG を軽量化：品質と長辺上限 — アップロード不要。",
+      "upscale": "バイリニア拡大または端末内 AI 超解像（TensorFlow.js）。2× または連鎖 4×、すべてブラウザ内。",
+      "removeBg": "平らな背景色をサンプルし、許容度で切り抜き。透明 PNG は端末内で処理。",
+      "resize": "パーセントまたはピクセルで拡大縮小、縦横比ロック任意。JPEG/PNG、ローカル編集。",
+      "crop": "ハンドルで視覚的に切り抜き PNG — スクリーンショット、アバター、SNS用。",
+      "convertJpg": "PNG、WebP、GIF 等を透過下に白を敷いて JPEG に。",
+      "rotate": "90°/180°/270° または任意角度。ローカル即時プレビュー後に PNG/JPEG。",
+      "watermark": "位置・色・サイズ・不透明度でテキストを重ねる。プルーフや著作権表示用 PNG。",
+      "meme": "上下にクラシックな白縁黒フチ。複数行対応、ローカルで PNG。",
+      "htmlToImage": "HTML を描画して PNG 取得。外部アセットは CORS が必要。信頼できるスニペットのみ。",
+      "blur": "パーセント基準の矩形でぼかし、ID やプライバシー UI を隠す。PNG/JPEG、ローカル。",
+      "webSkeleton": "サンドボックスで HTML を描画しレイアウトからワイヤー骨組みを生成 — HTML/PNG 書き出し、拡張と同コア、ローカル。"
+    }
+  },
+  "nav": {
+    "home": "ホーム",
+    "tools": "ツール",
+    "menuTitle": "ナビゲーション",
+    "openMenu": "メニューを開く",
+    "switchLanguage": "言語を切り替え"
+  },
+  "footer": {
+    "line": "画像はブラウザ内でローカル処理され、サーバーにアップロードされません。"
+  },
+  "home": {
+    "title": "Image Studio — 無料オンライン画像ツールキット",
+    "lead": "ブラウザ上で画像を編集：圧縮、トリミング、拡大縮小、回転、形式変換、透かし、単色背景の除去、高速拡大またはローカル AI 超解像、HTML を PNG に、ぼかし、ワイヤーフレーム骨組みの生成。すべて端末上で完結 — アップロード不要、インストール不要。"
+  },
+  "tools": {
+    "compress": {
+      "title": "圧縮",
+      "desc": "JPEG 品質または長辺の上限で軽量化"
+    },
+    "upscale": {
+      "title": "拡大",
+      "desc": "補間またはローカル AI（2×/4×）、アップロードなし"
+    },
+    "remove-bg": {
+      "title": "背景除去",
+      "desc": "色と許容度で切り抜き、透明 PNG"
+    },
+    "resize": {
+      "title": "リサイズ",
+      "desc": "パーセントまたはピクセル、縦横比固定可"
+    },
+    "crop": {
+      "title": "切り抜き",
+      "desc": "範囲を選んで PNG を保存"
+    },
+    "convert-jpg": {
+      "title": "JPG へ",
+      "desc": "透明部分を白で JPEG 化"
+    },
+    "rotate": {
+      "title": "回転",
+      "desc": "90° プリセットまたは任意角度"
+    },
+    "watermark": {
+      "title": "透かし",
+      "desc": "テキストの位置・色・不透明度"
+    },
+    "meme": {
+      "title": "ミーム",
+      "desc": "上下にクラシックな縁取り字幕"
+    },
+    "html-to-image": {
+      "title": "HTML を画像へ",
+      "desc": "DOM に描画してからキャプチャ"
+    },
+    "blur": {
+      "title": "領域ぼかし",
+      "desc": "プライベート部分を隠す矩形"
+    },
+    "web-skeleton": {
+      "title": "Web 骨組み",
+      "desc": "HTML からワイヤー、HTML/PNG 出力"
+    }
+  },
+  "picker": {
+    "dragText": "ここに画像をドロップ、または ",
+    "clickPick": "クリックで選択",
+    "clear": "クリア",
+    "previewAlt": "プレビュー"
+  },
+  "msg": {
+    "processing": "処理中…",
+    "selectImageFirst": "先に画像を選択してください",
+    "selectImageCrop": "画像を選び、読み込み完了を待ってください",
+    "selectImageRemoveBg": "画像を選び、プレビュー上で背景をクリックしてサンプル",
+    "enterWatermark": "透かしテキストを入力",
+    "scaleGt100": "拡大率は 100% より大きくしてください",
+    "tooManyPixels": "出力が大きすぎます — 倍率を下げてください",
+    "downloaded": "ダウンロードしました",
+    "downloadedPng": "PNG をダウンロードしました",
+    "downloadedJpg": "JPG として保存しました",
+    "exportFail": "書き出しに失敗しました",
+    "processFail": "処理に失敗しました",
+    "processFailRetry": "処理失敗 — 別の画像を試してください",
+    "cropFail": "切り抜きに失敗しました",
+    "rotateFail": "回転に失敗しました",
+    "convertFail": "変換に失敗しました",
+    "genFail": "生成に失敗しました",
+    "readImageFail": "画像を読み込めませんでした",
+    "captureFail": "キャプチャ失敗 — 外部画像が CORS でブロックされている可能性があります",
+    "copiedHtml": "HTML をコピーしました",
+    "copyFail": "コピーに失敗しました",
+    "skeletonGenFail": "骨組みの生成に失敗しました",
+    "skeletonNeedHtml": "先に HTML を貼り付けてください",
+    "sampledRgb": "RGB({r}, {g}, {b}) をサンプルしました",
+    "aiUpscaleFail": "AI 拡大に失敗 — 画像を小さくする、高速モード、または更新して再試行"
+  },
+  "pages": {
+    "compress": {
+      "h1": "画像を圧縮",
+      "lead": "JPEG 品質や長辺上限でサイズ削減。PNG は可逆のまま、主に寸法で縮小。",
+      "outputFormat": "出力形式",
+      "jpegQuality": "JPEG 品質",
+      "limitLongEdge": "長辺の上限",
+      "edgeHint": "px（超えると縮小）",
+      "action": "圧縮してダウンロード"
+    },
+    "resize": {
+      "h1": "リサイズ",
+      "lead": "比率を保って拡大縮小、または幅を指定（縦横比固定は任意）。",
+      "mode": "モード",
+      "percent": "パーセント",
+      "pixel": "ピクセル",
+      "scalePercent": "拡大率",
+      "width": "幅",
+      "keepRatio": "縦横比を固定",
+      "height": "高さ",
+      "outputFormat": "出力形式",
+      "fmtOriginal": "元と同じ",
+      "action": "リサイズしてダウンロード"
+    },
+    "crop": {
+      "h1": "切り抜き",
+      "lead": "切り抜き枠とハンドルをドラッグし、PNG を書き出します。",
+      "dialogTitle": "画像を切り抜き",
+      "reopenCrop": "切り抜きウィンドウを開く",
+      "cropAlt": "切り抜き",
+      "action": "切り抜いてダウンロード"
+    },
+    "convertJpg": {
+      "h1": "JPG に変換",
+      "lead": "PNG、WebP、GIF などを JPEG に。透明は白で塗りつぶし。",
+      "jpegQuality": "JPEG 品質",
+      "action": "変換してダウンロード"
+    },
+    "rotate": {
+      "h1": "回転",
+      "lead": "アップロード後、ダイアログのダイヤルでプレビュー。90°/180°/270° のショートカットあり。",
+      "dialogTitle": "画像を回転",
+      "reopenRotate": "回転ウィンドウを開く",
+      "knobHint": "円形ダイヤルをドラッグ — 画像が連動して回転します。",
+      "knobAria": "回転角度",
+      "presetQuick": "ショートカット",
+      "customAngleLabel": "カスタム（0〜360°）",
+      "resetAngle": "リセット",
+      "previewAlt": "回転プレビュー",
+      "action": "ダウンロード"
+    },
+    "watermark": {
+      "h1": "透かし",
+      "lead": "青い枠＝選択（内側は透明）。枠や余白をドラッグで移動、角でフォントサイズ。空：点滅カーソル — クリックで入力。文字あり：ダブルクリックで編集。",
+      "fontFamily": "フォント",
+      "fontNotoSc": "Noto Sans SC",
+      "fontNotoSans": "Noto Sans",
+      "fontInter": "Inter",
+      "fontSourceSans3": "Source Sans 3",
+      "fontIbmPlexSans": "IBM Plex Sans",
+      "fontRoboto": "Roboto",
+      "fontLicenseNote": "SIL OFL 1.1 または Apache-2.0 のオープンフォント（Google Fonts 経由）。",
+      "fontSize": "フォントサイズ",
+      "opacity": "不透明度",
+      "color": "色",
+      "dragHint": "枠や余白をドラッグで移動。角でサイズ変更。空：カーソルでクリック。文字あり：ダブルクリック。",
+      "dragHandle": "枠内をドラッグして移動",
+      "resizeHandle": "ドラッグしてテキストボックスをリサイズ",
+      "previewSize": "プレビュー表示サイズ",
+      "preview": "プレビュー",
+      "previewTitle": "透かしプレビュー",
+      "action": "適用してダウンロード"
+    },
+    "meme": {
+      "h1": "ミーム／字幕",
+      "lead": "上下に大きな白文字・黒縁（複数行は改行）。",
+      "defaultTop": "上のテキスト",
+      "defaultBottom": "下のテキスト",
+      "top": "上のテキスト",
+      "bottom": "下のテキスト",
+      "fontSize": "フォントサイズ",
+      "action": "生成してダウンロード"
+    },
+    "upscale": {
+      "h1": "拡大",
+      "lead": "2 モード：高速バイリニア拡大、またはブラウザ内ローカル超解像（UpscalerJS + TensorFlow.js）。",
+      "leadFast": "pica でローカル高品質拡大（Lanczos-3、WASM＋ワーカー）。失敗時はキャンバス段階的補間へ。",
+      "leadAi": "RDN モデルは約 2×／パス、4× は 2× を 2 回。初回は重みをダウンロード、推論はローカル。",
+      "mode": "モード",
+      "modeFast": "高速補間",
+      "modeAi": "AI 超解像",
+      "scale": "拡大率（%）",
+      "aiFactor": "拡大倍率",
+      "ai2x": "2×（推奨）",
+      "ai4x": "4×（2× を 2 回）",
+      "aiEdgeNote": "VRAM 節約のため、長辺が {n}px を超えると AI の前に縮小します。",
+      "aiShrunk": "AI の前に長辺を {n}px に制限しました。",
+      "refsIntro": "類似ツール（クラウド／専用モデルが多い）：",
+      "linkRecompressor": "Recompressor",
+      "linkWaifu2x": "waifu2x",
+      "linkBigjpg": "Bigjpg",
+      "linkUpscalerJs": "UpscalerJS (used here)",
+      "outputFormat": "出力形式",
+      "action": "拡大してダウンロード",
+      "actionAi": "AI 拡大してダウンロード"
+    },
+    "removeBg": {
+      "h1": "背景除去",
+      "lead": "単色〜近い単色背景向け。プレビューをクリックして色をサンプルし、許容度とぼかしを調整。",
+      "hintPick": "プレビュー上の背景をクリックしてサンプル：",
+      "tolerance": "色の許容度",
+      "feather": "縁のぼかし",
+      "picked": "キーカラー：",
+      "action": "除去してダウンロード",
+      "previewAlt": "サンプル用プレビュー"
+    },
+    "htmlToImage": {
+      "h1": "HTML を画像へ",
+      "lead": "下のスニペットを描画してキャプチャ。インラインスタイルが最も安定。外部画像は CORS が必要。",
+      "warnTitle": "信頼できない HTML は貼り付けないでください（不明なページと同様のリスク）。",
+      "placeholder": "ここに HTML を貼り付け…",
+      "action": "描画して PNG を書き出し",
+      "previewHeader": "プレビュー（キャプチャ範囲）",
+      "sampleHtml": "<div style=\"padding:24px;font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;width:360px\">\n  <h2 style=\"margin:0 0 8px\">Sample title</h2>\n  <p style=\"margin:0;opacity:.9\">Edit HTML on the left, then render and export.</p>\n</div>"
+    },
+    "blur": {
+      "h1": "領域ぼかし",
+      "lead": "プレビュー上の破線枠をドラッグ、角でリサイズ。強さは下の半径で調整。",
+      "regionHint": "枠内をドラッグで移動、角でリサイズ。",
+      "blurArea": "ぼかす領域",
+      "previewSize": "プレビュー表示サイズ",
+      "preview": "プレビュー",
+      "previewTitle": "ぼかしプレビュー",
+      "radius": "ぼかし半径",
+      "action": "ぼかしてダウンロード"
+    },
+    "webSkeleton": {
+      "h1": "Web 骨組み",
+      "lead": "HTML を隠しサンドボックスで描画し、Skeleton Generator 拡張と同様のグレーのプレースホルダーを生成。背景色変更後は再生成。サンドボックスではスクリプトは実行されません。",
+      "warnTitle": "信頼できない HTML は貼り付けないでください。スクリプトはブロックされますが、外部リソース要求は起こり得ます。",
+      "placeholder": "ここに HTML を貼り付け…",
+      "backgroundColor": "ブロックの色",
+      "granularity": "粒度",
+      "granularityHint": "小さいほど粗く大きなブロック、大きいほど細いテキスト帯。生成後スライダーでライブ更新。",
+      "actionGenerate": "骨組みを生成",
+      "actionCopyHtml": "HTML をコピー",
+      "actionDownloadPng": "PNG を書き出し",
+      "previewHeader": "骨組みプレビュー",
+      "previewEmpty": "生成後、ここにワイヤープレビューが表示されます。",
+      "previewAria": "骨組みプレビュー",
+      "previewUpdating": "更新中…",
+      "sampleHtml": "<header style=\"padding:12px 16px;background:#1a1a2e;color:#eee;font-family:system-ui;display:flex;justify-content:space-between;align-items:center\">\n  <span style=\"font-weight:700\">Demo site</span>\n  <nav><a style=\"color:#aaa;margin-left:12px\">Home</a><a style=\"color:#aaa;margin-left:12px\">Product</a></nav>\n</header>\n<main style=\"padding:24px;max-width:520px;font-family:system-ui\">\n  <h1 style=\"margin:0 0 8px;font-size:22px\">Article title</h1>\n  <p style=\"margin:0 0 12px;color:#555;line-height:1.5\">Sample body text to show how skeleton blocks follow line breaks.</p>\n  <div style=\"height:120px;background:#e8e8e8;border-radius:8px\"></div>\n</main>"
+    }
+  }
+}

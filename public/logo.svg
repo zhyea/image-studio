@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="is-logo-grad" x1="6" y1="5" x2="42" y2="43" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#409eff"/>
+      <stop offset="0.55" stop-color="#5b8cff"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="9" width="38" height="30" rx="7" stroke="url(#is-logo-grad)" stroke-width="2.25" fill="none"/>
+  <circle cx="33.5" cy="18" r="4.75" fill="url(#is-logo-grad)" opacity="0.95"/>
+  <path fill="url(#is-logo-grad)" opacity="0.9" d="M9 37.5h30.5L30 24l-6.5 6-7.5-10.5L9 37.5Z"/>
+</svg>
