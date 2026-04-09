@@ -1,703 +1,703 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/zh</loc>
+    <loc>https://image.chobit.org/zh</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/compress</loc>
+    <loc>https://image.chobit.org/zh/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/upscale</loc>
+    <loc>https://image.chobit.org/zh/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/remove-bg</loc>
+    <loc>https://image.chobit.org/zh/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/resize</loc>
+    <loc>https://image.chobit.org/zh/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/crop</loc>
+    <loc>https://image.chobit.org/zh/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/convert-jpg</loc>
+    <loc>https://image.chobit.org/zh/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/rotate</loc>
+    <loc>https://image.chobit.org/zh/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/watermark</loc>
+    <loc>https://image.chobit.org/zh/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/meme</loc>
+    <loc>https://image.chobit.org/zh/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/html-to-image</loc>
+    <loc>https://image.chobit.org/zh/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/blur</loc>
+    <loc>https://image.chobit.org/zh/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/zh/web-skeleton</loc>
+    <loc>https://image.chobit.org/zh/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/en</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/compress</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/upscale</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/remove-bg</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/resize</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/crop</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/convert-jpg</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/rotate</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/watermark</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/meme</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/html-to-image</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/blur</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/web-skeleton</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/es</loc>
+    <loc>https://image.chobit.org/en</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/es/compress</loc>
+    <loc>https://image.chobit.org/en/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/upscale</loc>
+    <loc>https://image.chobit.org/en/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/remove-bg</loc>
+    <loc>https://image.chobit.org/en/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/resize</loc>
+    <loc>https://image.chobit.org/en/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/crop</loc>
+    <loc>https://image.chobit.org/en/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/convert-jpg</loc>
+    <loc>https://image.chobit.org/en/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/rotate</loc>
+    <loc>https://image.chobit.org/en/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/watermark</loc>
+    <loc>https://image.chobit.org/en/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/meme</loc>
+    <loc>https://image.chobit.org/en/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/html-to-image</loc>
+    <loc>https://image.chobit.org/en/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/blur</loc>
+    <loc>https://image.chobit.org/en/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/es/web-skeleton</loc>
+    <loc>https://image.chobit.org/en/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/fr</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/compress</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/upscale</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/remove-bg</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/resize</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/crop</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/convert-jpg</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/rotate</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/watermark</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/meme</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/html-to-image</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/blur</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/fr/web-skeleton</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://example.com/de</loc>
+    <loc>https://image.chobit.org/es</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/de/compress</loc>
+    <loc>https://image.chobit.org/es/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/upscale</loc>
+    <loc>https://image.chobit.org/es/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/remove-bg</loc>
+    <loc>https://image.chobit.org/es/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/resize</loc>
+    <loc>https://image.chobit.org/es/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/crop</loc>
+    <loc>https://image.chobit.org/es/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/convert-jpg</loc>
+    <loc>https://image.chobit.org/es/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/rotate</loc>
+    <loc>https://image.chobit.org/es/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/watermark</loc>
+    <loc>https://image.chobit.org/es/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/meme</loc>
+    <loc>https://image.chobit.org/es/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/html-to-image</loc>
+    <loc>https://image.chobit.org/es/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/blur</loc>
+    <loc>https://image.chobit.org/es/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/de/web-skeleton</loc>
+    <loc>https://image.chobit.org/es/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja</loc>
+    <loc>https://image.chobit.org/fr</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/compress</loc>
+    <loc>https://image.chobit.org/fr/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/upscale</loc>
+    <loc>https://image.chobit.org/fr/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/remove-bg</loc>
+    <loc>https://image.chobit.org/fr/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/resize</loc>
+    <loc>https://image.chobit.org/fr/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/crop</loc>
+    <loc>https://image.chobit.org/fr/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/convert-jpg</loc>
+    <loc>https://image.chobit.org/fr/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/rotate</loc>
+    <loc>https://image.chobit.org/fr/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/watermark</loc>
+    <loc>https://image.chobit.org/fr/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/meme</loc>
+    <loc>https://image.chobit.org/fr/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/html-to-image</loc>
+    <loc>https://image.chobit.org/fr/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/blur</loc>
+    <loc>https://image.chobit.org/fr/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ja/web-skeleton</loc>
+    <loc>https://image.chobit.org/fr/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt</loc>
+    <loc>https://image.chobit.org/de</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/compress</loc>
+    <loc>https://image.chobit.org/de/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/upscale</loc>
+    <loc>https://image.chobit.org/de/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/remove-bg</loc>
+    <loc>https://image.chobit.org/de/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/resize</loc>
+    <loc>https://image.chobit.org/de/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/crop</loc>
+    <loc>https://image.chobit.org/de/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/convert-jpg</loc>
+    <loc>https://image.chobit.org/de/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/rotate</loc>
+    <loc>https://image.chobit.org/de/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/watermark</loc>
+    <loc>https://image.chobit.org/de/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/meme</loc>
+    <loc>https://image.chobit.org/de/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/html-to-image</loc>
+    <loc>https://image.chobit.org/de/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/blur</loc>
+    <loc>https://image.chobit.org/de/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/pt/web-skeleton</loc>
+    <loc>https://image.chobit.org/de/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru</loc>
+    <loc>https://image.chobit.org/ja</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/compress</loc>
+    <loc>https://image.chobit.org/ja/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/upscale</loc>
+    <loc>https://image.chobit.org/ja/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/remove-bg</loc>
+    <loc>https://image.chobit.org/ja/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/resize</loc>
+    <loc>https://image.chobit.org/ja/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/crop</loc>
+    <loc>https://image.chobit.org/ja/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/convert-jpg</loc>
+    <loc>https://image.chobit.org/ja/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/rotate</loc>
+    <loc>https://image.chobit.org/ja/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/watermark</loc>
+    <loc>https://image.chobit.org/ja/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/meme</loc>
+    <loc>https://image.chobit.org/ja/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/html-to-image</loc>
+    <loc>https://image.chobit.org/ja/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/blur</loc>
+    <loc>https://image.chobit.org/ja/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ru/web-skeleton</loc>
+    <loc>https://image.chobit.org/ja/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar</loc>
+    <loc>https://image.chobit.org/pt</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/compress</loc>
+    <loc>https://image.chobit.org/pt/compress</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/upscale</loc>
+    <loc>https://image.chobit.org/pt/upscale</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/remove-bg</loc>
+    <loc>https://image.chobit.org/pt/remove-bg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/resize</loc>
+    <loc>https://image.chobit.org/pt/resize</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/crop</loc>
+    <loc>https://image.chobit.org/pt/crop</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/convert-jpg</loc>
+    <loc>https://image.chobit.org/pt/convert-jpg</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/rotate</loc>
+    <loc>https://image.chobit.org/pt/rotate</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/watermark</loc>
+    <loc>https://image.chobit.org/pt/watermark</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/meme</loc>
+    <loc>https://image.chobit.org/pt/meme</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/html-to-image</loc>
+    <loc>https://image.chobit.org/pt/html-to-image</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/blur</loc>
+    <loc>https://image.chobit.org/pt/blur</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/ar/web-skeleton</loc>
+    <loc>https://image.chobit.org/pt/web-skeleton</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/compress</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/upscale</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/remove-bg</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/resize</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/crop</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/convert-jpg</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/rotate</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/watermark</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/meme</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/html-to-image</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/blur</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ru/web-skeleton</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/compress</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/upscale</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/remove-bg</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/resize</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/crop</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/convert-jpg</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/rotate</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/watermark</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/meme</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/html-to-image</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/blur</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://image.chobit.org/ar/web-skeleton</loc>
     <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

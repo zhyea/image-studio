@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 const outPath = join(root, 'public', 'sitemap.xml')
 
-const origin = (process.env.SITE_ORIGIN || 'https://example.com').replace(/\/$/, '')
+const origin = (process.env.SITE_ORIGIN || 'https://image.chobit.org').replace(/\/$/, '')
 
 const segments = ['', ...TOOLS.map((t) => t.slug)]
 
