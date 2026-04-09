@@ -4,8 +4,8 @@
  */
 export const SUPPORTED_LOCALES = ['zh', 'en', 'es', 'fr', 'de', 'ja', 'pt', 'ru', 'ar']
 
-/** 根路径 / 重定向默认语言 */
-export const DEFAULT_LOCALE = 'zh'
+/** 根路径 / 重定向默认语言（系统语言不匹配时回退） */
+export const DEFAULT_LOCALE = 'en'
 
 /**
  * @typedef {{ bcp47: string, og: string, hreflang: string, dir: 'ltr' | 'rtl', label: string, elModule: string }} LocaleMeta

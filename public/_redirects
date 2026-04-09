@@ -1,0 +1,2 @@
+# Netlify / Cloudflare Pages：单页应用路由回退，避免直接访问或刷新子路径出现 404
+/*    /index.html   200

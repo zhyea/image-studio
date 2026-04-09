@@ -14,10 +14,67 @@ const imgRef = ref(null)
 const imageUrl = ref('')
 const cropDialogVisible = ref(false)
 const busy = ref(false)
+const previewVisible = ref(false)
 let cropper = null
 let currentFile = null
+/** @type {{ el: Element, fn: (e: Event) => void } | null} */
+let cropBoxDblCleanup = null
+let previewObjectUrl = ''
+
+function revokePreviewUrl() {
+  if (previewObjectUrl) {
+    URL.revokeObjectURL(previewObjectUrl)
+    previewObjectUrl = ''
+  }
+}
+
+function unbindCropBoxDblclick() {
+  if (cropBoxDblCleanup) {
+    cropBoxDblCleanup.el.removeEventListener('dblclick', cropBoxDblCleanup.fn)
+    cropBoxDblCleanup = null
+  }
+}
+
+function bindCropBoxDblclick() {
+  unbindCropBoxDblclick()
+  const box = imgRef.value?.parentElement?.querySelector('.cropper-crop-box')
+  if (!box) return
+  const fn = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    showCroppedPreview()
+  }
+  box.addEventListener('dblclick', fn)
+  cropBoxDblCleanup = { el: box, fn }
+}
+
+function closeCropPreview() {
+  previewVisible.value = false
+  revokePreviewUrl()
+}
+
+function showCroppedPreview() {
+  if (!cropper) return
+  revokePreviewUrl()
+  const canvas = cropper.getCroppedCanvas({
+    maxWidth: 4096,
+    maxHeight: 4096,
+    imageSmoothingEnabled: true,
+    imageSmoothingQuality: 'high',
+  })
+  canvas.toBlob(
+    (blob) => {
+      if (!blob) return
+      previewObjectUrl = URL.createObjectURL(blob)
+      previewVisible.value = true
+    },
+    'image/png',
+    1,
+  )
+}
 
 function destroyCropper() {
+  unbindCropBoxDblclick()
   if (cropper) {
     cropper.destroy()
     cropper = null
@@ -33,6 +90,9 @@ function initCropperInstance() {
     viewMode: 1,
     autoCropArea: 0.85,
     responsive: true,
+    ready() {
+      requestAnimationFrame(() => bindCropBoxDblclick())
+    },
   })
 }
 
@@ -47,6 +107,7 @@ function onCropDialogOpened() {
 }
 
 function onCropDialogClosed() {
+  closeCropPreview()
   destroyCropper()
   imageUrl.value = ''
 }
@@ -74,6 +135,7 @@ async function onFile(file) {
 }
 
 onBeforeUnmount(() => {
+  closeCropPreview()
   destroyCropper()
 })
 
@@ -135,7 +197,12 @@ async function cropAndDownload() {
             class="crop-target"
             @load="onImgLoad"
           />
+          <div v-if="previewVisible" class="crop-preview-overlay">
+            <img :src="previewObjectUrl" class="crop-preview-img" :alt="tp('cropAlt')" />
+            <el-button type="primary" @click="closeCropPreview">{{ tp('backToCrop') }}</el-button>
+          </div>
         </div>
+        <p class="crop-dbl-hint">{{ tp('previewHint') }}</p>
         <div class="actions">
           <ToolProgressBar :visible="busy" />
           <el-button type="primary" :disabled="busy" @click="cropAndDownload">{{ tp('action') }}</el-button>
@@ -158,6 +225,7 @@ async function cropAndDownload() {
 }
 
 .crop-dialog-canvas-wrap {
+  position: relative;
   overflow: hidden;
   width: 100%;
   max-height: min(68vh, calc(100dvh - 220px));
@@ -165,6 +233,36 @@ async function cropAndDownload() {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.crop-preview-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: var(--el-bg-color);
+}
+
+.crop-preview-img {
+  display: block;
+  max-width: 100%;
+  max-height: min(56vh, calc(100dvh - 300px));
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+}
+
+.crop-dbl-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--el-text-color-secondary);
 }
 
 .crop-target {

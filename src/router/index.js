@@ -16,6 +16,20 @@ const RemoveBgView = () => import('../views/RemoveBgView.vue')
 const HtmlToImageView = () => import('../views/HtmlToImageView.vue')
 const BlurRegionView = () => import('../views/BlurRegionView.vue')
 const WebSkeletonView = () => import('../views/WebSkeletonView.vue')
+const NotFoundView = () => import('../views/NotFoundView.vue')
+
+function detectSystemLocale() {
+  if (typeof navigator === 'undefined') return DEFAULT_LOCALE
+  const candidates = [...(navigator.languages || []), navigator.language]
+    .filter((v) => typeof v === 'string')
+    .map((v) => v.trim().toLowerCase())
+    .filter(Boolean)
+  for (const lang of candidates) {
+    const short = lang.split('-')[0]
+    if (SUPPORTED_LOCALES.includes(short)) return short
+  }
+  return DEFAULT_LOCALE
+}
 
 const localizedChildren = [
   { path: '', name: 'home', component: HomeView, meta: { seoPage: 'home' } },
@@ -31,16 +45,17 @@ const localizedChildren = [
   { path: 'html-to-image', name: 'html-to-image', component: HtmlToImageView, meta: { seoPage: 'htmlToImage' } },
   { path: 'blur', name: 'blur', component: BlurRegionView, meta: { seoPage: 'blur' } },
   { path: 'web-skeleton', name: 'web-skeleton', component: WebSkeletonView, meta: { seoPage: 'webSkeleton' } },
+  { path: ':pathMatch(.*)*', name: 'not-found', component: NotFoundView, meta: { seoPage: 'notFound' } },
 ]
 
 const routes = [
-  { path: '/', redirect: `/${DEFAULT_LOCALE}` },
+  { path: '/', redirect: () => `/${detectSystemLocale()}` },
   {
     path: `/:locale(${LOCALE_PATH_PATTERN})`,
     component: LocaleLayout,
     children: localizedChildren,
   },
-  { path: '/:pathMatch(.*)*', redirect: `/${DEFAULT_LOCALE}` },
+  { path: '/:pathMatch(.*)*', name: 'not-found-global', component: NotFoundView, meta: { seoPage: 'notFound' } },
 ]
 
 const router = createRouter({

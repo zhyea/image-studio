@@ -4,7 +4,7 @@
  * hreflang / canonical 参考：https://support.google.com/webmasters/answer/189077
  */
 
-import { SUPPORTED_LOCALES, localeMeta } from '../i18n/localeConfig.js'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, localeMeta } from '../i18n/localeConfig.js'
 
 function upsertMeta(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`)
@@ -54,7 +54,7 @@ export function applyRouteSeo(to, i18n) {
   const t = i18n.t.bind(i18n)
   const pattern = new RegExp(`^\\/(${SUPPORTED_LOCALES.join('|')})(\\/.*)?$`)
   const m = to.path.match(pattern)
-  const locale = m ? m[1] : 'en'
+  const locale = m ? m[1] : DEFAULT_LOCALE
   const rest = m && m[2] ? m[2] : ''
   const origin = typeof window !== 'undefined' ? window.location.origin : ''
   const meta = localeMeta(locale)
@@ -72,7 +72,11 @@ export function applyRouteSeo(to, i18n) {
   document.documentElement.dir = meta.dir
 
   upsertMeta('name', 'description', description)
-  upsertMeta('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
+  if (page === 'notFound') {
+    upsertMeta('name', 'robots', 'noindex, follow')
+  } else {
+    upsertMeta('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
+  }
   upsertMeta('name', 'format-detection', 'telephone=no')
 
   upsertMeta('property', 'og:title', fullTitle)
@@ -98,6 +102,20 @@ export function applyRouteSeo(to, i18n) {
 
   const homeDesc = t('seo.descriptions.home')
   const allBcp47 = [...new Set(SUPPORTED_LOCALES.map((c) => localeMeta(c).bcp47))]
+  const webPageNode = {
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: fullTitle,
+    headline: pageHeadline,
+    description,
+    inLanguage: meta.bcp47,
+    isPartOf: { '@id': `${origin}/#website` },
+  }
+  if (page !== 'notFound') {
+    webPageNode.mainEntity = { '@id': `${canonical}#software` }
+  }
+
   const graph = [
     {
       '@type': 'WebSite',
@@ -112,20 +130,12 @@ export function applyRouteSeo(to, i18n) {
         url: `${origin}/`,
       },
     },
-    {
-      '@type': 'WebPage',
-      '@id': `${canonical}#webpage`,
-      url: canonical,
-      name: fullTitle,
-      headline: pageHeadline,
-      description,
-      inLanguage: meta.bcp47,
-      isPartOf: { '@id': `${origin}/#website` },
-      mainEntity: { '@id': `${canonical}#software` },
-    },
+    webPageNode,
   ]
 
-  if (page === 'home') {
+  if (page === 'notFound') {
+    // 仅保留 WebSite + WebPage，避免为无效 URL 生成工具类结构化数据
+  } else if (page === 'home') {
     graph.push({
       '@type': 'SoftwareApplication',
       '@id': `${canonical}#software`,

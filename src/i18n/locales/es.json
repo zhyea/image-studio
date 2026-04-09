@@ -14,7 +14,8 @@
       "meme": "Generador de memes y subtítulos en línea",
       "htmlToImage": "HTML a captura PNG",
       "blur": "Difuminar parte de una imagen (privacidad)",
-      "webSkeleton": "Generador de esqueleto / wireframe de página"
+      "webSkeleton": "Generador de esqueleto / wireframe de página",
+      "notFound": "Página no encontrada"
     },
     "descriptions": {
       "home": "Image Studio: herramientas de imagen en el navegador — comprimir JPG/PNG, recortar, redimensionar, rotar, convertir a JPEG, marca de agua, quitar fondo liso, ampliar (interpolación o IA local), HTML a PNG, desenfoque y esqueleto de página. Procesamiento local; sin subidas; sin instalación.",
@@ -29,8 +30,14 @@
       "meme": "Subtítulos clásicos blanco con borde negro arriba y abajo; varias líneas; PNG local.",
       "htmlToImage": "Renderiza HTML y captura PNG. Los recursos externos necesitan CORS; usa fragmentos de confianza.",
       "blur": "Difumina un rectángulo para ocultar datos sensibles. PNG o JPEG; procesamiento local.",
-      "webSkeleton": "Renderiza HTML en sandbox y genera wireframe con bloques grises — exporta HTML o PNG; algoritmo tipo extensión Skeleton Generator; local."
+      "webSkeleton": "Renderiza HTML en sandbox y genera wireframe con bloques grises — exporta HTML o PNG; algoritmo tipo extensión Skeleton Generator; local.",
+      "notFound": "Esta URL no existe o ha cambiado. Vuelve al inicio y elige una herramienta."
     }
+  },
+  "notFound": {
+    "title": "Esta página se dio un paseo",
+    "desc": "El enlace puede estar caducado o la dirección tiene un error. Vuelve al inicio para seguir editando.",
+    "backHome": "Volver al inicio"
   },
   "nav": {
     "home": "Inicio",
@@ -159,7 +166,9 @@
       "dialogTitle": "Recortar imagen",
       "reopenCrop": "Abrir editor de recorte",
       "cropAlt": "Recorte",
-      "action": "Recortar y descargar"
+      "action": "Recortar y descargar",
+      "previewHint": "Doble clic dentro del recuadro para previsualizar el resultado",
+      "backToCrop": "Volver a ajustar el recorte"
     },
     "convertJpg": {
       "h1": "Convertir a JPG",

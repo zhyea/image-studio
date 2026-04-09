@@ -107,6 +107,7 @@ const menuKey = computed(() => `${locale.value}-${activeMenu.value}`)
 const drawerMenuKey = computed(() => `drawer-${locale.value}-${activeMenu.value}`)
 
 const isHomePage = computed(() => route.name === 'home')
+const isNotFoundPage = computed(() => route.name === 'not-found' || route.name === 'not-found-global')
 </script>
 
 <template>
@@ -203,7 +204,7 @@ const isHomePage = computed(() => route.name === 'home')
           </div>
         </el-drawer>
       </el-header>
-      <el-main class="app-main" :class="{ 'app-main--tool': !isHomePage }">
+      <el-main class="app-main" :class="{ 'app-main--tool': !isHomePage && !isNotFoundPage }">
         <router-view />
       </el-main>
       <el-footer class="app-footer" height="auto">

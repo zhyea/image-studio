@@ -14,7 +14,8 @@
       "meme": "Meme & caption generator online",
       "htmlToImage": "HTML to PNG screenshot",
       "blur": "Blur part of an image (privacy)",
-      "webSkeleton": "Webpage skeleton / wireframe generator"
+      "webSkeleton": "Webpage skeleton / wireframe generator",
+      "notFound": "Page not found"
     },
     "descriptions": {
       "home": "Image Studio: free browser-based image tools—compress JPG/PNG, crop, resize & rotate, convert PNG/WebP to JPEG, text watermark, flat-color background removal, upscale (interpolation or on-device AI), HTML-to-PNG capture, privacy blur, and webpage skeleton wireframes. Processing stays local; files are not uploaded; no install required—built for fast, privacy-friendly workflows.",
@@ -29,8 +30,14 @@
       "meme": "Add classic white-on-black-stroke captions at the top and bottom. Multi-line friendly; export PNG memes locally in seconds.",
       "htmlToImage": "Render HTML in-page and capture a PNG—handy for cards and previews. External assets need CORS; use trusted snippets only.",
       "blur": "Blur a percentage-based rectangle to hide IDs, plates, or sensitive UI. Export PNG or JPEG; blur runs locally for privacy redaction.",
-      "webSkeleton": "Render an HTML snippet in a sandbox and generate a wireframe skeleton (placeholder blocks) from layout and text—export HTML or PNG for loading states; same core algorithm as the Skeleton Generator extension, runs locally."
+      "webSkeleton": "Render an HTML snippet in a sandbox and generate a wireframe skeleton (placeholder blocks) from layout and text—export HTML or PNG for loading states; same core algorithm as the Skeleton Generator extension, runs locally.",
+      "notFound": "This URL does not exist or has moved. Head back home and pick a tool."
     }
+  },
+  "notFound": {
+    "title": "This page wandered off",
+    "desc": "The link may be outdated, or the address has a typo. Go home and keep editing your images.",
+    "backHome": "Back to home"
   },
   "nav": {
     "home": "Home",
@@ -121,7 +128,9 @@
       "dialogTitle": "Crop image",
       "reopenCrop": "Open crop editor",
       "cropAlt": "Crop",
-      "action": "Crop & download"
+      "action": "Crop & download",
+      "previewHint": "Double-click inside the crop box to preview the result",
+      "backToCrop": "Back to adjust crop"
     },
     "convertJpg": {
       "h1": "Convert to JPG",

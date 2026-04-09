@@ -14,7 +14,8 @@
       "meme": "Générateur de mèmes et légendes en ligne",
       "htmlToImage": "HTML vers capture PNG",
       "blur": "Flouter une zone (confidentialité)",
-      "webSkeleton": "Squelette / fil de page web"
+      "webSkeleton": "Squelette / fil de page web",
+      "notFound": "Page introuvable"
     },
     "descriptions": {
       "home": "Image Studio : outils image dans le navigateur — compression JPG/PNG, recadrage, redimensionnement, rotation, JPEG, filigrane, fond uni, agrandissement (interpolation ou IA locale), HTML vers PNG, flou, squelette. Traitement local ; pas d’envoi ; sans installation.",
@@ -29,8 +30,14 @@
       "meme": "Légendes classiques haut/bas ; plusieurs lignes ; PNG local.",
       "htmlToImage": "Rendu HTML et capture PNG. Actifs externes = CORS ; fragments de confiance.",
       "blur": "Rectangle pour masquer données sensibles. PNG ou JPEG ; local.",
-      "webSkeleton": "HTML en bac à sable → squelette gris ; export HTML ou PNG ; algorithme type extension ; local."
+      "webSkeleton": "HTML en bac à sable → squelette gris ; export HTML ou PNG ; algorithme type extension ; local.",
+      "notFound": "Cette adresse n’existe pas ou a été déplacée. Retournez à l’accueil pour choisir un outil."
     }
+  },
+  "notFound": {
+    "title": "Cette page s’est égarée",
+    "desc": "Le lien est peut-être obsolète ou l’URL contient une faute. Retournez à l’accueil pour continuer.",
+    "backHome": "Retour à l’accueil"
   },
   "nav": {
     "home": "Accueil",
@@ -159,7 +166,9 @@
       "dialogTitle": "Recadrer l’image",
       "reopenCrop": "Ouvrir l’éditeur de recadrage",
       "cropAlt": "Recadrage",
-      "action": "Recadrer et télécharger"
+      "action": "Recadrer et télécharger",
+      "previewHint": "Double-cliquez dans le cadre de recadrage pour prévisualiser",
+      "backToCrop": "Revenir au recadrage"
     },
     "convertJpg": {
       "h1": "Convertir en JPG",

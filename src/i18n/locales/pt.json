@@ -14,7 +14,8 @@
       "meme": "Gerador de memes e legendas online",
       "htmlToImage": "HTML para captura PNG",
       "blur": "Desfocar parte da imagem (privacidade)",
-      "webSkeleton": "Gerador de esqueleto / wireframe de página"
+      "webSkeleton": "Gerador de esqueleto / wireframe de página",
+      "notFound": "Página não encontrada"
     },
     "descriptions": {
       "home": "Image Studio: ferramentas de imagem no navegador — comprimir JPG/PNG, recortar, redimensionar, girar, converter para JPEG, marca d’água, remover fundo liso, ampliar (interpolação ou IA local), HTML para PNG, desfoque e esqueleto de página. Processamento local; sem envios; sem instalação.",
@@ -29,8 +30,14 @@
       "meme": "Legendas clássicas brancas com contorno preto em cima e embaixo; várias linhas; PNG local.",
       "htmlToImage": "Renderize HTML e capture PNG. Recursos externos precisam de CORS; use trechos confiáveis.",
       "blur": "Desfoque um retângulo para ocultar dados sensíveis. PNG ou JPEG; processamento local.",
-      "webSkeleton": "Renderize HTML em sandbox e gere wireframe com blocos cinza — exporte HTML ou PNG; algoritmo tipo extensão Skeleton Generator; local."
+      "webSkeleton": "Renderize HTML em sandbox e gere wireframe com blocos cinza — exporte HTML ou PNG; algoritmo tipo extensão Skeleton Generator; local.",
+      "notFound": "Este endereço não existe ou foi movido. Volte ao início e escolha uma ferramenta."
     }
+  },
+  "notFound": {
+    "title": "Esta página saiu para passear",
+    "desc": "O link pode estar desatualizado ou o endereço tem um erro. Volte ao início para continuar editando.",
+    "backHome": "Voltar ao início"
   },
   "nav": {
     "home": "Início",
@@ -159,7 +166,9 @@
       "dialogTitle": "Recortar imagem",
       "reopenCrop": "Abrir editor de recorte",
       "cropAlt": "Recorte",
-      "action": "Recortar e baixar"
+      "action": "Recortar e baixar",
+      "previewHint": "Clique duas vezes dentro da área de recorte para pré-visualizar",
+      "backToCrop": "Voltar para ajustar o recorte"
     },
     "convertJpg": {
       "h1": "Converter para JPG",
