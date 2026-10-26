@@ -5,10 +5,11 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
-import { applyColorKey } from '../utils/colorKey'
+import { applyColorKeyAsync, COLOR_KEY_WARN_PIXELS } from '../utils/colorKey'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('removeBg')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const previewUrl = ref('')
 const previewImgRef = ref(null)
 const tolerance = ref(48)
@@ -29,8 +30,7 @@ async function onFile(file) {
   previewUrl.value = ''
   if (!file) return
 
-  busy.value = true
-  try {
+  await run(async () => {
     objectUrl = URL.createObjectURL(file)
     const img = await loadImage(objectUrl)
     const c = document.createElement('canvas')
@@ -39,12 +39,7 @@ async function onFile(file) {
     c.getContext('2d').drawImage(img, 0, 0)
     workCanvas.value = c
     previewUrl.value = objectUrl
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.readImageFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.readImageFail') })
 }
 
 function sampleFromEvent(e) {
@@ -68,11 +63,13 @@ async function process() {
     ElMessage.warning(t('msg.selectImageRemoveBg'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const ctx = canvas.getContext('2d')
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    applyColorKey(
+    if (canvas.width * canvas.height >= COLOR_KEY_WARN_PIXELS) {
+      ElMessage.warning(t('msg.largeImageProcessing'))
+    }
+    await applyColorKeyAsync(
       imageData,
       [picked.value.r, picked.value.g, picked.value.b],
       tolerance.value,
@@ -87,12 +84,7 @@ async function process() {
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-nobg.png`)
     ElMessage.success(t('msg.downloadedPng'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 </script>
 
@@ -113,7 +105,6 @@ async function process() {
           :src="previewUrl"
           :alt="tp('previewAlt')"
           class="pick-img"
-          crossorigin="anonymous"
           @click="sampleFromEvent"
         />
       </div>

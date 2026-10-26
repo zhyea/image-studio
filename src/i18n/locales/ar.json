@@ -117,6 +117,7 @@
     "enterWatermark": "أدخل نص العلامة المائية",
     "scaleGt100": "يجب أن يكون المقياس أكبر من ‎100%‎",
     "tooManyPixels": "المخرجات كبيرة جدًا — قلّل المقياس",
+    "largeImageProcessing": "صورة كبيرة — قد يستغرق الأمر بضع ثوانٍ",
     "downloaded": "تم التنزيل",
     "downloadedPng": "تم تنزيل PNG",
     "downloadedJpg": "حُفظ كـ JPG",

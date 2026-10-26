@@ -6,9 +6,11 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { inferOutput } from '../utils/outputFormat'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('blur')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const previewVisible = ref(false)
 const previewUrl = ref('')
 const previewZoom = ref(100)
@@ -204,12 +206,6 @@ function startDrag(kind, e) {
   window.addEventListener('pointercancel', endWindowDrag)
 }
 
-function outputMime() {
-  return currentFile?.type?.includes('jpeg') || currentFile?.type?.includes('jpg')
-    ? 'image/jpeg'
-    : 'image/png'
-}
-
 async function renderBlurCanvas() {
   if (!currentFile) return null
   const url = URL.createObjectURL(currentFile)
@@ -244,27 +240,17 @@ async function openPreview() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const canvas = await renderBlurCanvas()
     if (!canvas) return
-    const mime = outputMime()
-    const blob = await canvasToBlob(
-      canvas,
-      mime === 'image/jpeg' ? 'image/jpeg' : 'image/png',
-      mime === 'image/jpeg' ? 0.92 : undefined
-    )
+    const { mime, quality } = inferOutput(currentFile)
+    const blob = await canvasToBlob(canvas, mime, quality)
     if (!blob) throw new Error('export')
     revokePreviewObject()
     previewObjectUrl = URL.createObjectURL(blob)
     previewUrl.value = previewObjectUrl
     previewVisible.value = true
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 
 async function process() {
@@ -272,27 +258,16 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const canvas = await renderBlurCanvas()
     if (!canvas) return
-    const mime = outputMime()
-    const blob = await canvasToBlob(
-      canvas,
-      mime === 'image/jpeg' ? 'image/jpeg' : 'image/png',
-      mime === 'image/jpeg' ? 0.92 : undefined
-    )
+    const { mime, ext, quality } = inferOutput(currentFile)
+    const blob = await canvasToBlob(canvas, mime, quality)
     if (!blob) throw new Error('export')
 
-    const ext = mime === 'image/jpeg' ? 'jpg' : 'png'
     downloadBlob(blob, `${fileBaseName(currentFile)}-blurred.${ext}`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 </script>
 

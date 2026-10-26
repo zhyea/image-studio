@@ -5,12 +5,14 @@ import { useI18n } from 'vue-i18n'
 import { usePageI18n } from '../composables/usePageI18n'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import html2canvas from 'html2canvas'
+import { wrapHtmlFragment } from '../utils/skeletonGenerator'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, locale } = useI18n()
 const { tp } = usePageI18n('htmlToImage')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const htmlInput = ref('')
-const captureRef = ref(null)
+const captureFrame = ref(null)
 
 watch(
   locale,
@@ -20,41 +22,41 @@ watch(
   { immediate: true }
 )
 
-async function renderAndCapture() {
-  if (!captureRef.value) return
-  busy.value = true
-  try {
-    await nextTick()
-    await new Promise((r) => setTimeout(r, 50))
+function canvasToBlob(canvas, type = 'image/png', quality) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('canvas.toBlob returned null'))),
+      type,
+      quality,
+    )
+  })
+}
 
-    const canvas = await html2canvas(captureRef.value, {
+async function renderAndCapture() {
+  const iframe = captureFrame.value
+  const body = iframe?.contentDocument?.body
+  if (!body) {
+    ElMessage.error(t('msg.captureFail'))
+    return
+  }
+  await run(async () => {
+    await nextTick()
+    const canvas = await html2canvas(body, {
       backgroundColor: '#ffffff',
       scale: 2,
-      useCORS: true,
-      allowTaint: true,
       logging: false,
+      width: body.scrollWidth || iframe.clientWidth,
+      height: body.scrollHeight || iframe.clientHeight,
     })
-
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        ElMessage.error(t('msg.exportFail'))
-        busy.value = false
-        return
-      }
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'html-snapshot.png'
-      a.click()
-      URL.revokeObjectURL(url)
-      ElMessage.success(t('msg.downloadedPng'))
-      busy.value = false
-    }, 'image/png')
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.captureFail'))
-    busy.value = false
-  }
+    const blob = await canvasToBlob(canvas, 'image/png')
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'html-snapshot.png'
+    a.click()
+    URL.revokeObjectURL(url)
+    ElMessage.success(t('msg.downloadedPng'))
+  }, { errorMsg: t('msg.captureFail') })
 }
 </script>
 
@@ -87,9 +89,14 @@ async function renderAndCapture() {
 
     <el-card class="tool-card">
       <template #header>{{ tp('previewHeader') }}</template>
-      <div ref="captureRef" class="capture-surface">
-        <div class="inner" v-html="htmlInput" />
-      </div>
+      <iframe
+        ref="captureFrame"
+        class="capture-frame"
+        title="preview"
+        sandbox="allow-same-origin"
+        referrerpolicy="no-referrer"
+        :srcdoc="wrapHtmlFragment(htmlInput)"
+      />
     </el-card>
   </div>
 </template>
@@ -99,16 +106,12 @@ async function renderAndCapture() {
   margin-top: 14px;
 }
 
-.capture-surface {
-  min-height: 120px;
-  padding: 16px;
-  background: var(--el-fill-color-lighter);
+.capture-frame {
+  display: block;
+  width: 100%;
+  height: 360px;
+  border: 0;
   border-radius: 8px;
-  overflow: auto;
-}
-
-.inner {
-  display: inline-block;
-  text-align: left;
+  background: #fff;
 }
 </style>

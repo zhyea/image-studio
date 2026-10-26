@@ -79,6 +79,7 @@
     "enterWatermark": "请输入水印文字",
     "scaleGt100": "放大比例应大于 100%",
     "tooManyPixels": "输出像素过多，请降低放大比例",
+    "largeImageProcessing": "图片较大，处理可能需要几秒钟",
     "downloaded": "已下载",
     "downloadedPng": "已下载 PNG",
     "downloadedJpg": "已下载为 JPG",

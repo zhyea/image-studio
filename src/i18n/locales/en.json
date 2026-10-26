@@ -79,6 +79,7 @@
     "enterWatermark": "Enter watermark text",
     "scaleGt100": "Scale must be greater than 100%",
     "tooManyPixels": "Output is too large—lower the scale",
+    "largeImageProcessing": "Large image—this may take a few seconds",
     "downloaded": "Downloaded",
     "downloadedPng": "PNG downloaded",
     "downloadedJpg": "Saved as JPG",

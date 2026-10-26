@@ -7,7 +7,9 @@
     "dev": "node scripts/ensure-deps.mjs && vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "build": "node scripts/ensure-deps.mjs && node scripts/generate-sitemap.mjs && vite build",
-    "preview": "node scripts/ensure-deps.mjs && vite preview"
+    "preview": "node scripts/ensure-deps.mjs && vite preview",
+    "test": "node --test",
+    "check:i18n": "node scripts/check-i18n-keys.mjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",

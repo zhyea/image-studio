@@ -6,6 +6,7 @@ import { usePageI18n } from '../composables/usePageI18n'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import html2canvas from 'html2canvas'
 import { generateSkeletonHtml, wrapHtmlFragment } from '../utils/skeletonGenerator'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, locale } = useI18n()
 const { tp } = usePageI18n('webSkeleton')
@@ -18,7 +19,7 @@ const previewKey = ref(0)
 const sourceFrame = ref(null)
 const previewFrame = ref(null)
 const busy = ref(false)
-const pngBusy = ref(false)
+const { busy: pngBusy, run: runPng } = useImageProcess()
 const liveUpdating = ref(false)
 const pendingGenerate = ref(false)
 
@@ -130,45 +131,36 @@ async function copyHtml() {
 }
 
 async function downloadPng() {
-  if (!htmlOut.value || pngBusy.value || busy.value) return
+  if (!htmlOut.value || busy.value) return
   const iframe = previewFrame.value
   const body = iframe?.contentDocument?.body
   if (!body) {
     ElMessage.error(t('msg.captureFail'))
     return
   }
-  pngBusy.value = true
-  try {
+  await runPng(async () => {
     await nextTick()
     const canvas = await html2canvas(body, {
       backgroundColor: '#ffffff',
       scale: 2,
-      useCORS: true,
-      allowTaint: true,
       logging: false,
       width: body.scrollWidth || iframe.clientWidth,
       height: body.scrollHeight || iframe.clientHeight,
     })
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        ElMessage.error(t('msg.exportFail'))
-        pngBusy.value = false
-        return
-      }
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'web-skeleton.png'
-      a.click()
-      URL.revokeObjectURL(url)
-      ElMessage.success(t('msg.downloadedPng'))
-      pngBusy.value = false
-    }, 'image/png')
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.captureFail'))
-    pngBusy.value = false
-  }
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error('canvas.toBlob returned null'))),
+        'image/png',
+      )
+    })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'web-skeleton.png'
+    a.click()
+    URL.revokeObjectURL(url)
+    ElMessage.success(t('msg.downloadedPng'))
+  }, { errorMsg: t('msg.captureFail') })
 }
 </script>
 

@@ -1,9 +1,8 @@
 <script setup>
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../i18n/localeConfig.js'
-import i18n from '../i18n'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -13,14 +12,6 @@ const locale = computed(() => {
   const p = route.params.locale
   return typeof p === 'string' && SUPPORTED_LOCALES.includes(p) ? p : DEFAULT_LOCALE
 })
-
-watch(
-  locale,
-  (code) => {
-    i18n.global.locale.value = code
-  },
-  { immediate: true },
-)
 
 function goHome() {
   router.push({ name: 'home', params: { locale: locale.value } })

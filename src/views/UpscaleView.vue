@@ -15,12 +15,15 @@ import {
   constrainImageMaxEdge,
 } from '../utils/image'
 import { runAiSuperResolution } from '../utils/aiUpscale'
+import { useImageProcess } from '../composables/useImageProcess'
+import { MAX_EXPORT_PIXELS } from '../constants/exportLimits'
+import { inferOutput } from '../utils/outputFormat'
 
 /** 送入 AI 前长边上限（像素）；与分块超分配合，避免极端大图仍占满显存。 */
 const AI_MAX_EDGE = 1024
 
 const { t, tp } = usePageI18n('upscale')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const mode = ref('fast')
 const scalePercent = ref(200)
 const format = ref('png')
@@ -49,7 +52,7 @@ async function processFast() {
 
   const w = Math.round(img.naturalWidth * s)
   const h = Math.round(img.naturalHeight * s)
-  const maxPx = 12000 * 12000
+  const maxPx = MAX_EXPORT_PIXELS
   if (w * h > maxPx) {
     ElMessage.error(t('msg.tooManyPixels'))
     return
@@ -71,11 +74,10 @@ async function processFast() {
     out = resizeCanvasUpscale(c0, w, h)
   }
 
-  const mime = format.value === 'jpeg' ? 'image/jpeg' : 'image/png'
-  const blob = await canvasToBlob(out, mime, mime === 'image/jpeg' ? 0.92 : undefined)
+  const { mime, ext, quality } = inferOutput(currentFile, { format: format.value })
+  const blob = await canvasToBlob(out, mime, quality)
   if (!blob) throw new Error('export')
 
-  const ext = format.value === 'jpeg' ? 'jpg' : 'png'
   downloadBlob(blob, `${fileBaseName(currentFile)}-upscaled.${ext}`)
   ElMessage.success(t('msg.downloaded'))
 }
@@ -116,19 +118,19 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
-    if (mode.value === 'fast') {
-      await processFast()
-    } else {
-      await processAi()
-    }
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(mode.value === 'ai' ? t('msg.aiUpscaleFail') : t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  await run(
+    async () => {
+      if (mode.value === 'fast') {
+        await processFast()
+      } else {
+        await processAi()
+      }
+    },
+    {
+      // 传函数以便在出错时刻才读 mode，与原「catch 内才读取」的语义严格等价
+      errorMsg: () => (mode.value === 'ai' ? t('msg.aiUpscaleFail') : t('msg.processFail')),
+    },
+  )
 }
 </script>
 

@@ -117,6 +117,7 @@
     "enterWatermark": "Introduce el texto de la marca de agua",
     "scaleGt100": "La escala debe ser mayor que 100%",
     "tooManyPixels": "Salida demasiado grande — reduce la escala",
+    "largeImageProcessing": "Imagen grande — puede tardar unos segundos",
     "downloaded": "Descargado",
     "downloadedPng": "PNG descargado",
     "downloadedJpg": "Guardado como JPG",

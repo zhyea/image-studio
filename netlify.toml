@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# 服务端 canonical / hreflang 注入 + URL 规范化 + 未知路径真 404
+# 对应实现：netlify/edge-functions/seo-canonical.js
+[[edge_functions]]
+  path = "/*"
+  function = "seo-canonical"

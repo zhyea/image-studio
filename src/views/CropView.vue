@@ -7,13 +7,15 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { MAX_CANVAS_EDGE } from '../constants/exportLimits'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('crop')
 const pickerRef = ref(null)
 const imgRef = ref(null)
 const imageUrl = ref('')
 const cropDialogVisible = ref(false)
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const previewVisible = ref(false)
 let cropper = null
 let currentFile = null
@@ -57,8 +59,8 @@ function showCroppedPreview() {
   if (!cropper) return
   revokePreviewUrl()
   const canvas = cropper.getCroppedCanvas({
-    maxWidth: 4096,
-    maxHeight: 4096,
+    maxWidth: MAX_CANVAS_EDGE,
+    maxHeight: MAX_CANVAS_EDGE,
     imageSmoothingEnabled: true,
     imageSmoothingQuality: 'high',
   })
@@ -144,11 +146,10 @@ async function cropAndDownload() {
     ElMessage.warning(t('msg.selectImageCrop'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const canvas = cropper.getCroppedCanvas({
-      maxWidth: 4096,
-      maxHeight: 4096,
+      maxWidth: MAX_CANVAS_EDGE,
+      maxHeight: MAX_CANVAS_EDGE,
       imageSmoothingEnabled: true,
       imageSmoothingQuality: 'high',
     })
@@ -156,12 +157,7 @@ async function cropAndDownload() {
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-cropped.png`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.cropFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.cropFail') })
 }
 </script>
 

@@ -5,6 +5,8 @@
  */
 
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE, localeMeta } from '../i18n/localeConfig.js'
+import { siteOrigin } from '../config/site.js'
+import { canonicalPath } from './canonicalPath.js'
 
 function upsertMeta(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`)
@@ -55,8 +57,6 @@ export function applyRouteSeo(to, i18n) {
   const pattern = new RegExp(`^\\/(${SUPPORTED_LOCALES.join('|')})(\\/.*)?$`)
   const m = to.path.match(pattern)
   const locale = m ? m[1] : DEFAULT_LOCALE
-  const rest = m && m[2] ? m[2] : ''
-  const origin = typeof window !== 'undefined' ? window.location.origin : ''
   const meta = localeMeta(locale)
 
   const page = to.meta.seoPage || 'home'
@@ -91,7 +91,11 @@ export function applyRouteSeo(to, i18n) {
   upsertMeta('name', 'twitter:title', fullTitle)
   upsertMeta('name', 'twitter:description', description)
 
-  const canonical = `${origin}/${locale}${rest}`
+  const origin = siteOrigin()
+  const canonical = `${origin}${canonicalPath(to.path)}`
+  /** 规范路径去掉 locale 段后的部分，供 hreflang 复用，保证 9 个语种 alternate 严格指向同一资源 */
+  const tailSegments = canonical.slice(origin.length).split('/').slice(2).filter(Boolean)
+  const rest = tailSegments.length ? `/${tailSegments.join('/')}` : ''
   upsertMeta('property', 'og:url', canonical)
 
   upsertLink('canonical', canonical)

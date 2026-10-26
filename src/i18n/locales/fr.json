@@ -117,6 +117,7 @@
     "enterWatermark": "Saisissez le texte du filigrane",
     "scaleGt100": "L’échelle doit être supérieure à 100 %",
     "tooManyPixels": "Sortie trop grande — réduisez l’échelle",
+    "largeImageProcessing": "Image volumineuse — cela peut prendre quelques secondes",
     "downloaded": "Téléchargé",
     "downloadedPng": "PNG téléchargé",
     "downloadedJpg": "Enregistré en JPG",

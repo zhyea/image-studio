@@ -117,6 +117,7 @@
     "enterWatermark": "透かしテキストを入力",
     "scaleGt100": "拡大率は 100% より大きくしてください",
     "tooManyPixels": "出力が大きすぎます — 倍率を下げてください",
+    "largeImageProcessing": "画像が大きいため、数秒かかる場合があります",
     "downloaded": "ダウンロードしました",
     "downloadedPng": "PNG をダウンロードしました",
     "downloadedJpg": "JPG として保存しました",

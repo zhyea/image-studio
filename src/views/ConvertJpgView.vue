@@ -5,9 +5,10 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('convertJpg')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const quality = ref(0.92)
 let currentFile = null
 
@@ -20,8 +21,7 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const url = URL.createObjectURL(currentFile)
     const img = await loadImage(url)
     URL.revokeObjectURL(url)
@@ -38,12 +38,7 @@ async function process() {
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}.jpg`)
     ElMessage.success(t('msg.downloadedJpg'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.convertFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.convertFail') })
 }
 </script>
 

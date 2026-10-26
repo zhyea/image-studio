@@ -6,10 +6,12 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { inferOutput } from '../utils/outputFormat'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('rotate')
 const pickerRef = ref(null)
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const imageUrl = ref('')
 const rotateDialogVisible = ref(false)
 /** 旋转角（度），与 canvas 正角度一致（顺时针） */
@@ -120,8 +122,7 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const url = URL.createObjectURL(currentFile)
     const img = await loadImage(url)
     URL.revokeObjectURL(url)
@@ -134,28 +135,13 @@ async function process() {
     const deg = normalizeDeg(angleDeg.value)
     const out = deg < 0.0001 || deg > 360 - 0.0001 ? c0 : rotateCanvas(c0, deg)
 
-    const mime =
-      currentFile.type?.includes('jpeg') || currentFile.type?.includes('jpg')
-        ? 'image/jpeg'
-        : currentFile.type?.includes('png')
-          ? 'image/png'
-          : 'image/png'
-    const blob = await canvasToBlob(
-      out,
-      mime === 'image/jpeg' ? 'image/jpeg' : 'image/png',
-      mime === 'image/jpeg' ? 0.92 : undefined
-    )
+    const { mime, ext, quality } = inferOutput(currentFile)
+    const blob = await canvasToBlob(out, mime, quality)
     if (!blob) throw new Error('export')
 
-    const ext = mime === 'image/jpeg' ? 'jpg' : 'png'
     downloadBlob(blob, `${fileBaseName(currentFile)}-rotated.${ext}`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.rotateFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.rotateFail') })
 }
 </script>
 

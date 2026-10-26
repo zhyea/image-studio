@@ -3,12 +3,14 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { TOOLS } from '../src/config/tools.js'
 import { SUPPORTED_LOCALES } from '../src/i18n/localeConfig.js'
+import { siteOrigin } from '../src/config/site.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 const outPath = join(root, 'public', 'sitemap.xml')
 
-const origin = (process.env.SITE_ORIGIN || 'https://image.chobit.org').replace(/\/$/, '')
+/** 与 canonical / robots 同源；可用 SITE_ORIGIN 覆盖 */
+const origin = siteOrigin()
 
 const segments = ['', ...TOOLS.map((t) => t.slug)]
 

@@ -5,9 +5,11 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, resizeCanvas, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { inferOutput } from '../utils/outputFormat'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('resize')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const mode = ref('percent')
 const percent = ref(80)
 const width = ref(800)
@@ -25,8 +27,7 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const url = URL.createObjectURL(currentFile)
     const img = await loadImage(url)
     URL.revokeObjectURL(url)
@@ -55,29 +56,13 @@ async function process() {
     c0.getContext('2d').drawImage(img, 0, 0)
     const out = resizeCanvas(c0, tw, th)
 
-    let mime = currentFile.type && currentFile.type.startsWith('image/')
-      ? currentFile.type
-      : 'image/png'
-    if (format.value === 'jpeg') mime = 'image/jpeg'
-    if (format.value === 'png') mime = 'image/png'
-
-    const blob = await canvasToBlob(
-      out,
-      mime,
-      mime === 'image/jpeg' ? 0.92 : undefined
-    )
+    const { mime, ext, quality } = inferOutput(currentFile, { format: format.value })
+    const blob = await canvasToBlob(out, mime, quality)
     if (!blob) throw new Error('export')
 
-    const ext =
-      mime === 'image/jpeg' ? 'jpg' : mime === 'image/webp' ? 'webp' : 'png'
     downloadBlob(blob, `${fileBaseName(currentFile)}-resized.${ext}`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 </script>
 

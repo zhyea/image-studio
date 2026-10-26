@@ -6,10 +6,11 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, locale } = useI18n()
 const { tp } = usePageI18n('meme')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const topText = ref('')
 const bottomText = ref('')
 const fontSize = ref(42)
@@ -64,8 +65,7 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const url = URL.createObjectURL(currentFile)
     const img = await loadImage(url)
     URL.revokeObjectURL(url)
@@ -82,12 +82,7 @@ async function process() {
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-meme.png`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.genFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.genFail') })
 }
 </script>
 

@@ -117,6 +117,7 @@
     "enterWatermark": "Wasserzeichentext eingeben",
     "scaleGt100": "Maßstab muss über 100 % liegen",
     "tooManyPixels": "Ausgabe zu groß — Maßstab verringern",
+    "largeImageProcessing": "Großes Bild — das kann ein paar Sekunden dauern",
     "downloaded": "Heruntergeladen",
     "downloadedPng": "PNG heruntergeladen",
     "downloadedJpg": "Als JPG gespeichert",

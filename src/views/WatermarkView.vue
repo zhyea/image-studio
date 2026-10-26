@@ -12,6 +12,18 @@ import {
   getWatermarkFontById,
   WATERMARK_GOOGLE_FONTS_STYLESHEET,
 } from '../constants/watermarkFonts'
+import {
+  WM_SEL_CHROME_PAD_X,
+  WM_SEL_CHROME_PAD_Y,
+  WM_LINE_HEIGHT_RATIO,
+  WM_DEFAULT_BOX_W,
+  WM_BASE_FONT_SIZE,
+  WM_MIN_TEXTAREA_W,
+  WM_BOX_MIN_W,
+  WM_BOX_MAX_W,
+  WM_BOX_MAX_H,
+} from '../constants/watermarkLayout'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const WM_FONTS_LINK_ID = 'wm-open-fonts-css'
 
@@ -35,7 +47,7 @@ function ensureWatermarkGoogleFonts() {
 
 const { t, locale } = useI18n()
 const { tp } = usePageI18n('watermark')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const previewVisible = ref(false)
 const previewUrl = ref('')
 const previewZoom = ref(100)
@@ -57,13 +69,13 @@ const floatRef = ref(null)
 const stageSize = ref({ w: 0, h: 0 })
 /** 水印框左上角相对预览区比例 0~1 */
 const anchorNorm = ref({ x: 0.62, y: 0.72 })
-/** wm-sel border 2px + padding 左右 8+10、上下 8+10（与样式一致） */
-const selChromePadX = 22
-const selChromePadY = 22
+/** wm-sel border 2px + padding 左右 8+10、上下 8+10（详见 constants/watermarkLayout） */
+const selChromePadX = WM_SEL_CHROME_PAD_X
+const selChromePadY = WM_SEL_CHROME_PAD_Y
 /** 预览区水印框尺寸（px），仅影响编辑区域与导出位置无关；字号仅由 fontSize 控制 */
-const boxW = ref(240)
+const boxW = ref(WM_DEFAULT_BOX_W)
 /** 默认高度 = 一行字高 + 选区 chrome */
-const boxH = ref(Math.round(24 * 1.25) + selChromePadY)
+const boxH = ref(Math.round(WM_BASE_FONT_SIZE * WM_LINE_HEIGHT_RATIO) + selChromePadY)
 
 let currentFile = null
 let objectUrl = null
@@ -135,8 +147,8 @@ async function ensureWatermarkFontForCanvas(sizePx) {
 const showCompactCaret = computed(() => !editingText.value && !text.value.trim())
 
 const wmTextareaStyle = computed(() => {
-  const lh = Math.round(fontSize.value * 1.25)
-  const iw = Math.max(48, boxW.value - selChromePadX)
+  const lh = Math.round(fontSize.value * WM_LINE_HEIGHT_RATIO)
+  const iw = Math.max(WM_MIN_TEXTAREA_W, boxW.value - selChromePadX)
   /** 至少一行；若用户拖过选区手柄则不低于当前框内高 */
   const ih = Math.max(lh, boxH.value - selChromePadY)
   return {
@@ -303,14 +315,14 @@ function onWmMovePointerUp(e) {
 }
 
 function watermarkMinBoxH() {
-  return Math.round(fontSize.value * 1.25) + selChromePadY
+  return Math.round(fontSize.value * WM_LINE_HEIGHT_RATIO) + selChromePadY
 }
 
 function clampBoxSize(w, h) {
-  const minW = 88
+  const minW = WM_BOX_MIN_W
   const minH = watermarkMinBoxH()
-  const maxW = 1600
-  const maxH = 1200
+  const maxW = WM_BOX_MAX_W
+  const maxH = WM_BOX_MAX_H
   return {
     w: Math.min(maxW, Math.max(minW, Math.round(w))),
     h: Math.min(maxH, Math.max(minH, Math.round(h))),
@@ -422,7 +434,7 @@ function autosizeWatermarkTextarea() {
   const inst = textEditRef.value
   const ta = inst?.$el?.querySelector?.('textarea')
   if (!ta) return
-  const lh = Math.round(fontSize.value * 1.25)
+  const lh = Math.round(fontSize.value * WM_LINE_HEIGHT_RATIO)
   const innerMin = Math.max(lh, boxH.value - selChromePadY)
   ta.style.overflowY = 'hidden'
   ta.style.height = '0px'
@@ -530,8 +542,7 @@ async function openPreview() {
     ElMessage.warning(t('msg.enterWatermark'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const canvas = await renderWatermarkCanvas()
     if (!canvas) return
     const blob = await canvasToBlob(canvas, 'image/png')
@@ -540,12 +551,7 @@ async function openPreview() {
     previewObjectUrl = URL.createObjectURL(blob)
     previewUrl.value = previewObjectUrl
     previewVisible.value = true
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 
 async function process() {
@@ -557,20 +563,14 @@ async function process() {
     ElMessage.warning(t('msg.enterWatermark'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const canvas = await renderWatermarkCanvas()
     if (!canvas) return
     const blob = await canvasToBlob(canvas, 'image/png')
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-watermark.png`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFail'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFail') })
 }
 </script>
 

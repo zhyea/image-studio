@@ -5,9 +5,10 @@ import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, resizeCanvas, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
+import { useImageProcess } from '../composables/useImageProcess'
 
 const { t, tp } = usePageI18n('compress')
-const busy = ref(false)
+const { busy, run } = useImageProcess()
 const quality = ref(0.82)
 const maxEdge = ref(2048)
 const limitEdge = ref(true)
@@ -23,8 +24,7 @@ async function process() {
     ElMessage.warning(t('msg.selectImageFirst'))
     return
   }
-  busy.value = true
-  try {
+  await run(async () => {
     const url = URL.createObjectURL(currentFile)
     const img = await loadImage(url)
     URL.revokeObjectURL(url)
@@ -50,12 +50,7 @@ async function process() {
     const ext = format.value === 'png' ? 'png' : 'jpg'
     downloadBlob(blob, `${fileBaseName(currentFile)}-compressed.${ext}`)
     ElMessage.success(t('msg.downloaded'))
-  } catch (e) {
-    console.error(e)
-    ElMessage.error(t('msg.processFailRetry'))
-  } finally {
-    busy.value = false
-  }
+  }, { errorMsg: t('msg.processFailRetry') })
 }
 </script>
 
