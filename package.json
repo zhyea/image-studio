@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/ensure-deps.mjs && vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "node scripts/ensure-deps.mjs && node scripts/generate-sitemap.mjs && vite build",
+    "build": "node scripts/ensure-deps.mjs && node scripts/generate-sitemap.mjs && vite-ssg build",
     "preview": "node scripts/ensure-deps.mjs && vite preview",
     "test": "node --test",
     "check:i18n": "node scripts/check-i18n-keys.mjs"
@@ -26,9 +26,11 @@
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
+    "@unhead/vue": "^2.1.17",
     "@vitejs/plugin-vue": "^6.0.5",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-vue-components": "^32.0.0",
-    "vite": "^8.0.1"
+    "vite": "^8.0.1",
+    "vite-ssg": "^28.3.0"
   }
 }

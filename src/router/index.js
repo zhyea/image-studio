@@ -1,6 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import i18n, { SUPPORTED_LOCALES, LOCALE_PATH_PATTERN, DEFAULT_LOCALE } from '../i18n'
-import { applyRouteSeo } from '../seo/updateHead'
+import { LOCALE_PATH_PATTERN } from '../i18n/localeConfig.js'
 
 const LocaleLayout = () => import('../views/LocaleLayout.vue')
 const HomeView = () => import('../views/HomeView.vue')
@@ -17,19 +15,6 @@ const HtmlToImageView = () => import('../views/HtmlToImageView.vue')
 const BlurRegionView = () => import('../views/BlurRegionView.vue')
 const WebSkeletonView = () => import('../views/WebSkeletonView.vue')
 const NotFoundView = () => import('../views/NotFoundView.vue')
-
-function detectSystemLocale() {
-  if (typeof navigator === 'undefined') return DEFAULT_LOCALE
-  const candidates = [...(navigator.languages || []), navigator.language]
-    .filter((v) => typeof v === 'string')
-    .map((v) => v.trim().toLowerCase())
-    .filter(Boolean)
-  for (const lang of candidates) {
-    const short = lang.split('-')[0]
-    if (SUPPORTED_LOCALES.includes(short)) return short
-  }
-  return DEFAULT_LOCALE
-}
 
 const localizedChildren = [
   { path: '', name: 'home', component: HomeView, meta: { seoPage: 'home' } },
@@ -48,8 +33,14 @@ const localizedChildren = [
   { path: ':pathMatch(.*)*', name: 'not-found', component: NotFoundView, meta: { seoPage: 'notFound' } },
 ]
 
+// 根路径直接渲染默认语言首页（SSG 预渲染为 index.html，canonical 指向 /en）。
+// 客户端语言自动落地由 App.vue 的 onMounted 按浏览器首选语言跳转，避免 SSG 空渲染。
 const routes = [
-  { path: '/', redirect: () => `/${detectSystemLocale()}` },
+  {
+    path: '/',
+    component: LocaleLayout,
+    children: [{ path: '', name: 'home-root', component: HomeView, meta: { seoPage: 'home' } }],
+  },
   {
     path: `/:locale(${LOCALE_PATH_PATTERN})`,
     component: LocaleLayout,
@@ -58,21 +49,4 @@ const routes = [
   { path: '/:pathMatch(.*)*', name: 'not-found-global', component: NotFoundView, meta: { seoPage: 'notFound' } },
 ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  scrollBehavior: () => ({ top: 0 }),
-})
-
-router.beforeEach((to) => {
-  const loc = to.params.locale
-  if (loc && SUPPORTED_LOCALES.includes(loc)) {
-    i18n.global.locale.value = loc
-  }
-})
-
-router.afterEach((to) => {
-  applyRouteSeo(to, i18n.global)
-})
-
-export default router
+export default routes

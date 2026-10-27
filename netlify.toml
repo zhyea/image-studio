@@ -5,8 +5,9 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# 服务端 canonical / hreflang 注入 + URL 规范化 + 未知路径真 404
-# 对应实现：netlify/edge-functions/seo-canonical.js
+# URL 规范化（host/协议/大小写/尾斜杠/重复斜杠 301）+ 未知路径真 404（noindex）
+# 注意：canonical / hreflang / title / og / json-ld 已由 Vite SSG 在构建期写入静态 HTML，
+# 边缘层不再注入，避免与静态 HTML 既有标签重复。对应实现：netlify/edge-functions/seo-canonical.js
 [[edge_functions]]
   path = "/*"
   function = "seo-canonical"

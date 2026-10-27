@@ -1,2 +1,10 @@
-# Netlify / Cloudflare Pages：单页应用路由回退，避免直接访问或刷新子路径出现 404
-/*    /index.html   200
+# Netlify 部署说明（SSG 模式）
+#
+# 本站已迁移到 Vite SSG：每个 locale+tool 路由在构建期预渲染为独立静态 HTML
+# （无尾斜杠形式，如 /en/compress.html）。
+#
+# - 无尾斜杠 URL（/en/compress）由 Netlify 的「Pretty URLs」自动映射到对应 .html，
+#   无需在此声明 SPA 回退。
+# - 未知路径由 netlify/edge-functions/seo-canonical.js 返回真 404（见 netlify.toml 挂载 /*）。
+# - 若站点设置中「Post-processing → Pretty URLs」被关闭，请在 Netlify 控制台重新启用，
+#   否则 /en/compress 这类无扩展名 URL 无法解析到 /en/compress.html。

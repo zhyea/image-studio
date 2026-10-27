@@ -1,0 +1,5 @@
+appId: wbapp_Qy74m3lRhCCk5RYuRSNV3X
+name: 图片工作室
+localDir: D:\MyDevelop\JSDevelop\image-studio\dist
+appType: web
+entryHtml: index.html

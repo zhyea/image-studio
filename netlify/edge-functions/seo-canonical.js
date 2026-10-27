@@ -1,13 +1,14 @@
 /**
- * Netlify Edge Function：服务端 canonical / hreflang 注入 + URL 规范化 + 未知路径真 404。
+ * Netlify Edge Function：仅做 URL 规范化 + 未知路径真 404。
  *
- * 背景：本站为 SPA，canonical 原先只在客户端 JS 运行时写入 <head>。Google 在未执行 JS 的
- * 抓取里看不到 canonical，而多个 URL 变体（大小写、尾斜杠、netlify.app 子域）又各自自指，
- * 于是被判定为「重复网页，用户未选定规范网页」。
+ * 背景变更：本站已迁移到 Vite SSG，每个 locale+tool 路由在构建期预渲染为独立静态 HTML，
+ * 其 <head> 已含完整 canonical / hreflang / title / og / twitter / json-ld
+ * （由 @unhead/vue 在构建期写入）。因此边缘层**不再注入** head 标签——
+ * 否则会与静态 HTML 内既有的 canonical 重复，反而放大「重复网页」信号。
  *
- * 本函数在边缘层完成三件事：
+ * 职责收敛为三件：
  *   1. host / 协议 / 路径与规范形式不一致 → 301 收敛到唯一 URL
- *   2. 白名单路径 → 200，并在 HTML 与 HTTP Link 头里服务端注入 canonical + hreflang
+ *   2. 白名单路径 → 直接放行，由 Netlify 静态服务预渲染 HTML（Pretty URLs 映射到无尾斜杠）
  *   3. 非白名单路径 → 404 状态码 + noindex（消除 SPA 200 回退带来的无限重复 URL 空间）
  *
  * 下方的 locale / slug / hreflang 清单必须与 src 保持一致，
@@ -100,6 +101,7 @@ export function resolveSeoRequest(url) {
       const origin = hostRedirect || `${needsSecure ? 'https:' : url.protocol || 'https:'}//${hostname}`
       return { kind: 'redirect', location: `${origin}${canonicalPath}` }
     }
+    // 已是规范 URL：直接放行，由 Netlify 静态服务预渲染 HTML（不再注入 head）
     return { kind: 'page', locale, slug: segments.length === 2 ? slug : '' }
   }
 
@@ -110,40 +112,15 @@ export function resolveSeoRequest(url) {
   return { kind: 'not-found' }
 }
 
-/** 服务端注入 <head> 的 canonical + hreflang 标签 */
-export function buildHeadTags(locale, slug) {
-  const tail = slug ? `/${slug}` : ''
-  const lines = [`<link rel="canonical" href="${SITE_ORIGIN}/${locale}${tail}">`]
-  for (const code of SUPPORTED_LOCALES) {
-    lines.push(`<link rel="alternate" hreflang="${HREFLANG[code]}" href="${SITE_ORIGIN}/${code}${tail}">`)
-  }
-  lines.push(`<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}/${X_DEFAULT_LOCALE}${tail}">`)
-  return lines.join('\n    ')
-}
-
-/** HTTP Link 头形式，供不解析 HTML 的抓取通道使用 */
-export function buildLinkHeader(locale, slug) {
-  const tail = slug ? `/${slug}` : ''
-  const parts = [`<${SITE_ORIGIN}/${locale}${tail}>; rel="canonical"`]
-  for (const code of SUPPORTED_LOCALES) {
-    parts.push(`<${SITE_ORIGIN}/${code}${tail}>; rel="alternate"; hreflang="${HREFLANG[code]}"`)
-  }
-  parts.push(`<${SITE_ORIGIN}/${X_DEFAULT_LOCALE}${tail}>; rel="alternate"; hreflang="x-default"`)
-  return parts.join(', ')
-}
-
-function injectTags(html, tags) {
-  if (html.includes('</head>')) return html.replace('</head>', `    ${tags}\n  </head>`)
-  if (html.includes('<head>')) return html.replace('<head>', `<head>\n    ${tags}`)
-  return `${tags}\n${html}`
-}
-
 export default async function handler(request) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return
 
   const url = new URL(request.url)
   const decision = resolveSeoRequest(url)
-  if (decision.kind === 'passthrough') return
+  // 静态资源 / 根路径 / 已规范的白名单页面：全部放行，由 Netlify 静态服务预渲染 HTML。
+  // 注意：白名单页面（kind 'page'）必须放行——head 已由 SSG 写入静态 HTML，边缘层不再注入，
+  // 否则会落到下面的 404 分支把正常页面打成 404。
+  if (decision.kind === 'passthrough' || decision.kind === 'page') return
 
   if (decision.kind === 'redirect') {
     return new Response(null, {
@@ -155,28 +132,13 @@ export default async function handler(request) {
     })
   }
 
-  const isPage = decision.kind === 'page'
-  const upstream = await fetch(new URL('/index.html', request.url).toString())
-  let html = await upstream.text()
-  // 仅白名单页面注入 canonical/hreflang；404 页不得把 canonical 指向任何既有页面，
-  // 否则等于把整批无效 URL 声明为某个页面的重复版本，反而放大重复信号
-  if (isPage) {
-    html = injectTags(html, buildHeadTags(decision.locale || X_DEFAULT_LOCALE, decision.slug || ''))
-  }
-
-  const headers = new Headers(upstream.headers)
-  headers.delete('etag')
-  headers.delete('content-length')
-  headers.set('content-type', 'text/html; charset=utf-8')
-  headers.set('cache-control', 'public, max-age=0, must-revalidate')
-  if (isPage) {
-    headers.set('link', buildLinkHeader(decision.locale, decision.slug || ''))
-    headers.set('x-robots-tag', 'index, follow, max-image-preview:large, max-snippet:-1')
-  } else {
-    // 真 404 且不给 canonical：404 页不该与任何页面争夺规范身份
-    headers.delete('link')
-    headers.set('x-robots-tag', 'noindex, nofollow')
-  }
-
-  return new Response(html, { status: isPage ? 200 : 404, headers })
+  // 非白名单路径：真 404 + noindex，并且不给出任何 canonical（避免与既有页面争夺规范身份）
+  return new Response('Not Found', {
+    status: 404,
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'x-robots-tag': 'noindex, nofollow',
+      'cache-control': 'public, max-age=0, must-revalidate',
+    },
+  })
 }

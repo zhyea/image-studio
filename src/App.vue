@@ -14,6 +14,9 @@ import ruLocale from 'element-plus/es/locale/lang/ru'
 import arLocale from 'element-plus/es/locale/lang/ar'
 import { TOOLS } from './config/tools'
 import { DEFAULT_LOCALE, LOCALE_META, SUPPORTED_LOCALES } from './i18n/localeConfig.js'
+import i18n from './i18n'
+import { useHead } from '@unhead/vue'
+import { buildHeadConfig } from './seo/headConfig'
 
 const EL_LOCALE_BY_CODE = {
   zh: zhCn,
@@ -38,6 +41,9 @@ function readCompactNavMatch() {
 const { t, locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
+
+// 声明式 SEO head：vite-ssg 在构建期把每个路由的 title/meta/canonical/hreflang/json-ld 写入静态 HTML
+useHead(() => buildHeadConfig(route, i18n))
 
 const localeParam = computed(() => route.params.locale || DEFAULT_LOCALE)
 const isCompactNav = ref(readCompactNavMatch())
@@ -66,9 +72,26 @@ function onWindowResize() {
   updateCompactNav()
 }
 
+function detectClientLocale() {
+  if (typeof navigator === 'undefined') return DEFAULT_LOCALE
+  const candidates = [...(navigator.languages || []), navigator.language]
+    .filter((v) => typeof v === 'string')
+    .map((v) => v.trim().toLowerCase())
+    .filter(Boolean)
+  for (const lang of candidates) {
+    const short = lang.split('-')[0]
+    if (SUPPORTED_LOCALES.includes(short)) return short
+  }
+  return DEFAULT_LOCALE
+}
+
 onMounted(() => {
   updateCompactNav()
   window.addEventListener('resize', onWindowResize)
+  // 客户端语言自动落地：根路径按浏览器首选语言跳转（保留 SPA 体验，不影响 SSG 静态内容）
+  if (route.path === '/' && detectClientLocale() !== DEFAULT_LOCALE) {
+    router.replace(`/${detectClientLocale()}`)
+  }
 })
 
 onBeforeUnmount(() => {

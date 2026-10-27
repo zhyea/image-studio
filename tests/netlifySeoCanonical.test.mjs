@@ -6,8 +6,6 @@ import {
   HREFLANG,
   resolveSeoRequest,
   redirectTargetForHost,
-  buildHeadTags,
-  buildLinkHeader,
   default as seoHandler,
 } from '../netlify/edge-functions/seo-canonical.js'
 import { TOOLS } from '../src/config/tools.js'
@@ -122,84 +120,44 @@ test('localhost 下的大小写变体仍在 http 协议内重定向', () => {
   assert.equal(r.location, 'http://localhost/zh/compress')
 })
 
-// ---------- canonical / hreflang 标签 ----------
+// ---------- 白名单页面放行（head 已由 SSG 写入静态 HTML，边缘层不再注入） ----------
 
-test('head 标签含 canonical 与全部语种 alternate', () => {
-  const html = buildHeadTags('zh', 'compress')
-  assert.match(html, /<link rel="canonical" href="https:\/\/image\.chobit\.org\/zh\/compress">/)
-  for (const code of APP_LOCALES) {
-    assert.ok(
-      html.includes(`href="https://image.chobit.org/${code}/compress"`),
-      `缺少 ${code} 的 alternate`,
-    )
-  }
-  assert.ok(html.includes('hreflang="x-default"'))
+test('白名单页面由 handler 放行（返回 undefined，交 Netlify 静态服务预渲染 HTML）', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/zh/compress'))
+  assert.equal(res, undefined, '已规范页面必须 passthrough，不得注入 head 或返回 404')
 })
 
-test('head 标签自引用包含自身语种', () => {
-  const html = buildHeadTags('ja', 'upscale')
-  assert.ok(html.includes(`hreflang="ja" href="https://image.chobit.org/ja/upscale"`))
+test('语言首页同样放行', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/en'))
+  assert.equal(res, undefined)
 })
 
-test('语言首页的 canonical 无尾斜杠', () => {
-  const html = buildHeadTags('ru', '')
-  assert.match(html, /<link rel="canonical" href="https:\/\/image\.chobit\.org\/ru">/)
-})
-
-test('Link 头以 canonical 打头且覆盖所有语种', () => {
-  const header = buildLinkHeader('de', 'crop')
-  assert.ok(header.startsWith('<https://image.chobit.org/de/crop>; rel="canonical"'))
-  for (const code of APP_LOCALES) {
-    assert.ok(header.includes(`rel="alternate"; hreflang="${HREFLANG[code]}"`), `缺少 ${code}`)
-  }
-  assert.ok(header.includes('hreflang="x-default"'))
+test('handler 不设置 link 头（避免与静态 HTML 既有 canonical 重复）', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/zh/compress'))
+  assert.equal(res, undefined)
+  // 放行时无任何响应头被注入；若未来误加 head 注入，此断言会捕捉
 })
 
 // ---------- 端到端：真实走一遍 handler ----------
 
-function withMockedIndexHtml(fn) {
-  const realFetch = globalThis.fetch
-  globalThis.fetch = async () =>
-    new Response('<html><head></head><body><div id="app"></div></body></html>', {
-      status: 200,
-      headers: { 'content-type': 'text/html; charset=utf-8', etag: 'W/"up"' },
-    })
-  return Promise.resolve()
-    .then(fn)
-    .finally(() => {
-      globalThis.fetch = realFetch
-    })
-}
-
-test('白名单页面返回 200 并服务端注入 canonical 与 hreflang', async () => {
-  await withMockedIndexHtml(async () => {
-    const res = await seoHandler(new Request('https://image.chobit.org/zh/compress'))
-    const body = await res.text()
-    assert.equal(res.status, 200)
-    assert.match(res.headers.get('link'), /rel="canonical"/)
-    assert.match(res.headers.get('x-robots-tag'), /index/)
-    assert.ok(body.includes('<link rel="canonical" href="https://image.chobit.org/zh/compress">'))
-    assert.ok(body.includes('</head>'))
-    assert.equal(res.headers.get('etag'), null, '改写过 body 后旧 etag 必须失效')
-  })
-})
-
-test('404 响应不带 canonical/hreflang，且为真 404 + noindex', async () => {
-  await withMockedIndexHtml(async () => {
-    const res = await seoHandler(new Request('https://image.chobit.org/zh/nope-123'))
-    const body = await res.text()
-    assert.equal(res.status, 404)
-    assert.equal(res.headers.get('x-robots-tag'), 'noindex, nofollow')
-    assert.equal(res.headers.get('link'), null)
-    assert.ok(!body.includes('rel="canonical"'))
-    assert.ok(!body.includes('rel="alternate"'))
-  })
+test('404 响应为真 404 + noindex，且不含 canonical/hreflang', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/zh/nope-123'))
+  assert.equal(res.status, 404)
+  assert.equal(res.headers.get('x-robots-tag'), 'noindex, nofollow')
+  assert.equal(res.headers.get('link'), null)
+  const body = await res.text()
+  assert.ok(!body.includes('rel="canonical"'))
+  assert.ok(!body.includes('rel="alternate"'))
 })
 
 test('大小写变体端到端 301 到规范 URL', async () => {
-  await withMockedIndexHtml(async () => {
-    const res = await seoHandler(new Request('https://image.chobit.org/ZH/Compress/'))
-    assert.equal(res.status, 301)
-    assert.equal(res.headers.get('location'), 'https://image.chobit.org/zh/compress')
-  })
+  const res = await seoHandler(new Request('https://image.chobit.org/ZH/Compress/'))
+  assert.equal(res.status, 301)
+  assert.equal(res.headers.get('location'), 'https://image.chobit.org/zh/compress')
+})
+
+test('http 工具页端到端 301 到 https 主域', async () => {
+  const res = await seoHandler(new Request('http://image-studio.netlify.app/zh/compress'))
+  assert.equal(res.status, 301)
+  assert.equal(res.headers.get('location'), 'https://image.chobit.org/zh/compress')
 })
