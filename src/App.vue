@@ -1,34 +1,13 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowDown, Menu } from '@element-plus/icons-vue'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import enLocale from 'element-plus/es/locale/lang/en'
-import esLocale from 'element-plus/es/locale/lang/es'
-import frLocale from 'element-plus/es/locale/lang/fr'
-import deLocale from 'element-plus/es/locale/lang/de'
-import jaLocale from 'element-plus/es/locale/lang/ja'
-import ptBrLocale from 'element-plus/es/locale/lang/pt-br'
-import ruLocale from 'element-plus/es/locale/lang/ru'
-import arLocale from 'element-plus/es/locale/lang/ar'
 import { TOOLS } from './config/tools'
 import { DEFAULT_LOCALE, LOCALE_META, SUPPORTED_LOCALES } from './i18n/localeConfig.js'
-import i18n from './i18n'
+import { EP_LOCALE_KEY } from './i18n/epLocale.js'
 import { useHead } from '@unhead/vue'
 import { buildHeadConfig } from './seo/headConfig'
-
-const EL_LOCALE_BY_CODE = {
-  zh: zhCn,
-  en: enLocale,
-  es: esLocale,
-  fr: frLocale,
-  de: deLocale,
-  ja: jaLocale,
-  pt: ptBrLocale,
-  ru: ruLocale,
-  ar: arLocale,
-}
 
 /** 小于等于此宽度时顶栏横向菜单折叠为抽屉 */
 const COMPACT_NAV_MAX_PX = 540
@@ -38,11 +17,13 @@ function readCompactNavMatch() {
   return window.matchMedia(`(max-width: ${COMPACT_NAV_MAX_PX}px)`).matches
 }
 
-const { t, locale } = useI18n()
+const i18n = useI18n()
+const { t, locale } = i18n
 const route = useRoute()
 const router = useRouter()
 
-// 声明式 SEO head：vite-ssg 在构建期把每个路由的 title/meta/canonical/hreflang/json-ld 写入静态 HTML
+// 声明式 SEO head：vite-ssg 在构建期把每个路由的 title/meta/canonical/hreflang/json-ld 写入静态 HTML。
+// 此处传入注入的 i18n（即本路由独立实例的 Composer），与 SSR 预渲染语种一致。
 useHead(() => buildHeadConfig(route, i18n))
 
 const localeParam = computed(() => route.params.locale || DEFAULT_LOCALE)
@@ -56,7 +37,7 @@ const activeMenu = computed(() => {
   return ''
 })
 
-const elLocale = computed(() => EL_LOCALE_BY_CODE[localeParam.value] ?? zhCn)
+const elLocale = inject(EP_LOCALE_KEY, null)
 
 function switchLocale(code) {
   const m = route.path.match(/^\/[^/]+(\/.*)?$/)

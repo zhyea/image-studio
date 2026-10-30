@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { SUPPORTED_LOCALES } from './src/i18n/localeConfig.js'
+import { SUPPORTED_LOCALES, localeMeta } from './src/i18n/localeConfig.js'
 import { TOOLS } from './src/config/tools.js'
 
 /** 先于其它 transform，避免 import 分析把 .vue 当纯 JS 解析 */
@@ -53,6 +53,9 @@ export default defineConfig({
   ssgOptions: {
     // 每个路由生成无尾斜杠的独立静态 HTML（/en/compress.html），契合 SEO 与规范 URL 约定
     dirStyle: 'flat',
+    // 并行预渲染（vite-ssg 默认 concurrency=20）：此前因全局 i18n 单例竞态被迫 concurrency:1。
+    // 现已改为「每路由独立 i18n 实例」（main.js createI18nInstance 按 routePath 创建），
+    // 无共享可变全局，20 路由并发互不串位，构建耗时回归并行。
     // vite-ssg 默认只枚举静态路由，不会展开动态段 :locale。手动补全「语言 × 工具」全部路径，
     // 确保每个 locale 的首页与 12 个工具页都被预渲染为独立 HTML。
     includedRoutes() {
@@ -64,6 +67,18 @@ export default defineConfig({
         }
       }
       return paths
+    },
+    // 确定性改写模板 <html lang/dir>：index.html 模板硬编码 lang="en"，且 @unhead 的 htmlAttrs
+    // 未必覆盖模板既有 <html> 属性（实证非英语页 lang 串成 en）。此处按路由路径语种直接重写，
+    // 与 @unhead 形成双保险。正文/title 的语种由 concurrency:1 + beforeEach 保证，无需在此碰 i18n。
+    onBeforePageRender(route, indexHTML) {
+      const m = String(route).match(/^\/([^/]+)(\/.*)?$/)
+      const loc = m && m[1]
+      if (loc && SUPPORTED_LOCALES.includes(loc)) {
+        const meta = localeMeta(loc)
+        indexHTML = indexHTML.replace(/<html[^>]*>/, `<html lang="${meta.bcp47}" dir="${meta.dir}">`)
+      }
+      return indexHTML
     },
   },
   ssr: {

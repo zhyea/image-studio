@@ -1,7 +1,6 @@
 <script setup>
 import { ref, nextTick, unref, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
-import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
@@ -18,6 +17,7 @@ const cropDialogVisible = ref(false)
 const { busy, run } = useImageProcess()
 const previewVisible = ref(false)
 let cropper = null
+let cropperInitToken = 0
 let currentFile = null
 /** @type {{ el: Element, fn: (e: Event) => void } | null} */
 let cropBoxDblCleanup = null
@@ -83,11 +83,15 @@ function destroyCropper() {
   }
 }
 
-function initCropperInstance() {
+async function initCropperInstance() {
   if (!cropDialogVisible.value || !imgRef.value || !imageUrl.value) return
   const img = imgRef.value
   if (!img.complete || !img.naturalWidth) return
+  const token = ++cropperInitToken
   destroyCropper()
+  const { default: Cropper } = await import('cropperjs')
+  // 期间若又被调用（快速开关裁剪框），放弃本次过期初始化
+  if (token !== cropperInitToken) return
   cropper = new Cropper(img, {
     viewMode: 1,
     autoCropArea: 0.85,
@@ -99,12 +103,12 @@ function initCropperInstance() {
 }
 
 function onImgLoad() {
-  initCropperInstance()
+  void initCropperInstance()
 }
 
 function onCropDialogOpened() {
   nextTick(() => {
-    requestAnimationFrame(() => initCropperInstance())
+    requestAnimationFrame(() => void initCropperInstance())
   })
 }
 

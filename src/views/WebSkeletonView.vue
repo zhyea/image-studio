@@ -4,7 +4,6 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { usePageI18n } from '../composables/usePageI18n'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
-import html2canvas from 'html2canvas'
 import { generateSkeletonHtml, wrapHtmlFragment } from '../utils/skeletonGenerator'
 import { useImageProcess } from '../composables/useImageProcess'
 
@@ -140,6 +139,7 @@ async function downloadPng() {
   }
   await runPng(async () => {
     await nextTick()
+    const { default: html2canvas } = await import('html2canvas')
     const canvas = await html2canvas(body, {
       backgroundColor: '#ffffff',
       scale: 2,

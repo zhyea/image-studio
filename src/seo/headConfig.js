@@ -18,18 +18,21 @@ import { canonicalPath } from './canonicalPath.js'
 
 /**
  * @param {import('vue-router').RouteLocationNormalizedLoaded} route
- * @param {import('vue-i18n').I18n} i18n  createI18n 实例（非 Composer）
+ * @param {import('vue-i18n').I18n | import('vue-i18n').Composer} i18n
+ *   可为 createI18n 实例（顶层 I18n，翻译在 .global 上），或 App.vue 注入的 Composer（直接 .t）。
+ *   本页采用「每路由独立 i18n 实例」，故无论哪种都指向本路由正确语种。
  * @returns {import('@unhead/vue').HeadObject}
  */
 export function buildHeadConfig(route, i18n) {
-  // 组合式 i18n：翻译函数挂在 global（Composer）上，顶层 i18n 没有 .t
-  const t = i18n.global.t.bind(i18n.global)
-  const localeValue = i18n.global.locale.value
+  // 兼容 I18n 实例与注入的 Composer：翻译函数要么在 .global 上，要么直接挂在自身 .t
+  const composer = i18n.global ?? i18n
+  const t = composer.t.bind(composer)
   const pattern = new RegExp(`^\\/(${SUPPORTED_LOCALES.join('|')})(\\/.*)?$`)
   const m = route.path.match(pattern)
   const locale = m ? m[1] : DEFAULT_LOCALE
-  // 以当前 i18n 实际语种为准（SSR 渲染期已由 router.beforeEach 切好），回退到路径语种
-  const activeLocale = SUPPORTED_LOCALES.includes(localeValue) ? localeValue : locale
+  // 以路由路径语种为准（确定性，不依赖全局 i18n 单例在 SSG 预渲染期的竞态）。
+  // vite-ssg 现为每路由创建独立 i18n 实例（main.js createI18nInstance），可并行预渲染而互不串位。
+  const activeLocale = locale
   const meta = localeMeta(activeLocale)
 
   const page = route.meta?.seoPage || 'home'
