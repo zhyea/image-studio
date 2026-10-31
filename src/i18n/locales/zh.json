@@ -44,26 +44,65 @@
     "tools": "工具",
     "menuTitle": "导航",
     "openMenu": "打开菜单",
-    "switchLanguage": "切换语言"
+    "switchLanguage": "切换语言",
+    "closeMenu": "关闭菜单"
   },
-  "footer": { "line": "图片在浏览器本地处理，不会上传到服务器。" },
+  "footer": {
+    "line": "图片在浏览器本地处理，不会上传到服务器。"
+  },
   "home": {
     "title": "Image Studio 免费在线图片工具箱",
     "lead": "一站式在浏览器里处理图片：压缩与缩小体积、裁剪构图、按比例或像素改尺寸、旋转与格式转换、叠加文字水印、去除白底/绿幕等纯色背景、插值或本地神经网络放大、将 HTML 片段导出为 PNG、对敏感区域打码模糊，以及生成网页线框骨架图。所有步骤在您的设备上完成，文件不上传服务器，无需安装软件，兼顾效率与隐私。"
   },
   "tools": {
-    "compress": { "title": "压缩图片", "desc": "降低 JPEG 质量或限制长边，减小文件体积" },
-    "upscale": { "title": "放大图片", "desc": "插值放大或本地 AI 超分（2×/4×），无需上传" },
-    "remove-bg": { "title": "移除背景", "desc": "按取色与容差去除纯色/近纯色背景，导出 PNG" },
-    "resize": { "title": "调整尺寸", "desc": "按百分比或像素缩放，可锁定宽高比" },
-    "crop": { "title": "裁剪", "desc": "框选区域裁剪，导出 PNG" },
-    "convert-jpg": { "title": "转为 JPG", "desc": "合并透明通道为白底并导出 JPEG" },
-    "rotate": { "title": "旋转", "desc": "预设 90° 或自定义角度" },
-    "watermark": { "title": "水印", "desc": "文字水印，位置、颜色与透明度可调" },
-    "meme": { "title": "表情包", "desc": "顶/底部大字幕，经典描边样式" },
-    "html-to-image": { "title": "HTML 转图片", "desc": "将片段渲染为 DOM 后截图（同源资源更可靠）" },
-    "blur": { "title": "区域模糊", "desc": "对选定矩形区域做模糊，用于遮挡隐私信息" },
-    "web-skeleton": { "title": "网页骨架图", "desc": "由 HTML 生成线框占位布局，可调颗粒度，导出 HTML/PNG" }
+    "compress": {
+      "title": "压缩图片",
+      "desc": "降低 JPEG 质量或限制长边，减小文件体积"
+    },
+    "upscale": {
+      "title": "放大图片",
+      "desc": "插值放大或本地 AI 超分（2×/4×），无需上传"
+    },
+    "remove-bg": {
+      "title": "移除背景",
+      "desc": "按取色与容差去除纯色/近纯色背景，导出 PNG"
+    },
+    "resize": {
+      "title": "调整尺寸",
+      "desc": "按百分比或像素缩放，可锁定宽高比"
+    },
+    "crop": {
+      "title": "裁剪",
+      "desc": "框选区域裁剪，导出 PNG"
+    },
+    "convert-jpg": {
+      "title": "转为 JPG",
+      "desc": "合并透明通道为白底并导出 JPEG"
+    },
+    "rotate": {
+      "title": "旋转",
+      "desc": "预设 90° 或自定义角度"
+    },
+    "watermark": {
+      "title": "水印",
+      "desc": "文字水印，位置、颜色与透明度可调"
+    },
+    "meme": {
+      "title": "表情包",
+      "desc": "顶/底部大字幕，经典描边样式"
+    },
+    "html-to-image": {
+      "title": "HTML 转图片",
+      "desc": "将片段渲染为 DOM 后截图（同源资源更可靠）"
+    },
+    "blur": {
+      "title": "区域模糊",
+      "desc": "对选定矩形区域做模糊，用于遮挡隐私信息"
+    },
+    "web-skeleton": {
+      "title": "网页骨架图",
+      "desc": "由 HTML 生成线框占位布局，可调颗粒度，导出 HTML/PNG"
+    }
   },
   "picker": {
     "dragText": "将图片拖到此处，或 ",

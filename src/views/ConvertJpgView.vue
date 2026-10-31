@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -18,7 +18,7 @@ function onFile(file) {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -37,7 +37,7 @@ async function process() {
     const blob = await canvasToBlob(canvas, 'image/jpeg', quality.value)
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}.jpg`)
-    ElMessage.success(t('msg.downloadedJpg'))
+    toast.success(t('msg.downloadedJpg'))
   }, { errorMsg: t('msg.convertFail') })
 }
 </script>
@@ -47,20 +47,23 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="100px">
-        <el-form-item :label="tp('jpegQuality')">
-          <el-slider v-model="quality" :min="0.5" :max="1" :step="0.02" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 100px">
+        <div class="u-field"><label class="u-field__label">{{ tp('jpegQuality') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="quality" min="0.5" max="1" step="0.02" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="quality" min="0.5" max="1" step="0.02" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>

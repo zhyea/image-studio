@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -21,7 +21,7 @@ async function onFile(file) {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -49,7 +49,7 @@ async function process() {
 
     const ext = format.value === 'png' ? 'png' : 'jpg'
     downloadBlob(blob, `${fileBaseName(currentFile)}-compressed.${ext}`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.processFailRetry') })
 }
 </script>
@@ -59,40 +59,48 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="120px" label-position="left">
-        <el-form-item :label="tp('outputFormat')">
-          <el-radio-group v-model="format">
-            <el-radio-button value="jpeg">JPEG</el-radio-button>
-            <el-radio-button value="png">PNG</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="format === 'jpeg'" :label="tp('jpegQuality')">
-          <el-slider v-model="quality" :min="0.3" :max="1" :step="0.02" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('limitLongEdge')">
-          <el-switch v-model="limitEdge" :disabled="busy" />
-          <el-input-number
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 120px">
+        <div class="u-field"><label class="u-field__label">{{ tp('outputFormat') }}</label><div class="u-field__control">
+          <div class="u-seg" role="radiogroup" aria-label="format">
+    <label class="u-seg__item" :class="{ 'is-active': format === 'jpeg' }">
+      <input type="radio" class="u-seg__input" value="jpeg" v-model.number="format" /> JPEG
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': format === 'png' }">
+      <input type="radio" class="u-seg__input" value="png" v-model.number="format" /> PNG
+    </label>
+  </div>
+        </div></div>
+        <div class="u-field" v-if="format === 'jpeg'"><label class="u-field__label">{{ tp('jpegQuality') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="quality" min="0.3" max="1" step="0.02" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="quality" min="0.3" max="1" step="0.02" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('limitLongEdge') }}</label><div class="u-field__control">
+          <input type="checkbox" v-model="limitEdge" :disabled="busy" class="u-switch" />
+          <input
             v-if="limitEdge"
-            v-model="maxEdge"
-            :min="256"
-            :max="8192"
-            :step="128"
-            class="edge-input"
+            type="number"
+            v-model.number="maxEdge"
+            min="256"
+            max="8192"
+            step="128"
+            class="u-input edge-input"
             :disabled="busy"
           />
           <span v-if="limitEdge" class="hint">{{ tp('edgeHint') }}</span>
-        </el-form-item>
-        <el-form-item>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>
 

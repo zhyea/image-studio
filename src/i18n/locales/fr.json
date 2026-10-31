@@ -44,7 +44,8 @@
     "tools": "Outils",
     "menuTitle": "Navigation",
     "openMenu": "Ouvrir le menu",
-    "switchLanguage": "Changer de langue"
+    "switchLanguage": "Changer de langue",
+    "closeMenu": "Fermer le menu"
   },
   "footer": {
     "line": "Les images sont traitées localement dans votre navigateur et ne sont pas envoyées."

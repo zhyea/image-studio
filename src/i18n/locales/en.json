@@ -44,26 +44,65 @@
     "tools": "Tools",
     "menuTitle": "Navigation",
     "openMenu": "Open menu",
-    "switchLanguage": "Switch language"
+    "switchLanguage": "Switch language",
+    "closeMenu": "Close menu"
   },
-  "footer": { "line": "Images are processed locally in your browser and are not uploaded." },
+  "footer": {
+    "line": "Images are processed locally in your browser and are not uploaded."
+  },
   "home": {
     "title": "Image Studio — Free Online Image Toolkit",
     "lead": "Edit images entirely in your browser: compress to shrink file size, crop and reframe, resize by ratio or pixels, rotate and convert formats, add text watermarks, cut out solid-color backgrounds, upscale with fast scaling or local AI super-resolution, export HTML snippets to PNG, blur sensitive areas, and generate wireframe skeleton previews. Everything runs on your device—no uploads and no install—so you can work quickly without sending photos to a server."
   },
   "tools": {
-    "compress": { "title": "Compress", "desc": "Lower JPEG quality or cap the long edge to reduce file size" },
-    "upscale": { "title": "Upscale", "desc": "Interpolation or local AI super-res (2×/4×), no upload" },
-    "remove-bg": { "title": "Remove background", "desc": "Color key with tolerance; export transparent PNG" },
-    "resize": { "title": "Resize", "desc": "Scale by percent or pixels; optional aspect ratio lock" },
-    "crop": { "title": "Crop", "desc": "Crop a region and download PNG" },
-    "convert-jpg": { "title": "To JPG", "desc": "Flatten transparency to white and save as JPEG" },
-    "rotate": { "title": "Rotate", "desc": "Presets at 90° or a custom angle" },
-    "watermark": { "title": "Watermark", "desc": "Text watermark—position, color, opacity" },
-    "meme": { "title": "Meme", "desc": "Top/bottom captions with classic stroke style" },
-    "html-to-image": { "title": "HTML to image", "desc": "Render HTML to DOM then capture (same-origin assets work best)" },
-    "blur": { "title": "Blur region", "desc": "Blur a chosen rectangle to hide private content" },
-    "web-skeleton": { "title": "Web skeleton", "desc": "Wireframe from HTML—tunable granularity, export HTML or PNG" }
+    "compress": {
+      "title": "Compress",
+      "desc": "Lower JPEG quality or cap the long edge to reduce file size"
+    },
+    "upscale": {
+      "title": "Upscale",
+      "desc": "Interpolation or local AI super-res (2×/4×), no upload"
+    },
+    "remove-bg": {
+      "title": "Remove background",
+      "desc": "Color key with tolerance; export transparent PNG"
+    },
+    "resize": {
+      "title": "Resize",
+      "desc": "Scale by percent or pixels; optional aspect ratio lock"
+    },
+    "crop": {
+      "title": "Crop",
+      "desc": "Crop a region and download PNG"
+    },
+    "convert-jpg": {
+      "title": "To JPG",
+      "desc": "Flatten transparency to white and save as JPEG"
+    },
+    "rotate": {
+      "title": "Rotate",
+      "desc": "Presets at 90° or a custom angle"
+    },
+    "watermark": {
+      "title": "Watermark",
+      "desc": "Text watermark—position, color, opacity"
+    },
+    "meme": {
+      "title": "Meme",
+      "desc": "Top/bottom captions with classic stroke style"
+    },
+    "html-to-image": {
+      "title": "HTML to image",
+      "desc": "Render HTML to DOM then capture (same-origin assets work best)"
+    },
+    "blur": {
+      "title": "Blur region",
+      "desc": "Blur a chosen rectangle to hide private content"
+    },
+    "web-skeleton": {
+      "title": "Web skeleton",
+      "desc": "Wireframe from HTML—tunable granularity, export HTML or PNG"
+    }
   },
   "picker": {
     "dragText": "Drop an image here, or ",

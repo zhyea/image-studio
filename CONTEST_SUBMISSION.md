@@ -16,15 +16,26 @@
 市面上的在线图片工具几乎都要把图传到云端处理。image-studio 所有计算都在浏览器本地完成，图片不出本机——处理含隐私 / 工作机密的图片时尤其关键。
 
 ## 用 WorkBuddy 做了什么（开发全过程）
-- 技术栈：Vue 3 + Vite + Element Plus，纯 JavaScript（零 TypeScript 负担）
+- 技术栈：Vue 3 + Vite + vite-ssg，纯 JavaScript（零 TypeScript 负担）；UI 已完全原生化，零 UI 框架运行时依赖
 - 先让 WorkBuddy 做代码评审，再分批修复 🔴 阻塞与 🟡 建议
-- 自建**零依赖质量门禁**：用 Node 22 内置 `node:test` 写单测 + i18n key 一致性校验脚本，每次改动都跑 `build / test / i18n` 三道门禁收口（当前 **65/65** 测试通过、9 语言 224 key 一致）
+- 自建**零依赖质量门禁**：用 Node 22 内置 `node:test` 写单测 + i18n key 一致性校验脚本，每次改动都跑 `build / test / i18n` 三道门禁收口（当前 **64/64** 测试通过、9 语言 224 key 一致）
 - 部署收敛到 Netlify（含 SEO Edge Function）
 
 ## 几个我满意的技术点
 - `useImageProcess` 组合式函数统一 12 个视图的加载态与错误兜底，**从机制上杜绝「按钮永久转圈」**
 - 色键去背对超大图做分块协作式渲染，消除主线程冻结，且输出与同步版**逐像素等价（数据零丢失）**
 - 输出格式（mime / 扩展名 / 质量）统一到 `inferOutput`，替换三处散落逻辑
+
+## 加载性能优化（造物挑战期间完成）
+
+纯前端应用要「首屏快、页面独立」，重点是压住首屏 JS 体积：
+
+- 重型库（`cropperjs`、`html2canvas`、`stackblur-canvas`）按需 `import()`，用到才下载，不挤首屏。
+- 自研极简 i18n 取代 vue-i18n：9 语种消息按需拆分 + 每路由独立实例，省约 27KB/页并根除预渲染竞态。
+- Element Plus 完全原生化：200+ 处组件 / 图标 / 消息全部换自研零依赖控件，产物零 EP 依赖。
+- vite-ssg 为 9 语种 × 12 工具预渲染 117+ 个独立静态页，零语种串位。
+
+效果：首页初始 JS+CSS **53KB** gzip（早期 ~140KB，−62%），全站平均 60KB；门禁 `node --test` 64/64 + 9 语种 225 key 一致。
 
 ## 体验地址
 https://image-studio-91108.app.workbuddy.host/?sharecode=LAE5CX5INN

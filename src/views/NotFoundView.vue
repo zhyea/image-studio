@@ -1,11 +1,10 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import { useI18n } from '../i18n'
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../i18n/localeConfig.js'
 
 const { t } = useI18n()
-const router = useRouter()
 const route = useRoute()
 
 const locale = computed(() => {
@@ -13,9 +12,7 @@ const locale = computed(() => {
   return typeof p === 'string' && SUPPORTED_LOCALES.includes(p) ? p : DEFAULT_LOCALE
 })
 
-function goHome() {
-  router.push({ name: 'home', params: { locale: locale.value } })
-}
+const homeTo = computed(() => ({ name: 'home', params: { locale: locale.value } }))
 
 onMounted(() => {
   document.documentElement.style.setProperty('--nf-hue', `${Math.floor(Math.random() * 360)}`)
@@ -47,7 +44,7 @@ onMounted(() => {
       <p class="nf-code">404</p>
       <h1 class="nf-title">{{ t('notFound.title') }}</h1>
       <p class="nf-desc">{{ t('notFound.desc') }}</p>
-      <el-button type="primary" size="large" round @click="goHome">{{ t('notFound.backHome') }}</el-button>
+      <router-link class="nf-cta" :to="homeTo">{{ t('notFound.backHome') }}</router-link>
     </div>
   </div>
 </template>
@@ -270,14 +267,40 @@ onMounted(() => {
   margin: 0 0 10px;
   font-size: 1.35rem;
   font-weight: 600;
-  color: var(--el-text-color-primary);
+  color: var(--el-text-color-primary, #303133);
 }
 
 .nf-desc {
   margin: 0 0 22px;
   font-size: 14px;
   line-height: 1.65;
-  color: var(--el-text-color-secondary);
+  color: var(--el-text-color-secondary, #606266);
+}
+
+/* 取代 el-button（type=primary size=large round），同时改为 router-link 输出真实 <a> */
+.nf-cta {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: var(--el-color-primary, #409eff);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: 0 6px 16px hsl(210 90% 55% / 28%);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.nf-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px hsl(210 90% 55% / 34%);
+}
+
+.nf-cta:focus-visible {
+  outline: 2px solid var(--el-color-primary, #409eff);
+  outline-offset: 3px;
 }
 
 @keyframes nf-float {

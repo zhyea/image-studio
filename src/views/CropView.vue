@@ -1,9 +1,10 @@
 <script setup>
 import { ref, nextTick, unref, onBeforeUnmount } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import 'cropperjs/dist/cropper.css'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
+import Dialog from '../components/Dialog.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
 import { MAX_CANVAS_EDGE } from '../constants/exportLimits'
@@ -147,7 +148,7 @@ onBeforeUnmount(() => {
 
 async function cropAndDownload() {
   if (!cropper || !currentFile) {
-    ElMessage.warning(t('msg.selectImageCrop'))
+    toast.warning(t('msg.selectImageCrop'))
     return
   }
   await run(async () => {
@@ -160,7 +161,7 @@ async function cropAndDownload() {
     const blob = await canvasToBlob(canvas, 'image/png')
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-cropped.png`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.cropFail') })
 }
 </script>
@@ -170,21 +171,17 @@ async function cropAndDownload() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker ref="pickerRef" hide-preview @file="onFile" />
       <div v-if="currentFile && !cropDialogVisible" class="crop-reopen-row">
-        <el-button type="primary" link @click="openCropDialog">{{ tp('reopenCrop') }}</el-button>
+        <button type="button" class="u-btn u-btn--link" @click="openCropDialog">{{ tp('reopenCrop') }}</button>
       </div>
-    </el-card>
+    </div>
 
-    <el-dialog
+    <Dialog
       v-model="cropDialogVisible"
       :title="tp('dialogTitle')"
-      class="crop-dialog"
-      width="min(960px, 94vw)"
-      align-center
-      append-to-body
-      destroy-on-close
+      dialog-class="crop-dialog"
       @opened="onCropDialogOpened"
       @closed="onCropDialogClosed"
     >
@@ -199,16 +196,16 @@ async function cropAndDownload() {
           />
           <div v-if="previewVisible" class="crop-preview-overlay">
             <img :src="previewObjectUrl" class="crop-preview-img" :alt="tp('cropAlt')" />
-            <el-button type="primary" @click="closeCropPreview">{{ tp('backToCrop') }}</el-button>
+            <button type="button" class="u-btn u-btn--primary" @click="closeCropPreview">{{ tp('backToCrop') }}</button>
           </div>
         </div>
         <p class="crop-dbl-hint">{{ tp('previewHint') }}</p>
         <div class="actions">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="cropAndDownload">{{ tp('action') }}</el-button>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="cropAndDownload">{{ tp('action') }}</button>
         </div>
       </div>
-    </el-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -287,7 +284,7 @@ async function cropAndDownload() {
 
 <style>
 /* append-to-body：无 scoped，保证弹层内无纵向滚动条 */
-.crop-dialog .el-dialog__body {
+.crop-dialog .u-dialog__body {
   overflow: hidden !important;
   padding-top: 8px;
   max-height: none;

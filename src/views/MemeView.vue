@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { toast } from '../utils/toast'
+import { useI18n } from '../i18n'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -62,7 +62,7 @@ function drawMemeText(ctx, w, h, txt, bottom) {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -81,7 +81,7 @@ async function process() {
     const blob = await canvasToBlob(canvas, 'image/png')
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-meme.png`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.genFail') })
 }
 </script>
@@ -91,26 +91,29 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="100px" label-position="left">
-        <el-form-item :label="tp('top')">
-          <el-input v-model="topText" type="textarea" :rows="2" :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('bottom')">
-          <el-input v-model="bottomText" type="textarea" :rows="2" :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('fontSize')">
-          <el-slider v-model="fontSize" :min="18" :max="96" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 100px">
+        <div class="u-field"><label class="u-field__label">{{ tp('top') }}</label><div class="u-field__control">
+          <textarea v-model="topText" rows="2" :disabled="busy" class="u-input"></textarea>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('bottom') }}</label><div class="u-field__control">
+          <textarea v-model="bottomText" rows="2" :disabled="busy" class="u-input"></textarea>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('fontSize') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="fontSize" min="18" max="96" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="fontSize" min="18" max="96" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>

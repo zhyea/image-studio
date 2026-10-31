@@ -44,7 +44,8 @@
     "tools": "ツール",
     "menuTitle": "ナビゲーション",
     "openMenu": "メニューを開く",
-    "switchLanguage": "言語を切り替え"
+    "switchLanguage": "言語を切り替え",
+    "closeMenu": "メニューを閉じる"
   },
   "footer": {
     "line": "画像はブラウザ内でローカル処理され、サーバーにアップロードされません。"

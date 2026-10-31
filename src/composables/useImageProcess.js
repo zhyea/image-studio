@@ -10,14 +10,16 @@
  * 因为各页面的警告文案与校验条件不同，不宜强行统一。
  */
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+// 扩展名不可省：本模块被 tests/useImageProcess.test.mjs 用 node --test 直接导入，
+// Node 的 ESM 解析器不做扩展名补全（Vite 会，Node 不会）。
+import { toast } from '../utils/toast.js'
 
 /**
  * @param {{ notify?: { error: (msg: string) => void } }} [opts]
- *        可注入通知实现，便于单测；默认用 Element Plus 的 ElMessage。
+ *        可注入通知实现，便于单测；默认用 utils/toast（零依赖，不引入 element-plus）。
  */
 export function useImageProcess(opts = {}) {
-  const notify = opts.notify ?? ElMessage
+  const notify = opts.notify ?? toast
   const busy = ref(false)
 
   /**

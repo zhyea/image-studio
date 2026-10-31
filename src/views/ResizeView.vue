@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -24,7 +24,7 @@ function onFile(file) {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -61,7 +61,7 @@ async function process() {
     if (!blob) throw new Error('export')
 
     downloadBlob(blob, `${fileBaseName(currentFile)}-resized.${ext}`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.processFail') })
 }
 </script>
@@ -71,44 +71,57 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="120px" label-position="left">
-        <el-form-item :label="tp('mode')">
-          <el-radio-group v-model="mode">
-            <el-radio-button value="percent">{{ tp('percent') }}</el-radio-button>
-            <el-radio-button value="pixel">{{ tp('pixel') }}</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="mode === 'percent'" :label="tp('scalePercent')">
-          <el-slider v-model="percent" :min="5" :max="200" show-input :disabled="busy" />
-        </el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 120px">
+        <div class="u-field"><label class="u-field__label">{{ tp('mode') }}</label><div class="u-field__control">
+          <div class="u-seg" role="radiogroup" aria-label="mode">
+    <label class="u-seg__item" :class="{ 'is-active': mode === 'percent' }">
+      <input type="radio" class="u-seg__input" value="percent" v-model.number="mode" /> {{ tp('percent') }}
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': mode === 'pixel' }">
+      <input type="radio" class="u-seg__input" value="pixel" v-model.number="mode" /> {{ tp('pixel') }}
+    </label>
+  </div>
+        </div></div>
+        <div class="u-field" v-if="mode === 'percent'"><label class="u-field__label">{{ tp('scalePercent') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="percent" min="5" max="200" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="percent" min="5" max="200" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
         <template v-else>
-          <el-form-item :label="tp('width')">
-            <el-input-number v-model="width" :min="1" :max="16000" :disabled="busy" />
-          </el-form-item>
-          <el-form-item :label="tp('keepRatio')">
-            <el-switch v-model="keepRatio" :disabled="busy" />
-          </el-form-item>
-          <el-form-item v-if="!keepRatio" :label="tp('height')">
-            <el-input-number v-model="height" :min="1" :max="16000" :disabled="busy" />
-          </el-form-item>
+          <div class="u-field"><label class="u-field__label">{{ tp('width') }}</label><div class="u-field__control">
+            <input type="number" v-model.number="width" min="1" max="16000" :disabled="busy" class="u-input" />
+          </div></div>
+          <div class="u-field"><label class="u-field__label">{{ tp('keepRatio') }}</label><div class="u-field__control">
+            <input type="checkbox" v-model="keepRatio" :disabled="busy" class="u-switch" />
+          </div></div>
+          <div class="u-field" v-if="!keepRatio"><label class="u-field__label">{{ tp('height') }}</label><div class="u-field__control">
+            <input type="number" v-model.number="height" min="1" max="16000" :disabled="busy" class="u-input" />
+          </div></div>
         </template>
-        <el-form-item :label="tp('outputFormat')">
-          <el-radio-group v-model="format">
-            <el-radio-button value="original">{{ tp('fmtOriginal') }}</el-radio-button>
-            <el-radio-button value="jpeg">JPEG</el-radio-button>
-            <el-radio-button value="png">PNG</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item>
+        <div class="u-field"><label class="u-field__label">{{ tp('outputFormat') }}</label><div class="u-field__control">
+          <div class="u-seg" role="radiogroup" aria-label="format">
+    <label class="u-seg__item" :class="{ 'is-active': format === 'original' }">
+      <input type="radio" class="u-seg__input" value="original" v-model.number="format" /> {{ tp('fmtOriginal') }}
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': format === 'jpeg' }">
+      <input type="radio" class="u-seg__input" value="jpeg" v-model.number="format" /> JPEG
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': format === 'png' }">
+      <input type="radio" class="u-seg__input" value="png" v-model.number="format" /> PNG
+    </label>
+  </div>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>

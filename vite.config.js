@@ -93,6 +93,11 @@ export default defineConfig({
   resolve: {
     dedupe: ['vue'],
     alias: {
+      // Element Plus 经 lodash-unified（其内容仅 `export * from 'lodash-es'`）引入
+      // clamp/get/set/memoize 等工具函数，其中 memoize 依赖 lodash 的 MapCache
+      // → Hash/ListCache 一整套内部实现，tree-shaking 后仍残留 ~60KB 未压缩。
+      // 指向精简替代后 EP 组件保留、lodash 不再进入产物（全项目只 EP 依赖 lodash-unified）。
+      'lodash-unified': fileURLToPath(new URL('./src/utils/lodash-lite.js', import.meta.url)),
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },

@@ -44,7 +44,8 @@
     "tools": "Herramientas",
     "menuTitle": "Navegación",
     "openMenu": "Abrir menú",
-    "switchLanguage": "Cambiar idioma"
+    "switchLanguage": "Cambiar idioma",
+    "closeMenu": "Cerrar menú"
   },
   "footer": {
     "line": "Las imágenes se procesan localmente en tu navegador y no se suben."

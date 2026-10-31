@@ -18,15 +18,13 @@ import { canonicalPath } from './canonicalPath.js'
 
 /**
  * @param {import('vue-router').RouteLocationNormalizedLoaded} route
- * @param {import('vue-i18n').I18n | import('vue-i18n').Composer} i18n
- *   可为 createI18n 实例（顶层 I18n，翻译在 .global 上），或 App.vue 注入的 Composer（直接 .t）。
- *   本页采用「每路由独立 i18n 实例」，故无论哪种都指向本路由正确语种。
+ * @param {{ t: (key: string, params?: Record<string, string|number>) => string, locale: { value: string } }} i18n
+ *   本路由独立 i18n 实例（src/i18n/index.js 的极简 Composer，经 app.provide 注入），
+ *   指向本路由正确语种，故 head 文案与正文一致。
  * @returns {import('@unhead/vue').HeadObject}
  */
 export function buildHeadConfig(route, i18n) {
-  // 兼容 I18n 实例与注入的 Composer：翻译函数要么在 .global 上，要么直接挂在自身 .t
-  const composer = i18n.global ?? i18n
-  const t = composer.t.bind(composer)
+  const t = i18n.t.bind(i18n)
   const pattern = new RegExp(`^\\/(${SUPPORTED_LOCALES.join('|')})(\\/.*)?$`)
   const m = route.path.match(pattern)
   const locale = m ? m[1] : DEFAULT_LOCALE

@@ -1,47 +1,18 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import { useI18n } from '../i18n'
 import { TOOLS } from '../config/tools'
 import { DEFAULT_LOCALE } from '../i18n/localeConfig.js'
-import {
-  Histogram,
-  ZoomIn,
-  MagicStick,
-  ScaleToOriginal,
-  Crop,
-  PictureFilled,
-  RefreshRight,
-  EditPen,
-  ChatLineRound,
-  DocumentCopy,
-  Hide,
-  Grid,
-} from '@element-plus/icons-vue'
+import ToolIcon from '../components/ToolIcon.vue'
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
 
 const locale = computed(() => route.params.locale || DEFAULT_LOCALE)
 
-const ICON_MAP = {
-  Histogram,
-  ZoomIn,
-  MagicStick,
-  ScaleToOriginal,
-  Crop,
-  PictureFilled,
-  RefreshRight,
-  EditPen,
-  ChatLineRound,
-  DocumentCopy,
-  Hide,
-  Grid,
-}
-
-function goTool(item) {
-  router.push({ name: item.name, params: { locale: locale.value } })
+function toolTo(item) {
+  return { name: item.name, params: { locale: locale.value } }
 }
 </script>
 
@@ -53,20 +24,14 @@ function goTool(item) {
     </header>
 
     <section class="home-tools" :aria-label="t('nav.tools')">
-    <el-row :gutter="16" class="grid">
-      <el-col
-        v-for="item in TOOLS"
-        :key="item.slug"
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-      >
-        <el-card
-          class="tool-card-home"
-          shadow="hover"
-          :body-style="{ padding: '18px 16px' }"
-          @click="goTool(item)"
+      <!-- 原生 CSS Grid 取代 el-row/el-col；卡片用 router-link 取代可点击的 el-card，
+           使工具入口在 SSR 产物中输出为真实 <a href>，利于 SEO / 中键新开 / 键盘可达 -->
+      <div class="tool-grid">
+        <router-link
+          v-for="item in TOOLS"
+          :key="item.slug"
+          class="tool-card"
+          :to="toolTo(item)"
         >
           <div class="card-head-row">
             <div
@@ -76,21 +41,20 @@ function goTool(item) {
                 color: item.color,
               }"
             >
-              <el-icon :size="28">
-                <component :is="ICON_MAP[item.icon]" />
-              </el-icon>
+              <ToolIcon :name="item.icon" :size="28" />
             </div>
             <h2 class="card-title">{{ t(`tools.${item.slug}.title`) }}</h2>
           </div>
           <p class="card-desc">{{ t(`tools.${item.slug}.desc`) }}</p>
-        </el-card>
-      </el-col>
-    </el-row>
+        </router-link>
+      </div>
     </section>
   </div>
 </template>
 
 <style scoped>
+/* 颜色全部带 fallback：首页已不引入任何 Element Plus 组件，
+   其 --el-* 变量可能未定义，fallback 保证裸变量环境下仍可读。 */
 .home {
   text-align: left;
 }
@@ -104,13 +68,13 @@ function goTool(item) {
   font-weight: 600;
   line-height: 1.3;
   margin: 0 0 14px;
-  color: var(--el-text-color-primary);
+  color: var(--el-text-color-primary, #303133);
   letter-spacing: -0.02em;
 }
 
 .hero-sub {
   margin: 0;
-  color: var(--el-text-color-secondary);
+  color: var(--el-text-color-secondary, #606266);
   font-size: 15px;
   line-height: 1.7;
 }
@@ -119,21 +83,52 @@ function goTool(item) {
   margin-top: 4px;
 }
 
-.grid {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+/* 断点沿用 el-row/el-col 的 xs=24 / sm=12 / md=8 / lg=6（1/2/3/4 列） */
+.tool-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-.tool-card-home {
-  margin-bottom: 16px;
-  cursor: pointer;
+@media (min-width: 768px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .tool-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .tool-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tool-card {
+  display: block;
+  padding: 18px 16px;
+  border: 1px solid var(--el-border-color-lighter, #ebeef5);
+  border-radius: 6px;
+  background: var(--el-bg-color, #fff);
+  color: inherit;
+  text-decoration: none;
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-.tool-card-home:hover {
+.tool-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+}
+
+.tool-card:focus-visible {
+  outline: 2px solid var(--el-color-primary, #409eff);
+  outline-offset: 2px;
 }
 
 .card-head-row {
@@ -160,13 +155,13 @@ function goTool(item) {
   font-weight: 600;
   font-size: 16px;
   line-height: 1.35;
-  color: var(--el-text-color-primary);
+  color: var(--el-text-color-primary, #303133);
 }
 
 .card-desc {
   margin: 0;
   font-size: 13px;
-  color: var(--el-text-color-secondary);
+  color: var(--el-text-color-secondary, #606266);
   line-height: 1.5;
   min-height: 40px;
 }

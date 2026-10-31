@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { ElMessage } from 'element-plus'
-import { canvasRGBA } from 'stackblur-canvas'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
+import Dialog from '../components/Dialog.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
 import { inferOutput } from '../utils/outputFormat'
@@ -231,13 +231,15 @@ async function renderBlurCanvas() {
   rw = Math.max(1, Math.min(w - rx, rw))
   rh = Math.max(1, Math.min(h - ry, rh))
 
+  // 模糊引擎属「功能依赖」：仅在实际执行模糊/预览下载时才按需加载，不随视图 chunk 一起进入首屏
+  const { canvasRGBA } = await import('stackblur-canvas')
   canvasRGBA(canvas, rx, ry, rw, rh, radius.value)
   return canvas
 }
 
 async function openPreview() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -255,7 +257,7 @@ async function openPreview() {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -266,7 +268,7 @@ async function process() {
     if (!blob) throw new Error('export')
 
     downloadBlob(blob, `${fileBaseName(currentFile)}-blurred.${ext}`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.processFail') })
 }
 </script>
@@ -276,22 +278,17 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker hide-preview :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card v-if="imageUrl" class="tool-card blur-preview-card">
+    <div v-if="imageUrl" class="tool-card blur-preview-card">
       <div class="preview-size-row">
         <span class="preview-size-label">{{ tp('previewSize') }}</span>
-        <el-slider
-          v-model="previewZoom"
-          :min="10"
-          :max="200"
-          :step="5"
-          :disabled="busy"
-          :format-tooltip="(v) => v + '%'"
-          class="preview-size-slider"
-        />
+        <div class="u-slider preview-size-slider">
+  <input type="range" v-model.number="previewZoom" min="10" max="200" step="5" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="previewZoom" min="10" max="200" step="5" class="u-slider__num" :disabled="busy" />
+</div>
       </div>
       <p class="blur-hint">{{ tp('regionHint') }}</p>
       <div class="tool-preview-frame">
@@ -344,33 +341,32 @@ async function process() {
         </div>
         </div>
       </div>
-    </el-card>
+    </div>
 
-    <el-dialog
+    <Dialog
       v-model="previewVisible"
       :title="tp('previewTitle')"
-      class="blur-preview-dialog"
-      width="min(920px, 94vw)"
-      align-center
-      append-to-body
-      destroy-on-close
+      dialog-class="blur-preview-dialog"
       @closed="onPreviewDialogClosed"
     >
       <img v-if="previewUrl" :src="previewUrl" class="blur-preview-dialog-img" alt="" />
-    </el-dialog>
+    </Dialog>
 
-    <el-card class="tool-card">
-      <el-form label-width="120px" label-position="left">
-        <el-form-item :label="tp('radius')">
-          <el-slider v-model="radius" :min="1" :max="40" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 120px">
+        <div class="u-field"><label class="u-field__label">{{ tp('radius') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="radius" min="1" max="40" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="radius" min="1" max="40" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button :disabled="busy" @click="openPreview">{{ tp('preview') }}</el-button>
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn" :disabled="busy" @click="openPreview">{{ tp('preview') }}</button>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -499,7 +495,7 @@ async function process() {
 </style>
 
 <style>
-.blur-preview-dialog .el-dialog__body {
+.blur-preview-dialog .u-dialog__body {
   padding-top: 8px;
   text-align: center;
   overflow: auto;

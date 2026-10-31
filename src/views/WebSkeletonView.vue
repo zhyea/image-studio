@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { toast } from '../utils/toast'
+import { useI18n } from '../i18n'
 import { usePageI18n } from '../composables/usePageI18n'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { generateSkeletonHtml, wrapHtmlFragment } from '../utils/skeletonGenerator'
@@ -57,7 +57,7 @@ function runSkeletonFromSourceDoc() {
 async function applySkeletonToPreview() {
   const html = runSkeletonFromSourceDoc()
   if (!html) {
-    ElMessage.error(t('msg.skeletonGenFail'))
+    toast.error(t('msg.skeletonGenFail'))
     return false
   }
   htmlOut.value = html
@@ -84,7 +84,7 @@ function onSourceLoad() {
 function generate() {
   const raw = htmlInput.value?.trim()
   if (!raw) {
-    ElMessage.warning(t('msg.skeletonNeedHtml'))
+    toast.warning(t('msg.skeletonNeedHtml'))
     return
   }
   const iframe = sourceFrame.value
@@ -123,9 +123,9 @@ async function copyHtml() {
   if (!htmlOut.value) return
   try {
     await navigator.clipboard.writeText(htmlOut.value)
-    ElMessage.success(t('msg.copiedHtml'))
+    toast.success(t('msg.copiedHtml'))
   } catch {
-    ElMessage.error(t('msg.copyFail'))
+    toast.error(t('msg.copyFail'))
   }
 }
 
@@ -134,7 +134,7 @@ async function downloadPng() {
   const iframe = previewFrame.value
   const body = iframe?.contentDocument?.body
   if (!body) {
-    ElMessage.error(t('msg.captureFail'))
+    toast.error(t('msg.captureFail'))
     return
   }
   await runPng(async () => {
@@ -159,7 +159,7 @@ async function downloadPng() {
     a.download = 'web-skeleton.png'
     a.click()
     URL.revokeObjectURL(url)
-    ElMessage.success(t('msg.downloadedPng'))
+    toast.success(t('msg.downloadedPng'))
   }, { errorMsg: t('msg.captureFail') })
 }
 </script>
@@ -169,46 +169,42 @@ async function downloadPng() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-alert class="tool-card" type="warning" show-icon :closable="false" :title="tp('warnTitle')" />
+    <div class="u-alert u-alert--warning tool-card">{{ tp('warnTitle') }}</div>
 
-    <el-card class="tool-card">
-      <el-input
+    <div class="tool-card">
+      <textarea
         v-model="htmlInput"
-        type="textarea"
-        :rows="10"
+        rows="10"
         :placeholder="tp('placeholder')"
         :disabled="busy || liveUpdating"
-      />
+        class="u-input"
+      ></textarea>
       <div class="options-block">
         <div class="opt-row">
           <span class="opt-label">{{ tp('backgroundColor') }}</span>
-          <el-input v-model="bg" class="opt-input" :disabled="busy || liveUpdating" />
+          <input type="text" v-model="bg" class="u-input opt-input" :disabled="busy || liveUpdating" />
         </div>
         <div class="opt-row opt-slider">
           <div class="slider-head">
             <span class="opt-label">{{ tp('granularity') }}</span>
             <span class="slider-value">{{ granularity }}</span>
           </div>
-          <el-slider
-            v-model="granularity"
-            :min="0"
-            :max="100"
-            :step="1"
-            :disabled="busy || liveUpdating"
-            @input="onGranularityInput"
-          />
+          <div class="u-slider">
+  <input type="range" v-model.number="granularity" min="0" max="100" step="1" class="u-slider__range" :disabled="busy || liveUpdating" @input="onGranularityInput" />
+  <input type="number" v-model.number="granularity" min="0" max="100" step="1" class="u-slider__num" :disabled="busy || liveUpdating" />
+</div>
           <p class="granularity-hint">{{ tp('granularityHint') }}</p>
         </div>
       </div>
       <div class="actions">
         <ToolProgressBar :visible="busy || pngBusy || liveUpdating" />
-        <el-button type="primary" :disabled="busy || liveUpdating" @click="generate">{{ tp('actionGenerate') }}</el-button>
-        <el-button :disabled="busy || pngBusy || liveUpdating || !htmlOut" @click="copyHtml">{{ tp('actionCopyHtml') }}</el-button>
-        <el-button :disabled="busy || liveUpdating || !htmlOut || pngBusy" @click="downloadPng">
+        <button type="button" class="u-btn u-btn--primary" :disabled="busy || liveUpdating" @click="generate">{{ tp('actionGenerate') }}</button>
+        <button type="button" class="u-btn" :disabled="busy || pngBusy || liveUpdating || !htmlOut" @click="copyHtml">{{ tp('actionCopyHtml') }}</button>
+        <button type="button" class="u-btn" :disabled="busy || liveUpdating || !htmlOut || pngBusy" @click="downloadPng">
           {{ tp('actionDownloadPng') }}
-        </el-button>
+        </button>
       </div>
-    </el-card>
+    </div>
 
     <iframe
       ref="sourceFrame"
@@ -219,13 +215,11 @@ async function downloadPng() {
       @load="onSourceLoad"
     />
 
-    <el-card class="tool-card">
-      <template #header>
-        <span class="preview-header-row">
-          <span>{{ tp('previewHeader') }}</span>
-          <span v-if="liveUpdating" class="updating-tag">{{ tp('previewUpdating') }}</span>
-        </span>
-      </template>
+    <div class="tool-card">
+      <div class="preview-header-row">
+        <span>{{ tp('previewHeader') }}</span>
+        <span v-if="liveUpdating" class="updating-tag">{{ tp('previewUpdating') }}</span>
+      </div>
       <div class="preview-shell" :class="{ 'preview-shell--dim': liveUpdating }">
         <p v-if="!htmlOut" class="preview-empty">{{ tp('previewEmpty') }}</p>
         <iframe
@@ -239,7 +233,7 @@ async function downloadPng() {
           referrerpolicy="no-referrer"
         />
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -304,10 +298,14 @@ async function downloadPng() {
 }
 
 .preview-header-row {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--el-text-color-primary, #303133);
 }
 
 .updating-tag {

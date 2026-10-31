@@ -1,9 +1,10 @@
 <script setup>
 import { ref, nextTick, unref, onBeforeUnmount } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Odometer } from '@element-plus/icons-vue'
+import { toast } from '../utils/toast'
+import ToolIcon from '../components/ToolIcon.vue'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
+import Dialog from '../components/Dialog.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
 import { inferOutput } from '../utils/outputFormat'
@@ -119,7 +120,7 @@ function rotateCanvas(sourceCanvas, deg) {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(async () => {
@@ -140,7 +141,7 @@ async function process() {
     if (!blob) throw new Error('export')
 
     downloadBlob(blob, `${fileBaseName(currentFile)}-rotated.${ext}`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.rotateFail') })
 }
 </script>
@@ -150,21 +151,17 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker ref="pickerRef" hide-preview :disabled="busy" @file="onFile" />
       <div v-if="currentFile && !rotateDialogVisible" class="rotate-reopen-row">
-        <el-button type="primary" link @click="openRotateDialog">{{ tp('reopenRotate') }}</el-button>
+        <button type="button" class="u-btn u-btn--link" @click="openRotateDialog">{{ tp('reopenRotate') }}</button>
       </div>
-    </el-card>
+    </div>
 
-    <el-dialog
+    <Dialog
       v-model="rotateDialogVisible"
       :title="tp('dialogTitle')"
-      class="rotate-dialog"
-      width="min(920px, 94vw)"
-      align-center
-      append-to-body
-      destroy-on-close
+      dialog-class="rotate-dialog"
       @opened="onRotateDialogOpened"
       @closed="onRotateDialogClosed"
     >
@@ -184,7 +181,7 @@ async function process() {
         <div class="rotate-controls-actions">
           <div class="actions">
             <ToolProgressBar :visible="busy" />
-            <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
+            <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
           </div>
 
           <div class="rotate-controls">
@@ -231,8 +228,8 @@ async function process() {
                 <circle cx="50" cy="50" r="18" fill="var(--el-bg-color)" stroke="var(--el-border-color-lighter)" />
               </svg>
               <div class="angle-knob-icon-floated">
-                <!-- 直接挂在 SVG 上定宽高：el-icon 的 size 在弹窗内易被继承样式覆盖 -->
-                <Odometer class="angle-knob-center-icon" />
+                <!-- 由外部 class 定宽高：该图标在弹窗内，内联 width/height 易被继承样式覆盖 -->
+                <ToolIcon name="Odometer" class="angle-knob-center-icon" />
               </div>
             </div>
 
@@ -243,21 +240,20 @@ async function process() {
               </div>
               <div class="preset-angles">
                 <span class="preset-label">{{ tp('presetQuick') }}</span>
-                <el-button size="small" :disabled="busy" @click="snapPreset(90)">90°</el-button>
-                <el-button size="small" :disabled="busy" @click="snapPreset(180)">180°</el-button>
-                <el-button size="small" :disabled="busy" @click="snapPreset(270)">270°</el-button>
-                <el-button size="small" text :disabled="busy" @click="snapPreset(0)">{{ tp('resetAngle') }}</el-button>
+                <button type="button" class="u-btn u-btn--sm" :disabled="busy" @click="snapPreset(90)">90°</button>
+                <button type="button" class="u-btn u-btn--sm" :disabled="busy" @click="snapPreset(180)">180°</button>
+                <button type="button" class="u-btn u-btn--sm" :disabled="busy" @click="snapPreset(270)">270°</button>
+                <button type="button" class="u-btn u-btn--sm u-btn--text" :disabled="busy" @click="snapPreset(0)">{{ tp('resetAngle') }}</button>
                 <div class="preset-custom-angle">
                   <span class="preset-custom-angle-label">{{ tp('customAngleLabel') }}</span>
-                  <el-input-number
-                    v-model="angleDeg"
-                    :min="0"
-                    :max="360"
-                    :step="1"
-                    :precision="0"
+                  <input
+                    type="number"
+                    v-model.number="angleDeg"
+                    min="0"
+                    max="360"
+                    step="1"
                     :disabled="busy"
-                    controls-position="right"
-                    class="preset-angle-input"
+                    class="u-input preset-angle-input"
                   />
                   <span class="preset-custom-angle-unit">°</span>
                 </div>
@@ -266,7 +262,7 @@ async function process() {
           </div>
         </div>
       </div>
-    </el-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -449,7 +445,7 @@ async function process() {
 </style>
 
 <style>
-.rotate-dialog .el-dialog__body {
+.rotate-dialog .u-dialog__body {
   overflow: hidden !important;
   padding-top: 8px;
 }

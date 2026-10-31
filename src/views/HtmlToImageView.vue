@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { toast } from '../utils/toast'
+import { useI18n } from '../i18n'
 import { usePageI18n } from '../composables/usePageI18n'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { wrapHtmlFragment } from '../utils/skeletonGenerator'
@@ -35,7 +35,7 @@ async function renderAndCapture() {
   const iframe = captureFrame.value
   const body = iframe?.contentDocument?.body
   if (!body) {
-    ElMessage.error(t('msg.captureFail'))
+    toast.error(t('msg.captureFail'))
     return
   }
   await run(async () => {
@@ -55,7 +55,7 @@ async function renderAndCapture() {
     a.download = 'html-snapshot.png'
     a.click()
     URL.revokeObjectURL(url)
-    ElMessage.success(t('msg.downloadedPng'))
+    toast.success(t('msg.downloadedPng'))
   }, { errorMsg: t('msg.captureFail') })
 }
 </script>
@@ -65,30 +65,26 @@ async function renderAndCapture() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-alert
-      class="tool-card"
-      type="warning"
-      show-icon
-      :closable="false"
-      :title="tp('warnTitle')"
-    />
+    <div class="u-alert u-alert--warning tool-card">
+      {{ tp('warnTitle') }}
+    </div>
 
-    <el-card class="tool-card">
-      <el-input
+    <div class="tool-card">
+      <textarea
         v-model="htmlInput"
-        type="textarea"
-        :rows="12"
+        rows="12"
         :placeholder="tp('placeholder')"
         :disabled="busy"
-      />
+        class="u-input"
+      ></textarea>
       <div class="actions">
         <ToolProgressBar :visible="busy" />
-        <el-button type="primary" :disabled="busy" @click="renderAndCapture">{{ tp('action') }}</el-button>
+        <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="renderAndCapture">{{ tp('action') }}</button>
       </div>
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <template #header>{{ tp('previewHeader') }}</template>
+    <div class="tool-card">
+      <h2 class="preview-header">{{ tp('previewHeader') }}</h2>
       <iframe
         ref="captureFrame"
         class="capture-frame"
@@ -97,7 +93,7 @@ async function renderAndCapture() {
         referrerpolicy="no-referrer"
         :srcdoc="wrapHtmlFragment(htmlInput)"
       />
-    </el-card>
+    </div>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -54,20 +54,20 @@ function sampleFromEvent(e) {
   const y = Math.min(canvas.height - 1, Math.max(0, Math.floor(ny * canvas.height)))
   const [r, g, b] = canvas.getContext('2d').getImageData(x, y, 1, 1).data
   picked.value = { r, g, b }
-  ElMessage.success(t('msg.sampledRgb', { r, g, b }))
+  toast.success(t('msg.sampledRgb', { r, g, b }))
 }
 
 async function process() {
   const canvas = workCanvas.value
   if (!canvas || !currentFile) {
-    ElMessage.warning(t('msg.selectImageRemoveBg'))
+    toast.warning(t('msg.selectImageRemoveBg'))
     return
   }
   await run(async () => {
     const ctx = canvas.getContext('2d')
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
     if (canvas.width * canvas.height >= COLOR_KEY_WARN_PIXELS) {
-      ElMessage.warning(t('msg.largeImageProcessing'))
+      toast.warning(t('msg.largeImageProcessing'))
     }
     await applyColorKeyAsync(
       imageData,
@@ -83,7 +83,7 @@ async function process() {
     const blob = await canvasToBlob(out, 'image/png')
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-nobg.png`)
-    ElMessage.success(t('msg.downloadedPng'))
+    toast.success(t('msg.downloadedPng'))
   }, { errorMsg: t('msg.processFail') })
 }
 </script>
@@ -93,11 +93,11 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" hide-preview @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card v-if="previewUrl" class="tool-card">
+    <div v-if="previewUrl" class="tool-card">
       <p class="hint">{{ tp('hintPick') }}</p>
       <div class="preview-box">
         <img
@@ -118,22 +118,28 @@ async function process() {
         />
         RGB({{ picked.r }}, {{ picked.g }}, {{ picked.b }})
       </div>
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="100px" label-position="left">
-        <el-form-item :label="tp('tolerance')">
-          <el-slider v-model="tolerance" :min="5" :max="120" :step="1" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('feather')">
-          <el-slider v-model="feather" :min="0" :max="40" :step="1" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 100px">
+        <div class="u-field"><label class="u-field__label">{{ tp('tolerance') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="tolerance" min="5" max="120" step="1" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="tolerance" min="5" max="120" step="1" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('feather') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="feather" min="0" max="40" step="1" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="feather" min="0" max="40" step="1" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>
 

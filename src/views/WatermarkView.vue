@@ -1,9 +1,10 @@
 <script setup>
 import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { toast } from '../utils/toast'
+import { useI18n } from '../i18n'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
+import Dialog from '../components/Dialog.vue'
 import { usePageI18n } from '../composables/usePageI18n'
 import { loadImage, canvasToBlob, downloadBlob, fileBaseName } from '../utils/image'
 import {
@@ -535,11 +536,11 @@ async function renderWatermarkCanvas() {
 
 async function openPreview() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   if (!text.value.trim()) {
-    ElMessage.warning(t('msg.enterWatermark'))
+    toast.warning(t('msg.enterWatermark'))
     return
   }
   await run(async () => {
@@ -556,11 +557,11 @@ async function openPreview() {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   if (!text.value.trim()) {
-    ElMessage.warning(t('msg.enterWatermark'))
+    toast.warning(t('msg.enterWatermark'))
     return
   }
   await run(async () => {
@@ -569,7 +570,7 @@ async function process() {
     const blob = await canvasToBlob(canvas, 'image/png')
     if (!blob) throw new Error('export')
     downloadBlob(blob, `${fileBaseName(currentFile)}-watermark.png`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   }, { errorMsg: t('msg.processFail') })
 }
 </script>
@@ -579,22 +580,17 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker hide-preview :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card v-if="imageUrl" class="tool-card wm-preview-card">
+    <div v-if="imageUrl" class="tool-card wm-preview-card">
       <div class="preview-size-row">
         <span class="preview-size-label">{{ tp('previewSize') }}</span>
-        <el-slider
-          v-model="previewZoom"
-          :min="10"
-          :max="200"
-          :step="5"
-          :disabled="busy"
-          :format-tooltip="(v) => v + '%'"
-          class="preview-size-slider"
-        />
+        <div class="u-slider preview-size-slider">
+  <input type="range" v-model.number="previewZoom" min="10" max="200" step="5" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="previewZoom" min="10" max="200" step="5" class="u-slider__num" :disabled="busy" />
+</div>
       </div>
       <p class="wm-hint">{{ tp('dragHint') }}</p>
       <div class="tool-preview-frame">
@@ -674,80 +670,73 @@ async function process() {
                   </template>
                   <span v-else class="wm-text-snippet" :style="snippetTextStyle">{{ text }}</span>
                 </div>
-                <el-input
+                <textarea
                   v-else
                   ref="textEditRef"
                   v-model="text"
-                  type="textarea"
-                  resize="horizontal"
+                  rows="3"
                   :disabled="busy"
-                  :input-style="wmTextareaStyle"
-                  class="wm-float-input"
+                  class="u-input wm-float-input"
                   @blur="finishTextEdit"
                   @input="onWatermarkTextInput"
-                />
+                ></textarea>
               </div>
             </div>
           </div>
         </div>
         </div>
       </div>
-    </el-card>
+    </div>
 
-    <el-dialog
+    <Dialog
       v-model="previewVisible"
       :title="tp('previewTitle')"
-      class="wm-preview-dialog"
-      width="min(920px, 94vw)"
-      align-center
-      append-to-body
-      destroy-on-close
+      dialog-class="wm-preview-dialog"
       @closed="onPreviewDialogClosed"
     >
       <img v-if="previewUrl" :src="previewUrl" class="wm-preview-dialog-img" alt="" />
-    </el-dialog>
+    </Dialog>
 
-    <el-card class="tool-card" :class="{ 'wm-form-sliders-paused': editingText && !!imageUrl }">
-      <el-form label-width="100px" label-position="left">
-        <el-form-item :label="tp('fontFamily')">
+    <div class="tool-card" :class="{ 'wm-form-sliders-paused': editingText && !!imageUrl }">
+      <div class="u-form" style="--u-label-w: 100px">
+        <div class="u-field"><label class="u-field__label">{{ tp('fontFamily') }}</label><div class="u-field__control">
           <div class="wm-font-field">
-            <el-select
+            <select
               v-model="fontFamilyId"
               :disabled="busy"
-              class="wm-font-select"
-              :teleported="true"
+              class="u-select wm-font-select"
             >
-              <el-option
+              <option
                 v-for="f in WATERMARK_FONTS"
                 :key="f.id"
-                :label="tp(f.labelKey)"
                 :value="f.id"
-              >
-                <div class="wm-font-option">
-                  <span>{{ tp(f.labelKey) }}</span>
-                  <span class="wm-font-option-lic">{{ f.license }}</span>
-                </div>
-              </el-option>
-            </el-select>
+              >{{ tp(f.labelKey) }}</option>
+            </select>
             <p class="wm-font-note">{{ tp('fontLicenseNote') }}</p>
           </div>
-        </el-form-item>
-        <el-form-item :label="tp('fontSize')">
-          <el-slider v-model="fontSize" :min="12" :max="120" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('opacity')">
-          <el-slider v-model="opacity" :min="0.1" :max="1" :step="0.05" show-input :disabled="busy" />
-        </el-form-item>
-        <el-form-item :label="tp('color')">
-          <el-color-picker v-model="color" :disabled="busy" show-alpha />
-        </el-form-item>
-        <el-form-item>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('fontSize') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="fontSize" min="12" max="120" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="fontSize" min="12" max="120" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('opacity') }}</label><div class="u-field__control">
+          <div class="u-slider">
+  <input type="range" v-model.number="opacity" min="0.1" max="1" step="0.05" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="opacity" min="0.1" max="1" step="0.05" class="u-slider__num" :disabled="busy" />
+</div>
+        </div></div>
+        <div class="u-field"><label class="u-field__label">{{ tp('color') }}</label><div class="u-field__control">
+          <input type="color" v-model="color" :disabled="busy" class="u-color" />
+        </div></div>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar :visible="busy" />
-          <el-button :disabled="busy" @click="openPreview">{{ tp('preview') }}</el-button>
-          <el-button type="primary" :disabled="busy" @click="process">{{ tp('action') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          <button type="button" class="u-btn" :disabled="busy" @click="openPreview">{{ tp('preview') }}</button>
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">{{ tp('action') }}</button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -992,19 +981,15 @@ async function process() {
   appearance: none;
 }
 
-.wm-float-input :deep(.el-textarea__inner):focus {
+.wm-float-input:focus {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
 /* 编辑水印时竖直拖动 textarea 调整高度，指针经过下方会误触滑块轨道 */
-.wm-form-sliders-paused :deep(.el-slider__runway) {
+.wm-form-sliders-paused .u-slider__range {
   pointer-events: none;
-}
-
-.wm-form-sliders-paused :deep(.el-slider .el-input-number) {
-  pointer-events: auto;
 }
 
 .wm-font-field {
@@ -1039,7 +1024,7 @@ async function process() {
 </style>
 
 <style>
-.wm-preview-dialog .el-dialog__body {
+.wm-preview-dialog .u-dialog__body {
   padding-top: 8px;
   text-align: center;
   overflow: auto;

@@ -36,6 +36,415 @@ body {
   line-height: 1.6;
 }
 
+/* ---------- 原生化的容器 / 控件基础样式 ----------
+   以下视觉此前由 Element Plus 的 card / form / form-item / button / link / alert 提供。
+   改为原生标签后由本文件统一兜底；颜色仍优先取 --el-* 变量（工具页仍加载 EP 组件的 CSS），
+   变量缺失时用 fallback，保证逐步原生化的过渡期视觉一致。 */
+
 .tool-card {
   margin-bottom: 20px;
+  padding: 18px 20px;
+  border: 1px solid var(--el-border-color-lighter, #ebeef5);
+  border-radius: 6px;
+  background: var(--el-bg-color, #fff);
+}
+
+/* 卡片内标题（原 el-card #header 插槽） */
+.preview-header {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--el-text-color-primary, #303133);
+}
+
+/* el-form：左列标签 + 右列控件的两列栅格；列宽由 --u-label-w 指定 */
+.u-form {
+  display: grid;
+  gap: 14px 16px;
+  grid-template-columns: var(--u-label-w, 120px) minmax(0, 1fr);
+  align-items: center;
+}
+
+/* el-form-item：display:contents 让 label / control 直接参与父级 grid，
+   复现 label-position="left" 的两列布局，同时保留语义包裹 */
+.u-field {
+  display: contents;
+}
+
+.u-field__label {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--el-text-color-regular, #606266);
+}
+
+/* 无 label 的表单项（多为按钮行 / 通栏内容）：横跨两列 */
+.u-field > .u-field__control:only-child {
+  grid-column: 1 / -1;
+}
+
+.u-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 15px;
+  border: 1px solid var(--el-border-color, #dcdfe6);
+  border-radius: 4px;
+  background: var(--el-fill-color-blank, #fff);
+  color: var(--el-text-color-regular, #606266);
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.u-btn:hover {
+  border-color: var(--el-color-primary-light-7, #c6e2ff);
+  background: var(--el-color-primary-light-9, #ecf5ff);
+  color: var(--el-color-primary, #409eff);
+}
+
+.u-btn--primary {
+  border-color: var(--el-color-primary, #409eff);
+  background: var(--el-color-primary, #409eff);
+  color: #fff;
+}
+
+.u-btn--primary:hover {
+  border-color: var(--el-color-primary-light-3, #79bbff);
+  background: var(--el-color-primary-light-3, #79bbff);
+  color: #fff;
+}
+
+/* EP 的 link / text 型按钮是无边框的轻量按钮 */
+.u-btn--link,
+.u-btn--text {
+  padding: 4px 6px;
+  border-color: transparent;
+  background: transparent;
+}
+
+.u-btn--link {
+  color: var(--el-color-primary, #409eff);
+}
+
+.u-btn--sm {
+  padding: 5px 11px;
+  font-size: 13px;
+}
+
+.u-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.u-btn:focus-visible {
+  outline: 2px solid var(--el-color-primary, #409eff);
+  outline-offset: 2px;
+}
+
+.u-link {
+  color: var(--el-color-primary, #409eff);
+  text-decoration: none;
+}
+
+.u-link:hover {
+  text-decoration: underline;
+}
+
+/* el-alert：左侧图标用 ::before 字符模拟，避免引入图标库 */
+.u-alert {
+  display: flex;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.u-alert::before {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.u-alert--info {
+  background: var(--el-color-info-light-9, #f4f4f5);
+  color: var(--el-color-info, #909399);
+}
+
+.u-alert--info::before {
+  content: 'i';
+  background: var(--el-color-info, #909399);
+}
+
+.u-alert--warning {
+  background: var(--el-color-warning-light-9, #fdf6ec);
+  color: var(--el-color-warning, #e6a23c);
+}
+
+.u-alert--warning::before {
+  content: '!';
+  background: var(--el-color-warning, #e6a23c);
+}
+
+/* ---------- 原生输入控件（替代 el-input / el-input-number / el-switch / el-space） ---------- */
+.u-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 7px 11px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--el-text-color-regular, #606266);
+  background: var(--el-bg-color, #fff);
+  border: 1px solid var(--el-border-color, #dcdfe6);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.u-input:focus {
+  border-color: var(--el-color-primary, #409eff);
+  box-shadow: 0 0 0 2px var(--el-color-primary-light-8, rgba(64, 158, 255, .2));
+}
+
+.u-input:disabled {
+  background: var(--el-fill-color-light, #f5f7fa);
+  color: var(--el-text-color-placeholder, #a8abb2);
+  cursor: not-allowed;
+}
+
+textarea.u-input {
+  resize: vertical;
+  min-height: 52px;
+}
+
+input.u-input[type='number'] {
+  width: 110px;
+}
+
+/* 开关（替代 el-switch）：原生 checkbox 改 toggle 外观 */
+.u-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  margin: 0;
+  border-radius: 10px;
+  background: var(--el-border-color, #dcdfe6);
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background .2s;
+}
+
+.u-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left .2s;
+}
+
+.u-switch:checked {
+  background: var(--el-color-primary, #409eff);
+}
+
+.u-switch:checked::after {
+  left: 22px;
+}
+
+.u-switch:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* 弹性换行容器（替代 el-space wrap） */
+.refs-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* 滑块（替代 el-slider + show-input）：原生 range + number 组合 */
+.u-slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.u-slider__range {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--el-color-primary, #409eff);
+}
+
+.u-slider__num {
+  flex: 0 0 auto;
+  width: 72px;
+}
+
+/* 分段单选（替代 el-radio-group / el-radio-button） */
+.u-seg {
+  display: inline-flex;
+  border: 1px solid var(--el-border-color, #dcdfe6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.u-seg__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--el-text-color-regular, #606266);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  border-right: 1px solid var(--el-border-color, #dcdfe6);
+}
+
+.u-seg__item:last-child {
+  border-right: none;
+}
+
+.u-seg__item:hover {
+  color: var(--el-color-primary, #409eff);
+}
+
+.u-seg__item.is-active {
+  color: #fff;
+  background: var(--el-color-primary, #409eff);
+}
+
+.u-seg__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.u-seg__item:focus-within {
+  outline: 2px solid var(--el-color-primary, #409eff);
+  outline-offset: -2px;
+}
+
+/* 弹窗（替代 el-dialog） */
+.u-dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 6vh 16px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.u-dialog-mask--center {
+  align-items: center;
+}
+
+.u-dialog {
+  position: relative;
+  width: min(960px, 94vw);
+  max-height: 88vh;
+  overflow: auto;
+  background: var(--el-bg-color, #fff);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.u-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--el-border-color-lighter, #ebeef5);
+}
+
+.u-dialog__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--el-text-color-primary, #303133);
+}
+
+.u-dialog__close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--el-text-color-secondary, #909399);
+  padding: 0 4px;
+}
+
+.u-dialog__close:hover {
+  color: var(--el-color-primary, #409eff);
+}
+
+.u-dialog__body {
+  padding: 18px;
+}
+
+/* 原生下拉（替代 el-select） */
+.u-select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 7px 11px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--el-text-color-regular, #606266);
+  background: var(--el-bg-color, #fff);
+  border: 1px solid var(--el-border-color, #dcdfe6);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.u-select:focus {
+  border-color: var(--el-color-primary, #409eff);
+  box-shadow: 0 0 0 2px var(--el-color-primary-light-8, rgba(64, 158, 255, 0.2));
+}
+
+.u-select:disabled {
+  background: var(--el-fill-color-light, #f5f7fa);
+  color: var(--el-text-color-placeholder, #a8abb2);
+  cursor: not-allowed;
+}
+
+/* 取色器（替代 el-color-picker，alpha 由 opacity 滑块覆盖） */
+.u-color {
+  width: 44px;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid var(--el-border-color, #dcdfe6);
+  border-radius: 4px;
+  background: var(--el-bg-color, #fff);
+  cursor: pointer;
+}
+
+.u-color:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }

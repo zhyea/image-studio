@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { toast } from '../utils/toast'
 import ImagePicker from '../components/ImagePicker.vue'
 import ToolProgressBar from '../components/ToolProgressBar.vue'
 import { usePageI18n } from '../composables/usePageI18n'
@@ -43,7 +43,7 @@ function onFile(file) {
 async function processFast() {
   const s = scalePercent.value / 100
   if (s < 1.01) {
-    ElMessage.warning(t('msg.scaleGt100'))
+    toast.warning(t('msg.scaleGt100'))
     return
   }
   const url = URL.createObjectURL(currentFile)
@@ -54,7 +54,7 @@ async function processFast() {
   const h = Math.round(img.naturalHeight * s)
   const maxPx = MAX_EXPORT_PIXELS
   if (w * h > maxPx) {
-    ElMessage.error(t('msg.tooManyPixels'))
+    toast.error(t('msg.tooManyPixels'))
     return
   }
 
@@ -79,7 +79,7 @@ async function processFast() {
   if (!blob) throw new Error('export')
 
   downloadBlob(blob, `${fileBaseName(currentFile)}-upscaled.${ext}`)
-  ElMessage.success(t('msg.downloaded'))
+  toast.success(t('msg.downloaded'))
 }
 
 async function processAi() {
@@ -93,7 +93,7 @@ async function processAi() {
     const beforeH = img.naturalHeight
     const prepared = await constrainImageMaxEdge(img, AI_MAX_EDGE)
     if (prepared.naturalWidth !== beforeW || prepared.naturalHeight !== beforeH) {
-      ElMessage.info(tp('aiShrunk', { n: AI_MAX_EDGE }))
+      toast.info(tp('aiShrunk', { n: AI_MAX_EDGE }))
     }
 
     const passes = aiFactor.value === '4' ? 2 : 1
@@ -107,7 +107,7 @@ async function processAi() {
     const blob = dataUrlToBlob(dataUrl)
     const tag = passes === 2 ? 'ai-4x' : 'ai-2x'
     downloadBlob(blob, `${fileBaseName(currentFile)}-${tag}.png`)
-    ElMessage.success(t('msg.downloaded'))
+    toast.success(t('msg.downloaded'))
   } finally {
     progress.value = 0
   }
@@ -115,7 +115,7 @@ async function processAi() {
 
 async function process() {
   if (!currentFile) {
-    ElMessage.warning(t('msg.selectImageFirst'))
+    toast.warning(t('msg.selectImageFirst'))
     return
   }
   await run(
@@ -139,74 +139,89 @@ async function process() {
     <h1>{{ tp('h1') }}</h1>
     <p class="lead">{{ tp('lead') }}</p>
 
-    <el-card class="tool-card refs-card" shadow="never">
+    <div class="tool-card refs-card">
       <span class="refs-intro">{{ tp('refsIntro') }}</span>
-      <el-space wrap :size="12" class="refs-links">
-        <el-link href="https://zh.recompressor.com/" target="_blank" rel="noopener noreferrer" type="primary">
+      <div class="refs-links">
+        <a href="https://zh.recompressor.com/" target="_blank" rel="noopener noreferrer" class="u-link">
           {{ tp('linkRecompressor') }}
-        </el-link>
-        <el-link href="https://www.waifu2x.net/" target="_blank" rel="noopener noreferrer" type="primary">
+        </a>
+        <a href="https://www.waifu2x.net/" target="_blank" rel="noopener noreferrer" class="u-link">
           {{ tp('linkWaifu2x') }}
-        </el-link>
-        <el-link href="https://bigjpg.com/" target="_blank" rel="noopener noreferrer" type="primary">
+        </a>
+        <a href="https://bigjpg.com/" target="_blank" rel="noopener noreferrer" class="u-link">
           {{ tp('linkBigjpg') }}
-        </el-link>
-        <el-link href="https://upscalerjs.com/" target="_blank" rel="noopener noreferrer" type="info">
+        </a>
+        <a href="https://upscalerjs.com/" target="_blank" rel="noopener noreferrer" class="u-link">
           {{ tp('linkUpscalerJs') }}
-        </el-link>
-      </el-space>
-    </el-card>
+        </a>
+      </div>
+    </div>
 
-    <el-card class="tool-card">
+    <div class="tool-card">
       <ImagePicker :disabled="busy" @file="onFile" />
-    </el-card>
+    </div>
 
-    <el-card class="tool-card">
-      <el-form label-width="130px" label-position="left">
-        <el-form-item :label="tp('mode')">
-          <el-radio-group v-model="mode" :disabled="busy">
-            <el-radio-button value="fast">{{ tp('modeFast') }}</el-radio-button>
-            <el-radio-button value="ai">{{ tp('modeAi') }}</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
+    <div class="tool-card">
+      <div class="u-form" style="--u-label-w: 130px">
+        <div class="u-field"><label class="u-field__label">{{ tp('mode') }}</label><div class="u-field__control">
+          <div class="u-seg" role="radiogroup" aria-label="mode">
+    <label class="u-seg__item" :class="{ 'is-active': mode === 'fast' }">
+      <input type="radio" class="u-seg__input" value="fast" v-model.number="mode" :disabled="busy" /> {{ tp('modeFast') }}
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': mode === 'ai' }">
+      <input type="radio" class="u-seg__input" value="ai" v-model.number="mode" :disabled="busy" /> {{ tp('modeAi') }}
+    </label>
+  </div>
+        </div></div>
 
         <p class="mode-lead">{{ leadText }}</p>
 
         <template v-if="mode === 'fast'">
-          <el-form-item :label="tp('scale')">
-            <el-slider v-model="scalePercent" :min="101" :max="400" :step="1" show-input :disabled="busy" />
-          </el-form-item>
-          <el-form-item :label="tp('outputFormat')">
-            <el-radio-group v-model="format">
-              <el-radio-button value="png">PNG</el-radio-button>
-              <el-radio-button value="jpeg">JPEG</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
+          <div class="u-field"><label class="u-field__label">{{ tp('scale') }}</label><div class="u-field__control">
+            <div class="u-slider">
+  <input type="range" v-model.number="scalePercent" min="101" max="400" step="1" class="u-slider__range" :disabled="busy" />
+  <input type="number" v-model.number="scalePercent" min="101" max="400" step="1" class="u-slider__num" :disabled="busy" />
+</div>
+          </div></div>
+          <div class="u-field"><label class="u-field__label">{{ tp('outputFormat') }}</label><div class="u-field__control">
+            <div class="u-seg" role="radiogroup" aria-label="format">
+    <label class="u-seg__item" :class="{ 'is-active': format === 'png' }">
+      <input type="radio" class="u-seg__input" value="png" v-model.number="format" /> PNG
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': format === 'jpeg' }">
+      <input type="radio" class="u-seg__input" value="jpeg" v-model.number="format" /> JPEG
+    </label>
+  </div>
+          </div></div>
         </template>
 
         <template v-else>
-          <el-alert type="info" show-icon :closable="false" class="ai-alert">
+          <div class="u-alert u-alert--info ai-alert">
             {{ tp('aiEdgeNote', { n: AI_MAX_EDGE }) }}
-          </el-alert>
-          <el-form-item :label="tp('aiFactor')">
-            <el-radio-group v-model="aiFactor" :disabled="busy">
-              <el-radio-button value="2">{{ tp('ai2x') }}</el-radio-button>
-              <el-radio-button value="4">{{ tp('ai4x') }}</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
+          </div>
+          <div class="u-field"><label class="u-field__label">{{ tp('aiFactor') }}</label><div class="u-field__control">
+            <div class="u-seg" role="radiogroup" aria-label="aiFactor">
+    <label class="u-seg__item" :class="{ 'is-active': aiFactor === 2 }">
+      <input type="radio" class="u-seg__input" value="2" v-model.number="aiFactor" :disabled="busy" /> {{ tp('ai2x') }}
+    </label>
+    <label class="u-seg__item" :class="{ 'is-active': aiFactor === 4 }">
+      <input type="radio" class="u-seg__input" value="4" v-model.number="aiFactor" :disabled="busy" /> {{ tp('ai4x') }}
+    </label>
+  </div>
+          </div></div>
         </template>
 
-        <el-form-item>
+        <div class="u-field"><div class="u-field__control">
           <ToolProgressBar
             :visible="busy"
             :percentage="mode === 'ai' ? Math.round(progress * 100) : undefined"
           />
-          <el-button type="primary" :disabled="busy" @click="process">
+          <button type="button" class="u-btn u-btn--primary" :disabled="busy" @click="process">
             {{ mode === 'ai' ? tp('actionAi') : tp('action') }}
-          </el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+          </button>
+        </div></div>
+      </div>
+    </div>
   </div>
 </template>
 

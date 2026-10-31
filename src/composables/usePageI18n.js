@@ -1,4 +1,4 @@
-import { useI18n } from 'vue-i18n'
+import { useI18n } from '../i18n'
 
 /**
  * @param {string} pageKey — e.g. compress, convertJpg, removeBg

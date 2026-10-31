@@ -44,7 +44,8 @@
     "tools": "Werkzeuge",
     "menuTitle": "Navigation",
     "openMenu": "Menü öffnen",
-    "switchLanguage": "Sprache wählen"
+    "switchLanguage": "Sprache wählen",
+    "closeMenu": "Menü schließen"
   },
   "footer": {
     "line": "Bilder werden lokal im Browser verarbeitet und nicht hochgeladen."
