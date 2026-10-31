@@ -56,27 +56,10 @@ function onKeyDown(e) {
   drawerVisible.value = false
 }
 
-function detectClientLocale() {
-  if (typeof navigator === 'undefined') return DEFAULT_LOCALE
-  const candidates = [...(navigator.languages || []), navigator.language]
-    .filter((v) => typeof v === 'string')
-    .map((v) => v.trim().toLowerCase())
-    .filter(Boolean)
-  for (const lang of candidates) {
-    const short = lang.split('-')[0]
-    if (SUPPORTED_LOCALES.includes(short)) return short
-  }
-  return DEFAULT_LOCALE
-}
-
 onMounted(() => {
   updateCompactNav()
   window.addEventListener('resize', onWindowResize)
   window.addEventListener('keydown', onKeyDown)
-  // 客户端语言自动落地：根路径按浏览器首选语言跳转（保留 SPA 体验，不影响 SSG 静态内容）
-  if (route.path === '/' && detectClientLocale() !== DEFAULT_LOCALE) {
-    router.replace(`/${detectClientLocale()}`)
-  }
 })
 
 onBeforeUnmount(() => {

@@ -13,8 +13,8 @@ import { SUPPORTED_LOCALES as APP_LOCALES, localeMeta } from '../src/i18n/locale
 
 const HOST = 'image.chobit.org'
 
-function req(pathname, hostname = HOST, protocol = 'https:') {
-  return resolveSeoRequest({ hostname, pathname, protocol })
+function req(pathname, hostname = HOST, protocol = 'https:', acceptLanguage) {
+  return resolveSeoRequest({ hostname, pathname, protocol }, acceptLanguage)
 }
 
 // ---------- 清单与应用保持一致（漂移即失败） ----------
@@ -94,11 +94,23 @@ test('netlify 子域访问工具页 301 到主域', () => {
   assert.equal(r.location, 'https://image.chobit.org/zh/compress')
 })
 
-test('静态资源与根路径放行', () => {
+test('静态资源放行，根路径按 Accept-Language 边缘层 301 落地', () => {
   assert.equal(req('/assets/index-C2s1Um8i.js').kind, 'passthrough')
   assert.equal(req('/favicon.svg').kind, 'passthrough')
   assert.equal(req('/sitemap.xml').kind, 'passthrough')
-  assert.equal(req('/').kind, 'passthrough')
+  // 公网根路径默认回落 en
+  assert.equal(req('/').kind, 'redirect')
+  assert.equal(req('/').location, 'https://image.chobit.org/en')
+  // 中文浏览器落地 /zh，法文落地 /fr
+  assert.equal(req('/', HOST, 'https:', 'zh-CN,zh;q=0.9,en;q=0.8').location, 'https://image.chobit.org/zh')
+  assert.equal(req('/', HOST, 'https:', 'fr-FR,fr;q=0.9').location, 'https://image.chobit.org/fr')
+  // 不支持语种（it）回落 en
+  assert.equal(req('/', HOST, 'https:', 'it-IT,it;q=0.9').location, 'https://image.chobit.org/en')
+})
+
+test('localhost 下根路径放行（便于本地 Netlify CLI 预览，不强制跳转）', () => {
+  const r = req('/', 'localhost', 'http:')
+  assert.equal(r.kind, 'passthrough')
 })
 
 test('非白名单路径判定为不存在（返回真 404，消除重复空间）', () => {
@@ -130,6 +142,18 @@ test('白名单页面由 handler 放行（返回 undefined，交 Netlify 静态�
 test('语言首页同样放行', async () => {
   const res = await seoHandler(new Request('https://image.chobit.org/en'))
   assert.equal(res, undefined)
+})
+
+test('根路径端到端按 Accept-Language 301 落地（默认 en）', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/'))
+  assert.equal(res.status, 301)
+  assert.equal(res.headers.get('location'), 'https://image.chobit.org/en')
+})
+
+test('根路径端到端带 zh Accept-Language 301 到 /zh', async () => {
+  const res = await seoHandler(new Request('https://image.chobit.org/', { headers: { 'accept-language': 'zh-CN,zh;q=0.9' } }))
+  assert.equal(res.status, 301)
+  assert.equal(res.headers.get('location'), 'https://image.chobit.org/zh')
 })
 
 test('handler 不设置 link 头（避免与静态 HTML 既有 canonical 重复）', async () => {

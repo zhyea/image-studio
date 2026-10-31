@@ -73,16 +73,59 @@ export function redirectTargetForHost(hostname) {
 }
 
 /**
+ * 从 Accept-Language 中挑选最佳匹配的支持语种。
+ * 支持质量值（q）降序排序；取首个落在 SUPPORTED_LOCALES 的语种（仅比对主语言子标签）。
+ * 无任何匹配或入参缺失时回落到 X_DEFAULT_LOCALE（en）。
+ * @param {string} [acceptLanguage]
+ * @returns {string}
+ */
+export function pickLocaleFromAcceptLanguage(acceptLanguage) {
+  if (!acceptLanguage || typeof acceptLanguage !== 'string') return X_DEFAULT_LOCALE
+  const ranked = []
+  for (const part of acceptLanguage.split(',')) {
+    const segs = part.trim().split(';')
+    const tag = segs[0].trim().toLowerCase()
+    if (!tag) continue
+    let q = 1
+    for (const seg of segs.slice(1)) {
+      const m = seg.trim().match(/^q\s*=\s*([0-9.]+)$/i)
+      if (m) q = parseFloat(m[1])
+    }
+    if (Number.isNaN(q)) q = 1
+    const primary = tag.split('-')[0]
+    if (!primary) continue
+    ranked.push({ primary, q })
+  }
+  ranked.sort((a, b) => b.q - a.q)
+  for (const r of ranked) {
+    if (SUPPORTED_LOCALES.includes(r.primary)) return r.primary
+  }
+  return X_DEFAULT_LOCALE
+}
+
+/**
  * 纯函数，便于单测。入参为 URL 形态对象（{ hostname, pathname, protocol }）。
+ * @param {object} url 形态对象
+ * @param {string} [acceptLanguage] 请求 Accept-Language 头，用于根路径语言落地
  * @returns {{kind: 'passthrough'|'redirect'|'page'|'not-found', location?: string, locale?: string, slug?: string}}
  */
-export function resolveSeoRequest(url) {
+export function resolveSeoRequest(url, acceptLanguage) {
   const hostname = String(url.hostname || '').toLowerCase()
   const rawPath = url.pathname || '/'
 
   if (STATIC_EXT.test(rawPath)) return { kind: 'passthrough' }
-  // 根路径保留客户端语言探测跳转，不做 301，避免破坏按浏览器语种落地
-  if (rawPath === '/') return { kind: 'passthrough' }
+
+  // 根路径：边缘层按 Accept-Language 做语言落地（取代 App.vue 的客户端 router.replace），
+  // 直接 301 到 /{最佳语种}，避免英文首页先闪现再跳中文。
+  // loopback 仍放行，便于本地 Netlify CLI 预览（不在本地强制跳转）。
+  if (rawPath === '/') {
+    if (isLoopback(hostname)) return { kind: 'passthrough' }
+    const best = pickLocaleFromAcceptLanguage(acceptLanguage)
+    const hostRedirect = redirectTargetForHost(hostname)
+    const needsSecure = String(url.protocol || '').toLowerCase() === 'http:' && !isLoopback(hostname)
+    const origin = hostRedirect || `${needsSecure ? 'https:' : url.protocol || 'https:'}//${hostname}`
+    return { kind: 'redirect', location: `${origin}/${best}` }
+  }
 
   const segments = rawPath.split('/').filter((s) => s !== '')
   const locale = (segments[0] || '').toLowerCase()
@@ -116,7 +159,7 @@ export default async function handler(request) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return
 
   const url = new URL(request.url)
-  const decision = resolveSeoRequest(url)
+  const decision = resolveSeoRequest(url, request.headers.get('accept-language'))
   // 静态资源 / 根路径 / 已规范的白名单页面：全部放行，由 Netlify 静态服务预渲染 HTML。
   // 注意：白名单页面（kind 'page'）必须放行——head 已由 SSG 写入静态 HTML，边缘层不再注入，
   // 否则会落到下面的 404 分支把正常页面打成 404。
